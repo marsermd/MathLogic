@@ -2,12 +2,11 @@ package SyntaxTree.Parser.Matchers;
 
 import SyntaxTree.Parser.Builders.ExpressionBuilder;
 import SyntaxTree.Parser.StringWithPointer;
-import SyntaxTree.Structure.BinaryOperators.BinaryOperator;
-import SyntaxTree.Structure.BinaryOperators.Conjunction;
-import SyntaxTree.Structure.BinaryOperators.Disjunction;
-import SyntaxTree.Structure.BinaryOperators.Implication;
+import SyntaxTree.Structure.BinaryOperators.*;
 import SyntaxTree.Structure.Expression;
+import SyntaxTree.Structure.Predicate;
 import SyntaxTree.Structure.UnaryOperators.Each;
+import SyntaxTree.Structure.UnaryOperators.Increment;
 import SyntaxTree.Structure.UnaryOperators.Negation;
 import SyntaxTree.Structure.UnaryOperators.Some;
 import SyntaxTree.Structure.Variable;
@@ -131,9 +130,97 @@ public abstract class ExpressionMatcher
             };
         }
     }
-    //endregion
 
-    private final static String VARIABLE_REGEX = "[A-Z|a-z][0-9]*";
+    public static class EqualsMatcher extends ExpressionMatcher
+    {
+        @Override
+        protected String getRegexp()
+        {
+            return "=";
+        }
+
+        @Override
+        protected ExpressionBuilder getBuilder(String matched)
+        {
+            return new ExpressionBuilder(matched, 7)
+            {
+                @Override
+                public boolean shouldBuildImediately()
+                {
+                    return false;
+                }
+
+                @Override
+                public Expression createExpression(Stack<Expression> expressions)
+                {
+                    Expression right = expressions.pop();
+                    Expression left = expressions.pop();
+                    return new Equals(left, right);
+                }
+            };
+        }
+    }
+
+    public static class PlusMatcher extends ExpressionMatcher
+    {
+        @Override
+        protected String getRegexp()
+        {
+            return "\\+";
+        }
+
+        @Override
+        protected ExpressionBuilder getBuilder(String matched)
+        {
+            return new ExpressionBuilder(matched, 6)
+            {
+                @Override
+                public boolean shouldBuildImediately()
+                {
+                    return false;
+                }
+
+                @Override
+                public Expression createExpression(Stack<Expression> expressions)
+                {
+                    Expression right = expressions.pop();
+                    Expression left = expressions.pop();
+                    return new Plus(left, right);
+                }
+            };
+        }
+    }
+
+    public static class MultiplyMatcher extends ExpressionMatcher
+    {
+        @Override
+        protected String getRegexp()
+        {
+            return "\\*";
+        }
+
+        @Override
+        protected ExpressionBuilder getBuilder(String matched)
+        {
+            return new ExpressionBuilder(matched, 5)
+            {
+                @Override
+                public boolean shouldBuildImediately()
+                {
+                    return false;
+                }
+
+                @Override
+                public Expression createExpression(Stack<Expression> expressions)
+                {
+                    Expression right = expressions.pop();
+                    Expression left = expressions.pop();
+                    return new Multiply(left, right);
+                }
+            };
+        }
+    }
+    //endregion
 
     //region unary operators matchers
     public static class EachMatcher extends ExpressionMatcher
@@ -141,13 +228,13 @@ public abstract class ExpressionMatcher
         @Override
         protected String getRegexp()
         {
-            return "@" + VARIABLE_REGEX;
+            return "@" + Variable.VARIABLE_REGEX;
         }
 
         @Override
         protected ExpressionBuilder getBuilder(String matched)
         {
-            return new ExpressionBuilder(matched, 7)
+            return new ExpressionBuilder(matched, 4)
             {
                 @Override
                 public boolean shouldBuildImediately()
@@ -169,13 +256,13 @@ public abstract class ExpressionMatcher
         @Override
         protected String getRegexp()
         {
-            return "\\?" + VARIABLE_REGEX;
+            return "\\?" + Variable.VARIABLE_REGEX;
         }
 
         @Override
         protected ExpressionBuilder getBuilder(String matched)
         {
-            return new ExpressionBuilder(matched, 7)
+            return new ExpressionBuilder(matched, 4)
             {
                 @Override
                 public boolean shouldBuildImediately()
@@ -203,7 +290,7 @@ public abstract class ExpressionMatcher
         @Override
         protected ExpressionBuilder getBuilder(String matched)
         {
-            return new ExpressionBuilder(matched, 7)
+            return new ExpressionBuilder(matched, 4)
             {
                 @Override
                 public boolean shouldBuildImediately()
@@ -219,14 +306,43 @@ public abstract class ExpressionMatcher
             };
         }
     }
+
+    public static class IncrementMatcher extends ExpressionMatcher
+    {
+        @Override
+        protected String getRegexp()
+        {
+            return "'";
+        }
+
+        @Override
+        protected ExpressionBuilder getBuilder(String matched)
+        {
+            return new ExpressionBuilder(matched, 4)
+            {
+                @Override
+                public boolean shouldBuildImediately()
+                {
+                    return true;
+                }
+
+                @Override
+                public Expression createExpression(Stack<Expression> expressions)
+                {
+                    return new Increment(expressions.pop());
+                }
+            };
+        }
+    }
     //endregion
 
+    //region values
     public static class VariableMatcher extends ExpressionMatcher
     {
         @Override
         protected String getRegexp()
         {
-            return  VARIABLE_REGEX;
+            return Variable.VARIABLE_REGEX;
         }
 
         @Override
@@ -237,7 +353,7 @@ public abstract class ExpressionMatcher
                 @Override
                 public boolean shouldBuildImediately()
                 {
-                    return false;
+                    return true;
                 }
 
                 @Override
@@ -248,4 +364,33 @@ public abstract class ExpressionMatcher
             };
         }
     }
+
+    public static class PredicateMatcher extends ExpressionMatcher
+    {
+        @Override
+        protected String getRegexp()
+        {
+            return Predicate.PREDICATE_REGEX;
+        }
+
+        @Override
+        protected ExpressionBuilder getBuilder(String matched)
+        {
+            return new ExpressionBuilder(matched, 1)
+            {
+                @Override
+                public boolean shouldBuildImediately()
+                {
+                    return true;
+                }
+
+                @Override
+                public Expression createExpression(Stack<Expression> expressions)
+                {
+                    return new Predicate(matched);
+                }
+            };
+        }
+    }
+    //endregion
 }

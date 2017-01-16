@@ -1,15 +1,14 @@
 package SyntaxTree.Structure;
 
 /**
- * Created by marsermd on 08.01.2017.
+ * Created by marsermd on 16.01.2017.
  */
-public class Variable extends Expression
+public class Predicate extends Expression
 {
-    public final static String VARIABLE_REGEX = "[a-z][0-9]*";
-
+    public final static String PREDICATE_REGEX = "[A-Z][0-9]*(\\([a-z|0-9|+|*|=|,|'|(|)]+\\))?";
     private String name;
 
-    public Variable(String name)
+    public Predicate(String name)
     {
         this.name = name;
     }
@@ -28,9 +27,9 @@ public class Variable extends Expression
     @Override
     public boolean FairEquals(Expression expression)
     {
-        if (expression.getClass() == Variable.class)
+        if (expression.getClass() == Predicate.class)
         {
-            return name.equals(((Variable)expression).getName());
+            return name.equals(((Predicate)expression).getName());
         }
         return false;
     }

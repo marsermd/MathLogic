@@ -2,10 +2,10 @@ package SyntaxTree.Parser;
 
 import SyntaxTree.Parser.Builders.ExpressionBuilder;
 import SyntaxTree.Parser.Matchers.ExpressionMatcher;
-import SyntaxTree.Structure.BinaryOperators.Conjunction;
-import SyntaxTree.Structure.BinaryOperators.Disjunction;
-import SyntaxTree.Structure.BinaryOperators.Implication;
+import SyntaxTree.Structure.BinaryOperators.*;
+import SyntaxTree.Structure.Predicate;
 import SyntaxTree.Structure.UnaryOperators.Each;
+import SyntaxTree.Structure.UnaryOperators.Increment;
 import SyntaxTree.Structure.UnaryOperators.Negation;
 import SyntaxTree.Structure.UnaryOperators.Some;
 import SyntaxTree.Structure.Variable;
@@ -26,12 +26,17 @@ public class ParserTest
         matchers.add(new ExpressionMatcher.ImplicationMatcher());
         matchers.add(new ExpressionMatcher.DisjunctionMatcher());
         matchers.add(new ExpressionMatcher.ConjunctionMatcher());
+        matchers.add(new ExpressionMatcher.EqualsMatcher());
+        matchers.add(new ExpressionMatcher.PlusMatcher());
+        matchers.add(new ExpressionMatcher.MultiplyMatcher());
 
         matchers.add(new ExpressionMatcher.EachMatcher());
         matchers.add(new ExpressionMatcher.SomeMatcher());
         matchers.add(new ExpressionMatcher.NegationMatcher());
+        matchers.add(new ExpressionMatcher.IncrementMatcher());
 
         matchers.add(new ExpressionMatcher.VariableMatcher());
+        matchers.add(new ExpressionMatcher.PredicateMatcher());
 
         return matchers;
     }
@@ -44,29 +49,31 @@ public class ParserTest
     }
 
     @Test
-    public void parseWorksOnVariable()
+    public void parseWorksOnPredicate()
     {
         Parser parser = new Parser(getAllMatchers());
-        Assert.assertEquals(parser.parse("A123"), new Variable("A123"));
+        Assert.assertEquals(parser.parse("A123"), new Predicate("A123"));
+    }
+
+    @Test
+    public void parseWorksOnComplexPredicate()
+    {
+        Parser parser = new Parser(getAllMatchers());
+        Assert.assertEquals(parser.parse("A1(1+(a9*0''), 2 = 3)"), new Predicate("A1(1+(a9*0''),2=3)"));
     }
 
     @Test(expected = Parser.BadInputException.class)
-    public void parseFailsOnBadVariable()
+    public void parseFailsOnBadPredicate()
     {
         Parser parser = new Parser(getAllMatchers());
         parser.parse("A1A");
     }
 
     @Test
-    public void parseWorksOnNegation()
+    public void parseWorksOnVariable()
     {
         Parser parser = new Parser(getAllMatchers());
-        Assert.assertEquals(
-                new Negation(
-                        new Variable("A")
-                ),
-                parser.parse("!A")
-        );
+        Assert.assertEquals(parser.parse("a"), new Variable("a"));
     }
 
     @Test
@@ -75,8 +82,8 @@ public class ParserTest
         Parser parser = new Parser(getAllMatchers());
         Assert.assertEquals(
                 new Implication(
-                        new Variable("A"),
-                        new Variable("B")
+                        new Predicate("A"),
+                        new Predicate("B")
                 ),
                 parser.parse("A->B")
         );
@@ -88,8 +95,8 @@ public class ParserTest
         Parser parser = new Parser(getAllMatchers());
         Assert.assertEquals(
                 new Disjunction(
-                        new Variable("A"),
-                        new Variable("B")
+                        new Predicate("A"),
+                        new Predicate("B")
                 ),
                 parser.parse("A|B")
         );
@@ -101,10 +108,49 @@ public class ParserTest
         Parser parser = new Parser(getAllMatchers());
         Assert.assertEquals(
                 new Conjunction(
-                        new Variable("A"),
-                        new Variable("B")
+                        new Predicate("A"),
+                        new Predicate("B")
                 ),
                 parser.parse("A&B")
+        );
+    }
+
+    @Test
+    public void parseWorksOnEquals()
+    {
+        Parser parser = new Parser(getAllMatchers());
+        Assert.assertEquals(
+                new Equals(
+                        new Variable("a"),
+                        new Variable("b")
+                ),
+                parser.parse("a=b")
+        );
+    }
+
+    @Test
+    public void parseWorksOnPlus()
+    {
+        Parser parser = new Parser(getAllMatchers());
+        Assert.assertEquals(
+                new Plus(
+                        new Variable("a"),
+                        new Variable("b")
+                ),
+                parser.parse("a+b")
+        );
+    }
+
+    @Test
+    public void parseWorksOnMultiply()
+    {
+        Parser parser = new Parser(getAllMatchers());
+        Assert.assertEquals(
+                new Multiply(
+                        new Variable("a"),
+                        new Variable("b")
+                ),
+                parser.parse("a*b")
         );
     }
 
@@ -114,10 +160,10 @@ public class ParserTest
         Parser parser = new Parser(getAllMatchers());
         Assert.assertEquals(
                 new Each(
-                        "A123",
-                        new Variable("B123")
+                        "a123",
+                        new Predicate("B123")
                 ),
-                parser.parse("@A123 B123")
+                parser.parse("@a123 B123")
         );
     }
 
@@ -127,10 +173,34 @@ public class ParserTest
         Parser parser = new Parser(getAllMatchers());
         Assert.assertEquals(
                 new Some(
-                        "A123",
-                        new Variable("B123")
+                        "a123",
+                        new Predicate("B123")
                 ),
-                parser.parse("?A123 B123")
+                parser.parse("?a    123 B123")
+        );
+    }
+
+    @Test
+    public void parseWorksOnNegation()
+    {
+        Parser parser = new Parser(getAllMatchers());
+        Assert.assertEquals(
+                new Negation(
+                        new Predicate("A")
+                ),
+                parser.parse("!A")
+        );
+    }
+
+    @Test
+    public void parseWorksOnIncrement()
+    {
+        Parser parser = new Parser(getAllMatchers());
+        Assert.assertEquals(
+                new Increment(
+                        new Variable("a")
+                ),
+                parser.parse("a'")
         );
     }
 
@@ -140,10 +210,10 @@ public class ParserTest
         Parser parser = new Parser(getAllMatchers());
         Assert.assertEquals(
                 new Implication(
-                        new Variable("A"),
+                        new Predicate("A"),
                         new Implication(
-                                new Variable("B"),
-                                new Variable("C")
+                                new Predicate("B"),
+                                new Predicate("C")
                         )
                 ),
                 parser.parse("A->B->C")
@@ -157,10 +227,10 @@ public class ParserTest
         Assert.assertEquals(
                 new Implication(
                         new Conjunction(
-                                new Variable("A"),
-                                new Variable("B")
+                                new Predicate("A"),
+                                new Predicate("B")
                         ),
-                        new Variable("C")
+                        new Predicate("C")
                 ),
                 parser.parse("A&B->C")
         );
@@ -173,10 +243,10 @@ public class ParserTest
         Assert.assertEquals(
                 new Conjunction(
                         new Implication(
-                                new Variable("A"),
-                                new Variable("B")
+                                new Predicate("A"),
+                                new Predicate("B")
                         ),
-                        new Variable("C")
+                        new Predicate("C")
                 ),
                 parser.parse("(A->B)&C")
         );
@@ -188,30 +258,30 @@ public class ParserTest
         Parser parser = new Parser(getAllMatchers());
         Assert.assertEquals(
                 new Implication(
-                        new Variable("A"),
+                        new Predicate("A"),
                         new Disjunction(
                                 new Conjunction(
-                                        new Variable("B"),
-                                        new Variable("C")
+                                        new Predicate("B"),
+                                        new Predicate("C")
                                 ),
                                 new Disjunction(
                                         new Conjunction(
-                                                new Variable("D"),
+                                                new Predicate("D"),
                                                 new Each(
-                                                        "E",
+                                                        "e",
                                                         new Negation(
                                                                 new Some(
-                                                                        "F",
-                                                                        new Variable("G")
+                                                                        "f",
+                                                                        new Predicate("G")
                                                                 )
                                                         )
                                                 )
                                         ),
-                                        new Variable("H")
+                                        new Predicate("H")
                                 )
                         )
                 ),
-                parser.parse("A->B&C|D&@E!?FG|H")
+                parser.parse("A->B&C|D&@e!?fG|H")
         );
     }
 }
