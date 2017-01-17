@@ -26,7 +26,7 @@ public class Variable extends Expression
     }
 
     @Override
-    public boolean FairEquals(Expression expression)
+    public boolean fairEquals(Expression expression)
     {
         if (expression.getClass() == Variable.class)
         {

@@ -35,7 +35,7 @@ public abstract class BinaryOperator extends Operator
     }
 
     @Override
-    public boolean FairEquals(Expression o)
+    public boolean fairEquals(Expression o)
     {
         if (o.getClass() != getClass())
         {
@@ -43,6 +43,6 @@ public abstract class BinaryOperator extends Operator
         }
 
         BinaryOperator other = (BinaryOperator) o;
-        return other.getLeft().FairEquals(left) && other.getRight().FairEquals(right);
+        return other.getLeft().fairEquals(left) && other.getRight().fairEquals(right);
     }
 }

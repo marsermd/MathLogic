@@ -12,8 +12,8 @@ public abstract class Expression
         {
             return false;
         }
-        return FairEquals((Expression) obj);
+        return fairEquals((Expression) obj);
     }
 
-    public abstract boolean FairEquals(Expression expression);
+    public abstract boolean fairEquals(Expression expression);
 }

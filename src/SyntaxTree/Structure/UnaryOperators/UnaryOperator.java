@@ -31,13 +31,13 @@ public abstract class UnaryOperator extends Expression
     }
 
     @Override
-    public boolean FairEquals(Expression o)
+    public boolean fairEquals(Expression o)
     {
         if (o.getClass() != getClass())
         {
             return false;
         }
         UnaryOperator other = (UnaryOperator) o;
-        return other.getExpression().FairEquals(expression);
+        return other.getExpression().fairEquals(expression);
     }
 }

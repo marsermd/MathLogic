@@ -25,7 +25,7 @@ public class Predicate extends Expression
     }
 
     @Override
-    public boolean FairEquals(Expression expression)
+    public boolean fairEquals(Expression expression)
     {
         if (expression.getClass() == Predicate.class)
         {
