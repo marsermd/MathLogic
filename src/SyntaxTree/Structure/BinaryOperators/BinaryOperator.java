@@ -43,6 +43,6 @@ public abstract class BinaryOperator extends Operator
         }
 
         BinaryOperator other = (BinaryOperator) o;
-        return other.getLeft().fairEquals(left) && other.getRight().fairEquals(right);
+        return left.fairEquals(other.getLeft()) && right.fairEquals(other.getRight());
     }
 }

@@ -29,11 +29,38 @@ public class Parser
     {
         for (ExpressionMatcher matcher: matchers)
         {
-            addMather(matcher);
+            addMatcher(matcher);
         }
     }
 
-    public void addMather(ExpressionMatcher matcher)
+    private static List<ExpressionMatcher> getAllMatchers()
+    {
+        List<ExpressionMatcher> matchers = new ArrayList<ExpressionMatcher>();
+
+        matchers.add(new ExpressionMatcher.ImplicationMatcher());
+        matchers.add(new ExpressionMatcher.DisjunctionMatcher());
+        matchers.add(new ExpressionMatcher.ConjunctionMatcher());
+        matchers.add(new ExpressionMatcher.EqualsMatcher());
+        matchers.add(new ExpressionMatcher.PlusMatcher());
+        matchers.add(new ExpressionMatcher.MultiplyMatcher());
+
+        matchers.add(new ExpressionMatcher.EachMatcher());
+        matchers.add(new ExpressionMatcher.SomeMatcher());
+        matchers.add(new ExpressionMatcher.NegationMatcher());
+        matchers.add(new ExpressionMatcher.IncrementMatcher());
+
+        matchers.add(new ExpressionMatcher.VariableMatcher());
+        matchers.add(new ExpressionMatcher.PredicateMatcher());
+
+        return matchers;
+    }
+
+    public static Parser createDefault()
+    {
+        return new Parser(getAllMatchers());
+    }
+
+    public void addMatcher(ExpressionMatcher matcher)
     {
         matchers.add(matcher);
     }
@@ -44,6 +71,10 @@ public class Parser
     }
 
 
+    public static Expression parseDefault(String input)
+    {
+        return Parser.createDefault().parse(input);
+    }
 
     public Expression parse(String input)
     {

@@ -38,6 +38,6 @@ public abstract class UnaryOperator extends Expression
             return false;
         }
         UnaryOperator other = (UnaryOperator) o;
-        return other.getExpression().fairEquals(expression);
+        return expression.fairEquals(other.getExpression());
     }
 }

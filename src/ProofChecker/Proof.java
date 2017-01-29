@@ -3,6 +3,7 @@ package ProofChecker;
 import SyntaxTree.Structure.Expression;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -10,15 +11,24 @@ import java.util.List;
  */
 public class Proof
 {
-    private List<Expression> expressions = new ArrayList<Expression>();
+    private List<Expression> lines = new ArrayList<Expression>();
 
     public Proof()
     {
-
     }
 
-    public Proof(List<Expression> expressions)
+    public Proof(List<Expression> lines)
     {
-        this.expressions.addAll(expressions);
+        this.lines.addAll(lines);
+    }
+
+    public void addLine(Expression line)
+    {
+        lines.add(line);
+    }
+
+    public List<Expression> GetProofLines()
+    {
+        return lines;
     }
 }

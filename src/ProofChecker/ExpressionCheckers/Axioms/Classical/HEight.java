@@ -1,6 +1,6 @@
-package ProofChecker.Axioms.Common;
+package ProofChecker.ExpressionCheckers.Axioms.Classical;
 
-import ProofChecker.Axioms.AxiomChecker;
+import ProofChecker.ExpressionCheckers.Axioms.AxiomChecker;
 import SyntaxTree.Structure.AnyFormula;
 import SyntaxTree.Structure.BinaryOperators.Disjunction;
 import SyntaxTree.Structure.BinaryOperators.Implication;

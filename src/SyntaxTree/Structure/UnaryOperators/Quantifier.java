@@ -27,6 +27,6 @@ public abstract class Quantifier extends UnaryOperator
         {
             return false;
         }
-        return ((Quantifier) o).quantified.equals(quantified) && super.fairEquals(o);
+        return quantified.equals(((Quantifier) o).quantified) && super.fairEquals(o);
     }
 }

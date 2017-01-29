@@ -1,15 +1,15 @@
-package ProofChecker.Axioms.Common;
+package ProofChecker.ExpressionCheckers.Axioms.Classical;
 
-import ProofChecker.Axioms.AxiomChecker;
+import ProofChecker.ExpressionCheckers.Axioms.AxiomChecker;
 import SyntaxTree.Structure.AnyFormula;
-import SyntaxTree.Structure.BinaryOperators.Conjunction;
+import SyntaxTree.Structure.BinaryOperators.Disjunction;
 import SyntaxTree.Structure.BinaryOperators.Implication;
 import SyntaxTree.Structure.Expression;
 
 /**
  * Created by marsermd on 18.01.2017.
  */
-public class EFive extends AxiomChecker
+public class FSix extends AxiomChecker
 {
     @Override
     protected Expression getScheme()
@@ -17,11 +17,11 @@ public class EFive extends AxiomChecker
         AnyFormula a = new AnyFormula();
         AnyFormula b = new AnyFormula();
         return new Implication(
-            new Conjunction(
+            a,
+            new Disjunction(
                 a,
                 b
-            ),
-            b
+            )
         );
     }
 }
