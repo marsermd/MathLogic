@@ -46,7 +46,7 @@ public class ReplaceTest
                     ),
                     new Disjunction(
                         new Each(
-                            forQuantifiers.getName(),
+                            forQuantifiers,
                             new Equals(
                                 new Multiply(
                                     underQuantifiers,
@@ -59,7 +59,7 @@ public class ReplaceTest
                             )
                         ),
                         new Some(
-                            forQuantifiers.getName(),
+                            forQuantifiers,
                             new Equals(
                                 underQuantifiers,
                                 underQuantifiers

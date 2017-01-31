@@ -247,7 +247,7 @@ public abstract class ExpressionMatcher
                 @Override
                 public Expression createExpression(Stack<Expression> expressions, Parser parser)
                 {
-                    return new Each(matched.substring(1), expressions.pop());
+                    return new Each(new Variable(matched.substring(1)), expressions.pop());
                 }
             };
         }
@@ -275,7 +275,7 @@ public abstract class ExpressionMatcher
                 @Override
                 public Expression createExpression(Stack<Expression> expressions, Parser parser)
                 {
-                    return new Some(matched.substring(1), expressions.pop());
+                    return new Some(new Variable(matched.substring(1)), expressions.pop());
                 }
             };
         }

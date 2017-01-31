@@ -35,10 +35,10 @@ public class ParserTest
         Assert.assertEquals(
             parser.parse("A1((a2 * x), a'')"),
             new Predicate("A1", new Expression[]
-            {
-                new Multiply(new Variable("a2"), new Variable("x")),
-                new Increment(new Increment(new Variable("a")))
-            })
+                {
+                    new Multiply(new Variable("a2"), new Variable("x")),
+                    new Increment(new Increment(new Variable("a")))
+                })
         );
     }
 
@@ -61,11 +61,11 @@ public class ParserTest
     {
         Parser parser = Parser.createDefault();
         Assert.assertEquals(
-                new Implication(
-                        new Predicate("A"),
-                        new Predicate("B")
-                ),
-                parser.parse("A->B")
+            new Implication(
+                new Predicate("A"),
+                new Predicate("B")
+            ),
+            parser.parse("A->B")
         );
     }
 
@@ -74,11 +74,11 @@ public class ParserTest
     {
         Parser parser = Parser.createDefault();
         Assert.assertEquals(
-                new Disjunction(
-                        new Predicate("A"),
-                        new Predicate("B")
-                ),
-                parser.parse("A|B")
+            new Disjunction(
+                new Predicate("A"),
+                new Predicate("B")
+            ),
+            parser.parse("A|B")
         );
     }
 
@@ -87,11 +87,11 @@ public class ParserTest
     {
         Parser parser = Parser.createDefault();
         Assert.assertEquals(
-                new Conjunction(
-                        new Predicate("A"),
-                        new Predicate("B")
-                ),
-                parser.parse("A&B")
+            new Conjunction(
+                new Predicate("A"),
+                new Predicate("B")
+            ),
+            parser.parse("A&B")
         );
     }
 
@@ -100,11 +100,11 @@ public class ParserTest
     {
         Parser parser = Parser.createDefault();
         Assert.assertEquals(
-                new Equals(
-                        new Variable("a"),
-                        new Variable("b")
-                ),
-                parser.parse("a=b")
+            new Equals(
+                new Variable("a"),
+                new Variable("b")
+            ),
+            parser.parse("a=b")
         );
     }
 
@@ -113,11 +113,11 @@ public class ParserTest
     {
         Parser parser = Parser.createDefault();
         Assert.assertEquals(
-                new Plus(
-                        new Variable("a"),
-                        new Variable("b")
-                ),
-                parser.parse("a+b")
+            new Plus(
+                new Variable("a"),
+                new Variable("b")
+            ),
+            parser.parse("a+b")
         );
     }
 
@@ -126,11 +126,11 @@ public class ParserTest
     {
         Parser parser = Parser.createDefault();
         Assert.assertEquals(
-                new Multiply(
-                        new Variable("a"),
-                        new Variable("b")
-                ),
-                parser.parse("a*b")
+            new Multiply(
+                new Variable("a"),
+                new Variable("b")
+            ),
+            parser.parse("a*b")
         );
     }
 
@@ -139,11 +139,11 @@ public class ParserTest
     {
         Parser parser = Parser.createDefault();
         Assert.assertEquals(
-                new Each(
-                        "a123",
-                        new Predicate("B123")
-                ),
-                parser.parse("@a123 B123")
+            new Each(
+                new Variable("a123"),
+                new Predicate("B123")
+            ),
+            parser.parse("@a123 B123")
         );
     }
 
@@ -152,11 +152,11 @@ public class ParserTest
     {
         Parser parser = Parser.createDefault();
         Assert.assertEquals(
-                new Some(
-                        "a123",
-                        new Predicate("B123")
-                ),
-                parser.parse("?a    123 B123")
+            new Some(
+                new Variable("a123"),
+                new Predicate("B123")
+            ),
+            parser.parse("?a    123 B123")
         );
     }
 
@@ -165,10 +165,10 @@ public class ParserTest
     {
         Parser parser = Parser.createDefault();
         Assert.assertEquals(
-                new Negation(
-                        new Predicate("A")
-                ),
-                parser.parse("!A")
+            new Negation(
+                new Predicate("A")
+            ),
+            parser.parse("!A")
         );
     }
 
@@ -177,10 +177,10 @@ public class ParserTest
     {
         Parser parser = Parser.createDefault();
         Assert.assertEquals(
-                new Increment(
-                        new Variable("a")
-                ),
-                parser.parse("a'")
+            new Increment(
+                new Variable("a")
+            ),
+            parser.parse("a'")
         );
     }
 
@@ -189,14 +189,14 @@ public class ParserTest
     {
         Parser parser = Parser.createDefault();
         Assert.assertEquals(
+            new Implication(
+                new Predicate("A"),
                 new Implication(
-                        new Predicate("A"),
-                        new Implication(
-                                new Predicate("B"),
-                                new Predicate("C")
-                        )
-                ),
-                parser.parse("A->B->C")
+                    new Predicate("B"),
+                    new Predicate("C")
+                )
+            ),
+            parser.parse("A->B->C")
         );
     }
 
@@ -205,14 +205,14 @@ public class ParserTest
     {
         Parser parser = Parser.createDefault();
         Assert.assertEquals(
-                new Implication(
-                        new Conjunction(
-                                new Predicate("A"),
-                                new Predicate("B")
-                        ),
-                        new Predicate("C")
+            new Implication(
+                new Conjunction(
+                    new Predicate("A"),
+                    new Predicate("B")
                 ),
-                parser.parse("A&B->C")
+                new Predicate("C")
+            ),
+            parser.parse("A&B->C")
         );
     }
 
@@ -221,14 +221,14 @@ public class ParserTest
     {
         Parser parser = Parser.createDefault();
         Assert.assertEquals(
-                new Conjunction(
-                        new Implication(
-                                new Predicate("A"),
-                                new Predicate("B")
-                        ),
-                        new Predicate("C")
+            new Conjunction(
+                new Implication(
+                    new Predicate("A"),
+                    new Predicate("B")
                 ),
-                parser.parse("(A->B)&C")
+                new Predicate("C")
+            ),
+            parser.parse("(A->B)&C")
         );
     }
 
@@ -237,31 +237,31 @@ public class ParserTest
     {
         Parser parser = Parser.createDefault();
         Assert.assertEquals(
-                new Implication(
-                        new Predicate("A"),
-                        new Disjunction(
-                                new Conjunction(
-                                        new Predicate("B"),
-                                        new Predicate("C")
-                                ),
-                                new Disjunction(
-                                        new Conjunction(
-                                                new Predicate("D"),
-                                                new Each(
-                                                        "e",
-                                                        new Negation(
-                                                                new Some(
-                                                                        "f",
-                                                                        new Predicate("G")
-                                                                )
-                                                        )
-                                                )
-                                        ),
-                                        new Predicate("H")
+            new Implication(
+                new Predicate("A"),
+                new Disjunction(
+                    new Conjunction(
+                        new Predicate("B"),
+                        new Predicate("C")
+                    ),
+                    new Disjunction(
+                        new Conjunction(
+                            new Predicate("D"),
+                            new Each(
+                                new Variable("e"),
+                                new Negation(
+                                    new Some(
+                                        new Variable("f"),
+                                        new Predicate("G")
+                                    )
                                 )
-                        )
-                ),
-                parser.parse("A->B&C|D&@e!?fG|H")
+                            )
+                        ),
+                        new Predicate("H")
+                    )
+                )
+            ),
+            parser.parse("A->B&C|D&@e!?fG|H")
         );
     }
 }

@@ -1,4 +1,4 @@
-package ProofChecker.ExpressionCheckers.Axioms.Classical;
+package ProofChecker.ExpressionCheckers.Axioms;
 
 import ProofChecker.ExpressionCheckers.Axioms.AxiomChecker;
 import SyntaxTree.Parser.Parser;

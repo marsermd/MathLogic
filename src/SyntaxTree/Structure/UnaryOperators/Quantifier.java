@@ -1,5 +1,6 @@
 package SyntaxTree.Structure.UnaryOperators;
 
+import SyntaxTree.Structure.AnyFormula;
 import SyntaxTree.Structure.Expression;
 import SyntaxTree.Structure.Variable;
 import SyntaxTree.Utils.StringHash;
@@ -14,15 +15,15 @@ import java.util.Set;
  */
 public abstract class Quantifier extends UnaryOperator
 {
-    private Variable quantified;
+    private Expression quantified;
 
-    public Quantifier(String quantified, Expression expression)
+    public Quantifier(Expression quantified, Expression expression)
     {
         super(expression);
-        this.quantified = new Variable(quantified);
+        this.quantified = quantified;
     }
 
-    public Variable getQuantified()
+    public Expression getQuantified()
     {
         return quantified;
     }
@@ -34,7 +35,7 @@ public abstract class Quantifier extends UnaryOperator
         {
             return false;
         }
-        return quantified.equals(((Quantifier) o).quantified) && super.fairEquals(o);
+        return quantified.fairEquals(((Quantifier) o).quantified) && super.fairEquals(o);
     }
 
     @Override
@@ -51,10 +52,14 @@ public abstract class Quantifier extends UnaryOperator
     @Override
     public void getBindedAndFree(Set<Variable> binded, Set<Variable> free, List<Variable> quantified)
     {
-        binded.add(this.quantified);
+        Collection<Variable> toBind = this.quantified.getFree();
+        binded.addAll(toBind);
 
-        quantified.add(this.quantified);
+        quantified.addAll(toBind);
         getExpression().getBindedAndFree(binded, free, quantified);
-        quantified.remove(quantified.size() - 1);
+        for (int i = 0; i < toBind.size(); i++)
+        {
+            quantified.remove(quantified.size() - 1);
+        }
     }
 }

@@ -54,6 +54,21 @@ public abstract class Expression
     }
 
     /**
+     * @return all binded variables in this expression
+     */
+    public Collection<Variable> getBinded()
+    {
+        if (cachedBinded != null)
+        {
+            return cachedBinded;
+        }
+        HashSet<Variable> binded = new HashSet<Variable>();
+        HashSet<Variable> free = new HashSet<Variable>();
+        getBindedAndFree(binded, free, new ArrayList<Variable>());
+        return binded;
+    }
+
+    /**
      * Cache and
      * @return all free variables in this expression
      */
@@ -61,6 +76,21 @@ public abstract class Expression
     {
         CacheBindedAndFree();
         return cachedFree;
+    }
+
+    /**
+     * @return all free variables in this expression
+     */
+    public Collection<Variable> getFree()
+    {
+        if (cachedFree != null)
+        {
+            return cachedFree;
+        }
+        HashSet<Variable> binded = new HashSet<Variable>();
+        HashSet<Variable> free = new HashSet<Variable>();
+        getBindedAndFree(binded, free, new ArrayList<Variable>());
+        return free;
     }
 
     public void getBindedAndFree(Set<Variable> binded, Set<Variable> free)

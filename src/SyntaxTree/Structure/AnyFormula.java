@@ -32,6 +32,11 @@ public class AnyFormula extends Expression
         }
     }
 
+    public Expression getEqualExpression()
+    {
+        return equalExpression;
+    }
+
     @Override
     public boolean fairEquals(Expression expression)
     {
@@ -42,6 +47,10 @@ public class AnyFormula extends Expression
         }
         else
         {
+            while (expression instanceof AnyFormula)
+            {
+                expression = ((AnyFormula) expression).equalExpression;
+            }
             return equalExpression.fairEquals(expression);
         }
     }
@@ -49,13 +58,11 @@ public class AnyFormula extends Expression
     @Override
     public Expression replaceInternal(Variable toReplace, Expression result, List<Variable> quantified)
     {
-        if (toReplace.equals(equalExpression))
+        if (equalExpression == null)
         {
-            return toReplace;
+            throw new InvalidStateException("equalExpression == null, but truing to replace");
         }
-        AnyFormula newAnyFormula = new AnyFormula();
-        newAnyFormula.setEqualExpression(toReplace);
-        return newAnyFormula;
+        return equalExpression.replaceInternal(toReplace, result, quantified);
     }
 
     @Override

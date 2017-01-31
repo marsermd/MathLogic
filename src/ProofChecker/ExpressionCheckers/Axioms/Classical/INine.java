@@ -9,7 +9,7 @@ import SyntaxTree.Structure.UnaryOperators.Negation;
 /**
  * Created by marsermd on 18.01.2017.
  */
-public class INine extends AxiomChecker
+public class INine extends ClassicalAxiomChecker
 {
     @Override
     protected Expression getScheme()

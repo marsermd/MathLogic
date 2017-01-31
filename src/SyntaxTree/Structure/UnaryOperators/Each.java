@@ -1,8 +1,10 @@
 package SyntaxTree.Structure.UnaryOperators;
 
+import SyntaxTree.Structure.AnyFormula;
 import SyntaxTree.Structure.Expression;
 import SyntaxTree.Structure.Variable;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -10,7 +12,7 @@ import java.util.List;
  */
 public class Each extends Quantifier
 {
-    public Each(String quantified, Expression expression)
+    public Each(Expression quantified, Expression expression)
     {
         super(quantified, expression);
     }
@@ -24,12 +26,17 @@ public class Each extends Quantifier
     @Override
     public Expression replaceInternal(Variable toReplace, Expression result, List<Variable> quantified)
     {
-        quantified.add(getQuantified());
+        Collection<Variable> toBind = getQuantified().getFree();
+
+        quantified.addAll(toBind);
         Each newEach = new Each(
-            getQuantified().getName(),
+            getQuantified(),
             getExpression().replaceInternal(toReplace, result, quantified)
         );
-        quantified.remove(quantified.size() - 1);
+        for (int i = 0; i < toBind.size(); i++)
+        {
+            quantified.remove(quantified.size() - 1);
+        }
         return newEach;
     }
 }

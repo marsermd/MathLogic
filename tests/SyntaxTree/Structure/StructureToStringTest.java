@@ -25,16 +25,16 @@ public class StructureToStringTest
     public void eachWorks()
     {
         Variable variable = new Variable("A");
-        Each unary = new Each("A", variable);
+        Each unary = new Each(variable, variable);
         Assert.assertEquals("[@A, A]", unary.toString());
     }
 
     @Test
     public void SomeWorks()
     {
-        Variable variable = new Variable("A");
-        Some unary = new Some("A", variable);
-        Assert.assertEquals("[?A, A]", unary.toString());
+        Variable variable = new Variable("a");
+        Some unary = new Some(variable, variable);
+        Assert.assertEquals("[?a, a]", unary.toString());
     }
 
     @Test

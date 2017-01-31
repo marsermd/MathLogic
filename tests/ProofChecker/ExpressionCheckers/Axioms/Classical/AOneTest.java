@@ -1,9 +1,7 @@
 package ProofChecker.ExpressionCheckers.Axioms.Classical;
 
 import ProofChecker.ExpressionCheckers.Axioms.AxiomChecker;
-import SyntaxTree.Parser.Parser;
-import SyntaxTree.Structure.Expression;
-import org.junit.Assert;
+import ProofChecker.ExpressionCheckers.Axioms.AxiomTest;
 import org.junit.Test;
 
 public class AOneTest extends AxiomTest

@@ -9,7 +9,7 @@ import SyntaxTree.Structure.Expression;
 /**
  * Created by marsermd on 18.01.2017.
  */
-public class CThree extends AxiomChecker
+public class CThree extends ClassicalAxiomChecker
 {
     @Override
     protected Expression getScheme()

@@ -9,12 +9,7 @@ import SyntaxTree.Structure.Expression;
  */
 public abstract class AxiomChecker implements ExpressionChecker
 {
-    protected abstract Expression getScheme();
-
-    public boolean MatchesAxiom(Expression expression)
-    {
-        return getScheme().fairEquals(expression);
-    }
+    public abstract boolean MatchesAxiom(Expression expression);
 
     @Override
     public boolean Matches(Proof proof, int currentLine)

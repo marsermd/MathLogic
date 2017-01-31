@@ -8,7 +8,7 @@ import SyntaxTree.Structure.Expression;
 /**
  * Created by marsermd on 18.01.2017.
  */
-public class AOne extends AxiomChecker
+public class AOne extends ClassicalAxiomChecker
 {
     @Override
     protected Expression getScheme()

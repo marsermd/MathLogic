@@ -9,7 +9,7 @@ import SyntaxTree.Structure.Expression;
 /**
  * Created by marsermd on 18.01.2017.
  */
-public class DFour extends AxiomChecker
+public class DFour extends ClassicalAxiomChecker
 {
     @Override
     protected Expression getScheme()

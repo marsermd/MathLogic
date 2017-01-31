@@ -1,7 +1,7 @@
 package ProofChecker.ExpressionCheckers.Axioms.Classical;
 
 import ProofChecker.ExpressionCheckers.Axioms.AxiomChecker;
-import SyntaxTree.Parser.Parser;
+import ProofChecker.ExpressionCheckers.Axioms.AxiomTest;
 import org.junit.Test;
 
 
