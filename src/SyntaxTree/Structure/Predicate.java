@@ -2,8 +2,6 @@ package SyntaxTree.Structure;
 
 import SyntaxTree.Utils.StringHash;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -15,8 +13,8 @@ public class Predicate extends Expression
     public final static String PREDICATE_NAME_REGEX = "[A-Z][0-9]*";
     public final static String PREDICATE_ARGUMENTS_REGEX = "(\\([a-z|0-9|+|*|,|'|(|)]+\\))?";
 
-    private String name;
-    private Expression[] expressions;
+    private final String name;
+    private final Expression[] expressions;
 
     public Predicate(String name)
     {
@@ -60,6 +58,17 @@ public class Predicate extends Expression
             }
         }
         return true;
+    }
+
+    @Override
+    public Expression replaceInternal(Variable toReplace, Expression result, List<Variable> quantified)
+    {
+        Expression[] newExpressions = new Expression[expressions.length];
+        for (int i = 0; i < expressions.length; i++)
+        {
+            newExpressions[i] = expressions[i].replaceInternal(toReplace, result, quantified);
+        }
+        return new Predicate(name, newExpressions);
     }
 
     @Override

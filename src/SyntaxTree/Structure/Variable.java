@@ -11,7 +11,7 @@ public class Variable extends Expression
 {
     public final static String VARIABLE_REGEX = "[a-z][0-9]*";
 
-    private String name;
+    private final String name;
 
     public Variable(String name)
     {
@@ -37,6 +37,16 @@ public class Variable extends Expression
             return name.equals(((Variable)expression).getName());
         }
         return false;
+    }
+
+    @Override
+    public Expression replaceInternal(Variable toReplace, Expression result, List<Variable> quantified)
+    {
+        if (this.fairEquals(toReplace) && !quantified.contains(this))
+        {
+            return result;
+        }
+        return new Variable(name);
     }
 
     @Override

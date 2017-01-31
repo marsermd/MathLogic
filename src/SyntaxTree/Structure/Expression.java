@@ -1,7 +1,5 @@
 package SyntaxTree.Structure;
 
-import SyntaxTree.Structure.UnaryOperators.UnaryOperator;
-
 import java.util.*;
 
 /**
@@ -9,6 +7,7 @@ import java.util.*;
  */
 public abstract class Expression
 {
+    protected static int HASH_PRIME = 1000003;
     private Collection<Variable> cachedBinded = null;
     private Collection<Variable> cachedFree = null;
 
@@ -19,7 +18,9 @@ public abstract class Expression
         {
             return false;
         }
-        return fairEquals((Expression) obj);
+        // This is not really reliable as comparisons ammount gets close to 10^6
+        // You might want to add && fairEquals
+        return getExpressionHash() == ((Expression) obj).getExpressionHash();
     }
 
     @Override
@@ -62,8 +63,19 @@ public abstract class Expression
         return cachedFree;
     }
 
+    public void getBindedAndFree(Set<Variable> binded, Set<Variable> free)
+    {
+        getBindedAndFree(binded, free, new ArrayList<Variable>());
+    }
+
+    public Expression replace(Variable toReplace, Expression result)
+    {
+        return replaceInternal(toReplace, result, new ArrayList<Variable>());
+    }
+
+    public abstract Expression replaceInternal(Variable toReplace, Expression result, List<Variable> quantified);
+
     public abstract void getBindedAndFree(Set<Variable> binded, Set<Variable> free, List<Variable> quantified);
 
-    protected static int HASH_PRIME = 1000003;
     public abstract int getExpressionHash();
 }
