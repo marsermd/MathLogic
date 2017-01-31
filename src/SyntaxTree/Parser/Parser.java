@@ -76,6 +76,12 @@ public class Parser
         return Parser.createDefault().parse(input);
     }
 
+    /**
+     * This is a pure function. That means it doesn't change the state of the class by itself.
+     * The only thing could be done is that someone could call addMatcher from inside the call tree.
+     * @param string to parse
+     * @return parsed syntax tree
+     */
     public Expression parse(String input)
     {
         input = fixInputString(input);
@@ -84,7 +90,7 @@ public class Parser
         Stack<ParenthesisHolder> parenthesis = new Stack<ParenthesisHolder>();
 
         //we could say that the whole expression is in one big parenthesis
-        parenthesis.push(new ParenthesisHolder());
+        parenthesis.push(new ParenthesisHolder(this));
 
         ParenthesisMatcher parenthesisMatcher = new ParenthesisMatcher();
         while (!unparsed.isFinished())
@@ -92,7 +98,7 @@ public class Parser
             //opening parenthisis
             if (parenthesisMatcher.matchOpenParenthesis(unparsed))
             {
-                parenthesis.push(new ParenthesisHolder());
+                parenthesis.push(new ParenthesisHolder(this));
                 continue;
             }
             //closing parenthisis

@@ -1,6 +1,7 @@
 package SyntaxTree.Parser.Matchers;
 
 import SyntaxTree.Parser.Builders.ExpressionBuilder;
+import SyntaxTree.Parser.Parser;
 import SyntaxTree.Parser.StringWithPointer;
 import SyntaxTree.Structure.BinaryOperators.*;
 import SyntaxTree.Structure.Expression;
@@ -10,6 +11,7 @@ import SyntaxTree.Structure.UnaryOperators.Increment;
 import SyntaxTree.Structure.UnaryOperators.Negation;
 import SyntaxTree.Structure.UnaryOperators.Some;
 import SyntaxTree.Structure.Variable;
+import sun.misc.Regexp;
 
 import java.util.Stack;
 import java.util.regex.Pattern;
@@ -61,7 +63,7 @@ public abstract class ExpressionMatcher
                 }
 
                 @Override
-                public Expression createExpression(Stack<Expression> expressions)
+                public Expression createExpression(Stack<Expression> expressions, Parser parser)
                 {
                     Expression right = expressions.pop();
                     Expression left = expressions.pop();
@@ -91,7 +93,7 @@ public abstract class ExpressionMatcher
                 }
 
                 @Override
-                public Expression createExpression(Stack<Expression> expressions)
+                public Expression createExpression(Stack<Expression> expressions, Parser parser)
                 {
                     Expression right = expressions.pop();
                     Expression left = expressions.pop();
@@ -121,7 +123,7 @@ public abstract class ExpressionMatcher
                 }
 
                 @Override
-                public Expression createExpression(Stack<Expression> expressions)
+                public Expression createExpression(Stack<Expression> expressions, Parser parser)
                 {
                     Expression right = expressions.pop();
                     Expression left = expressions.pop();
@@ -151,7 +153,7 @@ public abstract class ExpressionMatcher
                 }
 
                 @Override
-                public Expression createExpression(Stack<Expression> expressions)
+                public Expression createExpression(Stack<Expression> expressions, Parser parser)
                 {
                     Expression right = expressions.pop();
                     Expression left = expressions.pop();
@@ -181,7 +183,7 @@ public abstract class ExpressionMatcher
                 }
 
                 @Override
-                public Expression createExpression(Stack<Expression> expressions)
+                public Expression createExpression(Stack<Expression> expressions, Parser parser)
                 {
                     Expression right = expressions.pop();
                     Expression left = expressions.pop();
@@ -211,7 +213,7 @@ public abstract class ExpressionMatcher
                 }
 
                 @Override
-                public Expression createExpression(Stack<Expression> expressions)
+                public Expression createExpression(Stack<Expression> expressions, Parser parser)
                 {
                     Expression right = expressions.pop();
                     Expression left = expressions.pop();
@@ -243,7 +245,7 @@ public abstract class ExpressionMatcher
                 }
 
                 @Override
-                public Expression createExpression(Stack<Expression> expressions)
+                public Expression createExpression(Stack<Expression> expressions, Parser parser)
                 {
                     return new Each(matched.substring(1), expressions.pop());
                 }
@@ -271,7 +273,7 @@ public abstract class ExpressionMatcher
                 }
 
                 @Override
-                public Expression createExpression(Stack<Expression> expressions)
+                public Expression createExpression(Stack<Expression> expressions, Parser parser)
                 {
                     return new Some(matched.substring(1), expressions.pop());
                 }
@@ -299,7 +301,7 @@ public abstract class ExpressionMatcher
                 }
 
                 @Override
-                public Expression createExpression(Stack<Expression> expressions)
+                public Expression createExpression(Stack<Expression> expressions, Parser parser)
                 {
                     return new Negation(expressions.pop());
                 }
@@ -327,7 +329,7 @@ public abstract class ExpressionMatcher
                 }
 
                 @Override
-                public Expression createExpression(Stack<Expression> expressions)
+                public Expression createExpression(Stack<Expression> expressions, Parser parser)
                 {
                     return new Increment(expressions.pop());
                 }
@@ -357,7 +359,7 @@ public abstract class ExpressionMatcher
                 }
 
                 @Override
-                public Expression createExpression(Stack<Expression> expressions)
+                public Expression createExpression(Stack<Expression> expressions, Parser parser)
                 {
                     return new Variable(matched);
                 }
@@ -370,12 +372,13 @@ public abstract class ExpressionMatcher
         @Override
         protected String getRegexp()
         {
-            return Predicate.PREDICATE_REGEX;
+            return Predicate.PREDICATE_NAME_REGEX + Predicate.PREDICATE_ARGUMENTS_REGEX;
         }
 
         @Override
         protected ExpressionBuilder getBuilder(String matched)
         {
+
             return new ExpressionBuilder(matched, 1)
             {
                 @Override
@@ -385,9 +388,26 @@ public abstract class ExpressionMatcher
                 }
 
                 @Override
-                public Expression createExpression(Stack<Expression> expressions)
+                public Expression createExpression(Stack<Expression> expressions, Parser parser)
                 {
-                    return new Predicate(matched);
+                    if (matched.contains("("))
+                    {
+                        String[] parts = matched.split("\\(", 2);
+                        String name = parts[0];
+
+                        String[] rawArguments = parts[1].substring(0, parts[1].length() - 1).split(",");
+                        Expression[] arguments = new Expression[rawArguments.length];
+
+                        for (int i = 0; i < rawArguments.length; i++)
+                        {
+                            arguments[i] = parser.parse(rawArguments[i]);
+                        }
+                        return new Predicate(name, arguments);
+                    }
+                    else
+                    {
+                        return new Predicate(matched, new Expression[0]);
+                    }
                 }
             };
         }

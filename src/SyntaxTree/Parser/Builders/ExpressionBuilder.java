@@ -1,5 +1,6 @@
 package SyntaxTree.Parser.Builders;
 
+import SyntaxTree.Parser.Parser;
 import SyntaxTree.Structure.Expression;
 
 import java.util.Stack;
@@ -30,5 +31,5 @@ public abstract class ExpressionBuilder
         this.priority = priority;
     }
 
-    public abstract Expression createExpression(Stack<Expression> expressions);
+    public abstract Expression createExpression(Stack<Expression> expressions, Parser parser);
 }

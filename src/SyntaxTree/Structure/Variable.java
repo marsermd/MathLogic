@@ -1,5 +1,9 @@
 package SyntaxTree.Structure;
 
+import SyntaxTree.Utils.StringHash;
+
+import java.util.*;
+
 /**
  * Created by marsermd on 08.01.2017.
  */
@@ -33,5 +37,20 @@ public class Variable extends Expression
             return name.equals(((Variable)expression).getName());
         }
         return false;
+    }
+
+    @Override
+    public int getExpressionHash()
+    {
+        return StringHash.calculate(getClass().toString() + name, HASH_PRIME);
+    }
+
+    @Override
+    public void getBindedAndFree(Set<Variable> binded, Set<Variable> free, List<Variable> quantified)
+    {
+        if (!quantified.contains(this))
+        {
+            free.add(this);
+        }
     }
 }

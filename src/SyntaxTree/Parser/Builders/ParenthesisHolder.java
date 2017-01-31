@@ -12,10 +12,16 @@ public class ParenthesisHolder
 {
     private Stack<Expression> expressions = new Stack<Expression>();
     private Stack<ExpressionBuilder> builders = new Stack<ExpressionBuilder>();
+    private Parser parser;
+
+    public ParenthesisHolder(Parser parser)
+    {
+        this.parser = parser;
+    }
 
     private void compileBuilderToExpressions()
     {
-        expressions.add(builders.pop().createExpression(expressions));
+        expressions.add(builders.pop().createExpression(expressions, parser));
     }
 
     public void processBuilder(ExpressionBuilder currentBuilder)
@@ -26,7 +32,7 @@ public class ParenthesisHolder
         }
         if (currentBuilder.shouldBuildImediately())
         {
-            expressions.add(currentBuilder.createExpression(expressions));
+            expressions.add(currentBuilder.createExpression(expressions, parser));
             return;
         }
 

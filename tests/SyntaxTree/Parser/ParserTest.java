@@ -1,6 +1,7 @@
 package SyntaxTree.Parser;
 
 import SyntaxTree.Structure.BinaryOperators.*;
+import SyntaxTree.Structure.Expression;
 import SyntaxTree.Structure.Predicate;
 import SyntaxTree.Structure.UnaryOperators.Each;
 import SyntaxTree.Structure.UnaryOperators.Increment;
@@ -30,7 +31,15 @@ public class ParserTest
     public void parseWorksOnComplexPredicate()
     {
         Parser parser = Parser.createDefault();
-        Assert.assertEquals(parser.parse("A1(1+(a9*0''), 2 = 3)"), new Predicate("A1(1+(a9*0''),2=3)"));
+
+        Assert.assertEquals(
+            parser.parse("A1((a2 * x), a'')"),
+            new Predicate("A1", new Expression[]
+            {
+                new Multiply(new Variable("a2"), new Variable("x")),
+                new Increment(new Increment(new Variable("a")))
+            })
+        );
     }
 
     @Test(expected = Parser.BadInputException.class)

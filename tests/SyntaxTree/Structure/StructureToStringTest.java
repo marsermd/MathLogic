@@ -17,8 +17,8 @@ public class StructureToStringTest
     @Test
     public void variableWorks()
     {
-        Variable variable = new Variable("ABC");
-        Assert.assertEquals("ABC", variable.toString());
+        Variable variable = new Variable("A12");
+        Assert.assertEquals("A12", variable.toString());
     }
 
     @Test
