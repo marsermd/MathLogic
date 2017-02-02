@@ -1,6 +1,7 @@
 package ProofChecker.ExpressionCheckers.Axioms.Arithmetical;
 
 import ProofChecker.ExpressionCheckers.Axioms.AxiomChecker;
+import ProofChecker.ExpressionCheckers.ExpressionCheckResult;
 import ProofChecker.ExpressionCheckers.ExpressionChecker;
 import ProofChecker.Proof;
 import SyntaxTree.Structure.AnyFormula;
@@ -17,7 +18,7 @@ public class AxiomEach extends AxiomChecker
 {
 
     @Override
-    public boolean MatchesAxiom(Expression currentLine)
+    public ExpressionCheckResult checkMatchesAxiom(Expression currentLine)
     {
         AnyFormula alpha = new AnyFormula();
         AnyFormula phi = new AnyFormula();
@@ -34,7 +35,7 @@ public class AxiomEach extends AxiomChecker
         if (!matcher.fairEquals(currentLine))
         {
             // it id not nearly this axiom
-            return false;
+            return ExpressionCheckResult.wrong();
         }
         if (!(alpha.getEqualExpression() instanceof Variable))
         {
@@ -47,19 +48,22 @@ public class AxiomEach extends AxiomChecker
         if (!matcherForTheta.fairEquals(phiWithTheta.getEqualExpression()))
         {
             // can't replace alpha with same theta to get phiWithTheta
-            return false;
+            return ExpressionCheckResult.wrong();
         }
         if (!(theta.getEqualExpression() instanceof Variable))
         {
             // theta is not a variable
-            return false;
+            return ExpressionCheckResult.wrong();
         }
-        if (phiWithTheta.getBinded().contains(theta.getEqualExpression()))
+        for (Variable thetaFree: theta.getFree())
         {
-            // theta is not free for replacing
-            return false;
+            if (phiWithTheta.getBindedAndCache().contains(thetaFree))
+            {
+                // theta is not free for replacing
+                return ExpressionCheckResult.termIsNotFreeToReplace(phi, (Variable) alpha.getEqualExpression(), theta);
+            }
         }
 
-        return true;
+        return ExpressionCheckResult.right();
     }
 }

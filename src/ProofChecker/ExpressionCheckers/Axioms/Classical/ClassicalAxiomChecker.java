@@ -1,7 +1,7 @@
 package ProofChecker.ExpressionCheckers.Axioms.Classical;
 
 import ProofChecker.ExpressionCheckers.Axioms.AxiomChecker;
-import ProofChecker.Proof;
+import ProofChecker.ExpressionCheckers.ExpressionCheckResult;
 import SyntaxTree.Structure.Expression;
 
 /**
@@ -11,8 +11,15 @@ public abstract class ClassicalAxiomChecker extends AxiomChecker
 {
     protected abstract Expression getScheme();
 
-    public boolean MatchesAxiom(Expression expression)
+    public ExpressionCheckResult checkMatchesAxiom(Expression expression)
     {
-        return getScheme().fairEquals(expression);
+        if (getScheme().fairEquals(expression))
+        {
+            return ExpressionCheckResult.right();
+        }
+        else
+        {
+            return ExpressionCheckResult.wrong();
+        }
     }
 }

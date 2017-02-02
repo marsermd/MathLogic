@@ -1,6 +1,5 @@
 package ProofChecker.ExpressionCheckers.Axioms;
 
-import ProofChecker.ExpressionCheckers.Axioms.AxiomChecker;
 import SyntaxTree.Parser.Parser;
 import org.junit.Assert;
 
@@ -11,12 +10,12 @@ public abstract class AxiomTest
 {
     protected void assertMatches(String expression)
     {
-        Assert.assertTrue(getChecker().MatchesAxiom(Parser.parseDefault(expression)));
+        Assert.assertTrue(getChecker().checkMatchesAxiom(Parser.parseDefault(expression)).isRight());
     }
 
     protected void assertDoesntMatch(String expression)
     {
-        Assert.assertFalse(getChecker().MatchesAxiom(Parser.parseDefault(expression)));
+        Assert.assertTrue(getChecker().checkMatchesAxiom(Parser.parseDefault(expression)).isWrong());
     }
 
     protected abstract AxiomChecker getChecker();

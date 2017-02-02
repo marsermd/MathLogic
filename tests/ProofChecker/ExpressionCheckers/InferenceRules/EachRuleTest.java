@@ -2,7 +2,6 @@ package ProofChecker.ExpressionCheckers.InferenceRules;
 
 import ProofChecker.Proof;
 import SyntaxTree.Structure.BinaryOperators.Implication;
-import SyntaxTree.Structure.Predicate;
 import SyntaxTree.Structure.UnaryOperators.Each;
 import SyntaxTree.Structure.UnaryOperators.Some;
 import SyntaxTree.Structure.Variable;
@@ -51,9 +50,9 @@ public class EachRuleTest
         );
 
         EachRule rule = new EachRule();
-        Assert.assertTrue(rule.Matches(proof, 1));
-        Assert.assertFalse(rule.Matches(proof, 2));
-        Assert.assertTrue(rule.Matches(proof, 3));
+        Assert.assertTrue(rule.checkMatches(proof, 1).isRight());
+        Assert.assertFalse(rule.checkMatches(proof, 2).isRight());
+        Assert.assertTrue(rule.checkMatches(proof, 3).isRight());
     }
 
     @Test
@@ -82,7 +81,7 @@ public class EachRuleTest
             );
 
             EachRule rule = new EachRule();
-            Assert.assertTrue(rule.Matches(proof, 1));
+            Assert.assertTrue(rule.checkMatches(proof, 1).isRight());
         }
         {
             Proof proof = new Proof();
@@ -101,7 +100,7 @@ public class EachRuleTest
             );
 
             EachRule rule = new EachRule();
-            Assert.assertFalse(rule.Matches(proof, 1));
+            Assert.assertFalse(rule.checkMatches(proof, 1).isRight());
         }
     }
 }

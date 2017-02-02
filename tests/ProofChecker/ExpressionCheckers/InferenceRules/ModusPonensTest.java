@@ -2,7 +2,6 @@ package ProofChecker.ExpressionCheckers.InferenceRules;
 
 import ProofChecker.Proof;
 import SyntaxTree.Structure.BinaryOperators.Implication;
-import SyntaxTree.Structure.Expression;
 import SyntaxTree.Structure.Predicate;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,8 +26,8 @@ public class ModusPonensTest
         );
 
         ModusPonens modusPonens = new ModusPonens();
-        Assert.assertTrue(modusPonens.Matches(proof, 2));
-        Assert.assertFalse(modusPonens.Matches(proof, 3));
+        Assert.assertTrue(modusPonens.checkMatches(proof, 2).isRight());
+        Assert.assertFalse(modusPonens.checkMatches(proof, 3).isRight());
     }
 
     @Test
@@ -64,8 +63,8 @@ public class ModusPonensTest
         );
 
         ModusPonens modusPonens = new ModusPonens();
-        Assert.assertFalse(modusPonens.Matches(proof, 3));
-        Assert.assertFalse(modusPonens.Matches(proof, 4));
-        Assert.assertTrue(modusPonens.Matches(proof, 5));
+        Assert.assertFalse(modusPonens.checkMatches(proof, 3).isRight());
+        Assert.assertFalse(modusPonens.checkMatches(proof, 4).isRight());
+        Assert.assertTrue(modusPonens.checkMatches(proof, 5).isRight());
     }
 }

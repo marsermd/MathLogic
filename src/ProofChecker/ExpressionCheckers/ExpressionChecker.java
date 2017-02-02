@@ -8,5 +8,5 @@ import SyntaxTree.Structure.Expression;
  */
 public interface ExpressionChecker
 {
-    public boolean Matches(Proof proof, int currentLine);
+    public ExpressionCheckResult checkMatches(Proof proof, int currentLine);
 }

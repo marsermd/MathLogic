@@ -1,5 +1,6 @@
 package ProofChecker.ExpressionCheckers.InferenceRules;
 
+import ProofChecker.ExpressionCheckers.ExpressionCheckResult;
 import ProofChecker.ExpressionCheckers.ExpressionChecker;
 import ProofChecker.Proof;
 import SyntaxTree.Structure.BinaryOperators.Implication;
@@ -13,7 +14,7 @@ import java.util.List;
 public class ModusPonens implements ExpressionChecker
 {
     @Override
-    public boolean Matches(Proof proof, int currentLine)
+    public ExpressionCheckResult checkMatches(Proof proof, int currentLine)
     {
         List<Expression> expressions = proof.GetProofLines();
 
@@ -32,10 +33,10 @@ public class ModusPonens implements ExpressionChecker
                     )
                 ))
                 {
-                    return true;
+                    return ExpressionCheckResult.right();
                 }
             }
         }
-        return false;
+        return ExpressionCheckResult.wrong();
     }
 }

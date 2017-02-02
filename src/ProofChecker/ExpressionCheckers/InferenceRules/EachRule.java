@@ -1,11 +1,13 @@
 package ProofChecker.ExpressionCheckers.InferenceRules;
 
+import ProofChecker.ExpressionCheckers.ExpressionCheckResult;
 import ProofChecker.ExpressionCheckers.ExpressionChecker;
 import ProofChecker.Proof;
 import SyntaxTree.Structure.AnyFormula;
 import SyntaxTree.Structure.BinaryOperators.Implication;
 import SyntaxTree.Structure.Expression;
 import SyntaxTree.Structure.UnaryOperators.Each;
+import SyntaxTree.Structure.Variable;
 import org.omg.CORBA.Any;
 
 /**
@@ -14,47 +16,46 @@ import org.omg.CORBA.Any;
 public class EachRule implements ExpressionChecker
 {
     @Override
-    public boolean Matches(Proof proof, int currentLine)
+    public ExpressionCheckResult checkMatches(Proof proof, int currentLine)
     {
         Expression current = proof.GetProofLines().get(currentLine);
-        AnyFormula Phi = new AnyFormula();
-        AnyFormula Psi = new AnyFormula();
+        AnyFormula phi = new AnyFormula();
+        AnyFormula psi = new AnyFormula();
         AnyFormula x = new AnyFormula();
         Expression currentMatcher = new Implication(
             new Each(
                 x,
-                Psi
+                psi
             ),
-            Phi
+            phi
         );
 
         if (!currentMatcher.fairEquals(current))
         {
-            return false;
+            return ExpressionCheckResult.wrong();
         }
 
         Expression previousMatch = new Implication(
-            Psi.getEqualExpression(),
-            Phi.getEqualExpression()
+            psi.getEqualExpression(),
+            phi.getEqualExpression()
         );
 
-        boolean result = false;
         for (int i = 0; i < currentLine; i++)
         {
             Expression previous = proof.GetProofLines().get(i);
             if (previous.equals(previousMatch))
             {
-                result = true;
-                break;
+                if (phi.getFree().contains(x.getEqualExpression()))
+                {
+                    return ExpressionCheckResult.variableIsFreeInFormula((Variable) x.getEqualExpression(), phi);
+                }
+                else
+                {
+                    return ExpressionCheckResult.right();
+                }
             }
         }
-        if (result)
-        {
-            if (!Phi.getFree().contains(x.getEqualExpression()))
-            {
-                return true;
-            }
-        }
-        return false;
+
+        return ExpressionCheckResult.wrong();
     }
 }
