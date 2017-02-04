@@ -33,6 +33,15 @@ public class ParserTest
         Parser parser = Parser.createDefault();
 
         Assert.assertEquals(
+            parser.parse("A1(a, b)"),
+            new Predicate("A1", new Expression[]
+                {
+                    new Variable("a"),
+                    new Variable("b")
+                })
+        );
+
+        Assert.assertEquals(
             parser.parse("A1((a2 * x), a'')"),
             new Predicate("A1", new Expression[]
                 {

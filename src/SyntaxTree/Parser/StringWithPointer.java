@@ -35,6 +35,24 @@ public class StringWithPointer
         }
     }
 
+    public boolean isNextToken(String regexp)
+    {
+        return isNextToken(Pattern.compile(regexp));
+    }
+
+    public boolean isNextToken(Pattern regexp)
+    {
+        Matcher matcher = regexp.matcher(string);
+        matcher.region(position, string.length());
+
+        return matcher.lookingAt();
+    }
+
+    public String getNextToken(String regexp)
+    {
+        return getNextToken(Pattern.compile(regexp));
+    }
+
     public String getNextToken(Pattern regexp)
     {
         if (isFinished())

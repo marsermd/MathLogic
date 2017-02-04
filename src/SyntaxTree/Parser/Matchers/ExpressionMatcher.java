@@ -5,14 +5,16 @@ import SyntaxTree.Parser.Parser;
 import SyntaxTree.Parser.StringWithPointer;
 import SyntaxTree.Structure.BinaryOperators.*;
 import SyntaxTree.Structure.Expression;
+import SyntaxTree.Structure.Function;
 import SyntaxTree.Structure.Predicate;
 import SyntaxTree.Structure.UnaryOperators.Each;
 import SyntaxTree.Structure.UnaryOperators.Increment;
 import SyntaxTree.Structure.UnaryOperators.Negation;
 import SyntaxTree.Structure.UnaryOperators.Some;
 import SyntaxTree.Structure.Variable;
-import sun.misc.Regexp;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
@@ -22,7 +24,7 @@ import java.util.regex.Pattern;
 public abstract class ExpressionMatcher
 {
     protected abstract String getRegexp();
-    protected abstract ExpressionBuilder getBuilder(String matched);
+    protected abstract ExpressionBuilder getBuilder(String matched, StringWithPointer unparsed, Parser parser);
 
     private Pattern pattern;
 
@@ -31,12 +33,12 @@ public abstract class ExpressionMatcher
         pattern = Pattern.compile(getRegexp());
     }
 
-    public ExpressionBuilder createBiulder(StringWithPointer string)
+    public ExpressionBuilder createBiulder(StringWithPointer unparsed, Parser parser)
     {
-        String matched = string.getNextToken(pattern);
+        String matched = unparsed.getNextToken(pattern);
         if (matched != null)
         {
-            return getBuilder(matched);
+            return getBuilder(matched, unparsed, parser);
         }
         return null;
     }
@@ -52,7 +54,7 @@ public abstract class ExpressionMatcher
         }
 
         @Override
-        protected ExpressionBuilder getBuilder(String matched)
+        protected ExpressionBuilder getBuilder(String matched, StringWithPointer unparsed, Parser parser)
         {
             return new ExpressionBuilder(matched, 10)
             {
@@ -82,7 +84,7 @@ public abstract class ExpressionMatcher
         }
 
         @Override
-        protected ExpressionBuilder getBuilder(String matched)
+        protected ExpressionBuilder getBuilder(String matched, StringWithPointer unparsed, Parser parser)
         {
             return new ExpressionBuilder(matched, 9)
             {
@@ -112,7 +114,7 @@ public abstract class ExpressionMatcher
         }
 
         @Override
-        protected ExpressionBuilder getBuilder(String matched)
+        protected ExpressionBuilder getBuilder(String matched, StringWithPointer unparsed, Parser parser)
         {
             return new ExpressionBuilder(matched, 8)
             {
@@ -142,7 +144,7 @@ public abstract class ExpressionMatcher
         }
 
         @Override
-        protected ExpressionBuilder getBuilder(String matched)
+        protected ExpressionBuilder getBuilder(String matched, StringWithPointer unparsed, Parser parser)
         {
             return new ExpressionBuilder(matched, 7)
             {
@@ -172,7 +174,7 @@ public abstract class ExpressionMatcher
         }
 
         @Override
-        protected ExpressionBuilder getBuilder(String matched)
+        protected ExpressionBuilder getBuilder(String matched, StringWithPointer unparsed, Parser parser)
         {
             return new ExpressionBuilder(matched, 6)
             {
@@ -202,7 +204,7 @@ public abstract class ExpressionMatcher
         }
 
         @Override
-        protected ExpressionBuilder getBuilder(String matched)
+        protected ExpressionBuilder getBuilder(String matched, StringWithPointer unparsed, Parser parser)
         {
             return new ExpressionBuilder(matched, 5)
             {
@@ -234,7 +236,7 @@ public abstract class ExpressionMatcher
         }
 
         @Override
-        protected ExpressionBuilder getBuilder(String matched)
+        protected ExpressionBuilder getBuilder(String matched, StringWithPointer unparsed, Parser parser)
         {
             return new ExpressionBuilder(matched, 4)
             {
@@ -262,7 +264,7 @@ public abstract class ExpressionMatcher
         }
 
         @Override
-        protected ExpressionBuilder getBuilder(String matched)
+        protected ExpressionBuilder getBuilder(String matched, StringWithPointer unparsed, Parser parser)
         {
             return new ExpressionBuilder(matched, 4)
             {
@@ -290,7 +292,7 @@ public abstract class ExpressionMatcher
         }
 
         @Override
-        protected ExpressionBuilder getBuilder(String matched)
+        protected ExpressionBuilder getBuilder(String matched, StringWithPointer unparsed, Parser parser)
         {
             return new ExpressionBuilder(matched, 4)
             {
@@ -318,7 +320,7 @@ public abstract class ExpressionMatcher
         }
 
         @Override
-        protected ExpressionBuilder getBuilder(String matched)
+        protected ExpressionBuilder getBuilder(String matched, StringWithPointer unparsed, Parser parser)
         {
             return new ExpressionBuilder(matched, 4)
             {
@@ -344,11 +346,11 @@ public abstract class ExpressionMatcher
         @Override
         protected String getRegexp()
         {
-            return Variable.VARIABLE_REGEX;
+            return Variable.VARIABLE_REGEX + "(?![0-9]*\\()";
         }
 
         @Override
-        protected ExpressionBuilder getBuilder(String matched)
+        protected ExpressionBuilder getBuilder(String matched, StringWithPointer unparsed, Parser parser)
         {
             return new ExpressionBuilder(matched, 1)
             {
@@ -372,15 +374,22 @@ public abstract class ExpressionMatcher
         @Override
         protected String getRegexp()
         {
-            return Predicate.PREDICATE_NAME_REGEX + Predicate.PREDICATE_ARGUMENTS_REGEX;
+            return Predicate.PREDICATE_NAME_REGEX;
         }
 
         @Override
-        protected ExpressionBuilder getBuilder(String matched)
+        protected ExpressionBuilder getBuilder(String matched, StringWithPointer unparsed, Parser parser)
         {
+            List<Expression> arguments = new ArrayList<Expression>();
+            if (unparsed.getNextToken("\\(") != null)
+            {
+                arguments = parser.parseToList(unparsed, Pattern.compile(","));
+            }
 
             return new ExpressionBuilder(matched, 1)
             {
+                private List<Expression> arguments;
+
                 @Override
                 public boolean shouldBuildImediately()
                 {
@@ -390,26 +399,53 @@ public abstract class ExpressionMatcher
                 @Override
                 public Expression createExpression(Stack<Expression> expressions, Parser parser)
                 {
-                    if (matched.contains("("))
-                    {
-                        String[] parts = matched.split("\\(", 2);
-                        String name = parts[0];
-
-                        String[] rawArguments = parts[1].substring(0, parts[1].length() - 1).split(",");
-                        Expression[] arguments = new Expression[rawArguments.length];
-
-                        for (int i = 0; i < rawArguments.length; i++)
-                        {
-                            arguments[i] = parser.parse(rawArguments[i]);
-                        }
-                        return new Predicate(name, arguments);
-                    }
-                    else
-                    {
-                        return new Predicate(matched, new Expression[0]);
-                    }
+                    return new Predicate(matched, arguments);
                 }
-            };
+
+                public ExpressionBuilder withInner(List<Expression> arguments)
+                {
+                    this.arguments = arguments;
+                    return this;
+                }
+            }.withInner(arguments);
+        }
+    }
+
+    public static class FunctionMatcher extends ExpressionMatcher
+    {
+        @Override
+        protected String getRegexp()
+        {
+            return Function.FUNCTION_NAME_REGEX;
+        }
+
+        @Override
+        protected ExpressionBuilder getBuilder(String matched, StringWithPointer unparsed, Parser parser)
+        {
+            List<Expression> arguments = parser.parseToList(unparsed, Pattern.compile(","));
+
+            return new ExpressionBuilder(matched, 1)
+            {
+                private List<Expression> arguments;
+
+                @Override
+                public boolean shouldBuildImediately()
+                {
+                    return true;
+                }
+
+                @Override
+                public Expression createExpression(Stack<Expression> expressions, Parser parser)
+                {
+                    return new Function(matched, arguments);
+                }
+
+                public ExpressionBuilder withInner(List<Expression> arguments)
+                {
+                    this.arguments = arguments;
+                    return this;
+                }
+            }.withInner(arguments);
         }
     }
     //endregion

@@ -2,6 +2,7 @@ package SyntaxTree.Parser.Matchers;
 
 import SyntaxTree.Parser.Builders.ExpressionBuilder;
 import SyntaxTree.Parser.Parser;
+import SyntaxTree.Parser.StringWithPointer;
 import SyntaxTree.Structure.Expression;
 
 import java.util.Stack;
@@ -32,7 +33,7 @@ public class ConcreteFormulaMatcher extends ExpressionMatcher
     }
 
     @Override
-    protected ExpressionBuilder getBuilder(String matched)
+    protected ExpressionBuilder getBuilder(String matched, StringWithPointer unparsed, Parser parser)
     {
         return new ExpressionBuilder(matched, -1)
         {

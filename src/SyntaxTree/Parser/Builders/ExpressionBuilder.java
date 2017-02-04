@@ -1,13 +1,13 @@
 package SyntaxTree.Parser.Builders;
 
 import SyntaxTree.Parser.Parser;
+import SyntaxTree.Parser.StringWithPointer;
 import SyntaxTree.Structure.Expression;
 
 import java.util.Stack;
-import java.util.regex.Pattern;
 
 /**
- * Created by marsermd on 11.01.2017.
+ * Created by marsermd on 04.02.2017.
  */
 public abstract class ExpressionBuilder
 {

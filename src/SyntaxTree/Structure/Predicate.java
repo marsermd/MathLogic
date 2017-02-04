@@ -11,7 +11,6 @@ import java.util.Set;
 public class Predicate extends Expression
 {
     public final static String PREDICATE_NAME_REGEX = "[A-Z][0-9]*";
-    public final static String PREDICATE_ARGUMENTS_REGEX = "(\\([a-z|0-9|+|*|,|'|(|)]+\\))?";
 
     private final String name;
     private final Expression[] expressions;
@@ -25,6 +24,13 @@ public class Predicate extends Expression
     {
         this.name = name;
         this.expressions = expressions;
+    }
+
+    public Predicate(String name, List<Expression> expressions)
+    {
+        this.name = name;
+        this.expressions = new Expression[expressions.size()];
+        expressions.toArray(this.expressions);
     }
 
     public String getName()

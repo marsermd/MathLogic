@@ -9,6 +9,7 @@ import java.util.*;
  */
 public class Variable extends Expression
 {
+    // matches variable regex, but does not match function regex
     public final static String VARIABLE_REGEX = "[a-z][0-9]*";
 
     private final String name;

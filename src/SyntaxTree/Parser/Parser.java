@@ -1,6 +1,7 @@
 package SyntaxTree.Parser;
 
 import SyntaxTree.Parser.Builders.ExpressionBuilder;
+import SyntaxTree.Parser.Builders.ExpressionBuilder;
 import SyntaxTree.Parser.Builders.ParenthesisHolder;
 import SyntaxTree.Parser.Matchers.ExpressionMatcher;
 import SyntaxTree.Parser.Matchers.ParenthesisMatcher;
@@ -10,12 +11,39 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Stack;
+import java.util.regex.Pattern;
 
 /**
  * Created by marsermd on 16.01.2017.
  */
 public class Parser
 {
+    private class ParseResult
+    {
+        private Expression expression;
+        private boolean aborted;
+
+        public boolean isAborted()
+        {
+            return aborted;
+        }
+
+        public void setAborted(boolean aborted)
+        {
+            this.aborted = aborted;
+        }
+
+        public Expression getExpression()
+        {
+            return expression;
+        }
+
+        public void setExpression(Expression expression)
+        {
+            this.expression = expression;
+        }
+    }
+
     public static class BadInputException extends RuntimeException
     {}
 
@@ -51,6 +79,7 @@ public class Parser
 
         matchers.add(new ExpressionMatcher.VariableMatcher());
         matchers.add(new ExpressionMatcher.PredicateMatcher());
+        matchers.add(new ExpressionMatcher.FunctionMatcher());
 
         return matchers;
     }
@@ -84,17 +113,62 @@ public class Parser
      */
     public Expression parse(String input)
     {
-        input = fixInputString(input);
-        StringWithPointer unparsed = new StringWithPointer(input);
+        StringWithPointer unparsed = new StringWithPointer(fixInputString(input));
+        return parse(unparsed);
+    }
 
+    public Expression parse(StringWithPointer unparsed)
+    {
+        return parse(unparsed, null).getExpression();
+    }
+
+    public List<Expression> parseToList(String input)
+    {
+        StringWithPointer unparsed = new StringWithPointer(fixInputString(input));
+        return parseToList(unparsed, Pattern.compile(","));
+    }
+
+    public List<Expression> parseToList(String input, Pattern stopSignRegexp)
+    {
+        StringWithPointer unparsed = new StringWithPointer(fixInputString(input));
+        return parseToList(unparsed, stopSignRegexp);
+    }
+
+    public List<Expression> parseToList(StringWithPointer unparsed, Pattern stopSignRegexp)
+    {
+        List<Expression> expressions = new ArrayList<Expression>();
+        while (!unparsed.isFinished())
+        {
+            ParseResult result = parse(unparsed, stopSignRegexp);
+            expressions.add(result.getExpression());
+            if (result.isAborted())
+            {
+                break;
+            }
+        }
+
+        return expressions;
+    }
+
+    private ParseResult parse(StringWithPointer unparsed, Pattern splitSignRegexp)
+    {
         Stack<ParenthesisHolder> parenthesis = new Stack<ParenthesisHolder>();
 
         //we could say that the whole expression is in one big parenthesis
         parenthesis.push(new ParenthesisHolder(this));
 
         ParenthesisMatcher parenthesisMatcher = new ParenthesisMatcher();
+
+        ParseResult result = new ParseResult();
+
         while (!unparsed.isFinished())
         {
+            // split sign found
+            if (splitSignRegexp != null && unparsed.getNextToken(splitSignRegexp) != null)
+            {
+                break;
+            }
+
             //opening parenthisis
             if (parenthesisMatcher.matchOpenParenthesis(unparsed))
             {
@@ -104,6 +178,12 @@ public class Parser
             //closing parenthisis
             if (parenthesisMatcher.matchClosedParenthesis(unparsed))
             {
+                if (parenthesis.size() == 1)
+                {
+                    // no real parenthesis to close
+                    result.setAborted(true);
+                    break;
+                }
                 ParenthesisHolder closed = parenthesis.pop();
                 parenthesis.peek().takeOtherParenthesisAsExpression(closed);
                 continue;
@@ -113,12 +193,13 @@ public class Parser
 
             for (ExpressionMatcher matcher: matchers)
             {
-                currentBuilder = matcher.createBiulder(unparsed);
+                currentBuilder = matcher.createBiulder(unparsed, this);
                 if (currentBuilder != null)
                 {
                     break;
                 }
             }
+
             parenthesis.peek().processBuilder(currentBuilder);
         }
 
@@ -127,6 +208,8 @@ public class Parser
             throw new BadInputException();
         }
 
-        return parenthesis.pop().closeParenthesis();
+        result.setExpression(parenthesis.pop().closeParenthesis());
+
+        return result;
     }
 }
