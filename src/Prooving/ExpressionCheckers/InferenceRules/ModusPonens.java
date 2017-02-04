@@ -20,9 +20,9 @@ public class ModusPonens implements ExpressionChecker
 
         Expression beta = expressions.get(currentLine);
 
-        for (int alphaBetaId = 0; alphaBetaId < expressions.size() && alphaBetaId < currentLine; alphaBetaId++)
+        for (int alphaBetaId = 0; alphaBetaId < currentLine; alphaBetaId++)
         {
-            for (int alphaId = 0; alphaId < alphaBetaId; alphaId++)
+            for (int alphaId = 0; alphaId < currentLine; alphaId++)
             {
                 Expression alphaBeta = expressions.get(alphaBetaId);
                 Expression alpha = expressions.get(alphaId);

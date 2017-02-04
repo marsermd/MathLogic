@@ -1,19 +1,18 @@
-package Prooving.ExpressionCheckers.Axioms.Arithmetical;
+package Prooving.ExpressionCheckers.Axioms.Predicate;
 
 import Prooving.ExpressionCheckers.Axioms.AxiomChecker;
 import Prooving.ExpressionCheckers.ExpressionCheckResult;
 import SyntaxTree.Structure.AnyFormula;
 import SyntaxTree.Structure.BinaryOperators.Implication;
 import SyntaxTree.Structure.Expression;
-import SyntaxTree.Structure.UnaryOperators.Each;
+import SyntaxTree.Structure.UnaryOperators.Some;
 import SyntaxTree.Structure.Variable;
 
 /**
  * Created by marsermd on 01.02.2017.
  */
-public class AxiomEach extends AxiomChecker
+public class AxiomSome extends AxiomChecker
 {
-
     @Override
     public ExpressionCheckResult checkMatchesAxiom(Expression currentLine)
     {
@@ -22,11 +21,11 @@ public class AxiomEach extends AxiomChecker
         AnyFormula phiWithTheta = new AnyFormula();
 
         Expression matcher = new Implication(
-            new Each(
+            phiWithTheta,
+            new Some(
                 alpha,
                 phi
-            ),
-            phiWithTheta
+            )
         );
 
         if (!matcher.fairEquals(currentLine))
@@ -47,13 +46,19 @@ public class AxiomEach extends AxiomChecker
             // can't replace alpha with same theta to get phiWithTheta
             return ExpressionCheckResult.wrong();
         }
-        if (!(theta.getEqualExpression() instanceof Variable))
+
+        if (theta.getEqualExpression() == null)
         {
-            // theta is not a variable
-            return ExpressionCheckResult.wrong();
+            // it defenitely can't be binded
+            return ExpressionCheckResult.right();
         }
+
         for (Variable thetaFree: theta.getFree())
         {
+            if (thetaFree.equals(alpha))
+            {
+                continue;
+            }
             if (phiWithTheta.getBindedAndCache().contains(thetaFree))
             {
                 // theta is not free for replacing

@@ -33,6 +33,11 @@ public abstract class ExpressionMatcher
         pattern = Pattern.compile(getRegexp());
     }
 
+    protected ExpressionMatcher(String regexp)
+    {
+        pattern = Pattern.compile(regexp);
+    }
+
     public ExpressionBuilder createBiulder(StringWithPointer unparsed, Parser parser)
     {
         String matched = unparsed.getNextToken(pattern);

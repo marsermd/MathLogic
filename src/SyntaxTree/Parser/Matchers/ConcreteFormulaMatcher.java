@@ -22,6 +22,7 @@ public class ConcreteFormulaMatcher extends ExpressionMatcher
      */
     public ConcreteFormulaMatcher(String from, Expression to)
     {
+        super(from);
         token = from;
         instance = to;
     }
@@ -40,7 +41,7 @@ public class ConcreteFormulaMatcher extends ExpressionMatcher
             @Override
             public boolean shouldBuildImediately()
             {
-                return false;
+                return true;
             }
 
             @Override

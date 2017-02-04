@@ -10,7 +10,7 @@ import java.util.*;
 public class Variable extends Expression
 {
     // matches variable regex, but does not match function regex
-    public final static String VARIABLE_REGEX = "[a-z][0-9]*";
+    public final static String VARIABLE_REGEX = "([a-z][0-9]*|0)";
 
     private final String name;
 
@@ -33,7 +33,7 @@ public class Variable extends Expression
     @Override
     public boolean fairEquals(Expression expression)
     {
-        if (expression.getClass() == Variable.class)
+        if (expression instanceof Variable)
         {
             return name.equals(((Variable)expression).getName());
         }

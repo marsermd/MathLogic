@@ -1,7 +1,8 @@
 package Prooving.ProofCheckers;
 
-import Prooving.ExpressionCheckers.Axioms.Arithmetical.AxiomEach;
-import Prooving.ExpressionCheckers.Axioms.Arithmetical.AxiomSome;
+import Prooving.ExpressionCheckers.Axioms.Arithmetical.*;
+import Prooving.ExpressionCheckers.Axioms.Predicate.AxiomEach;
+import Prooving.ExpressionCheckers.Axioms.Predicate.AxiomSome;
 import Prooving.ExpressionCheckers.Axioms.Classical.*;
 import Prooving.ExpressionCheckers.ExpressionCheckResult;
 import Prooving.ExpressionCheckers.ExpressionChecker;
@@ -26,6 +27,7 @@ public abstract class ProofChecker<TProofResult>
     public static ExpressionChecker[] getFormalArithmeticsCheckers()
     {
         return new ExpressionChecker[] {
+            // classical logic
             new UseAssumptionRule(),
             new AOne(),
             new BTwo(),
@@ -37,11 +39,22 @@ public abstract class ProofChecker<TProofResult>
             new HEight(),
             new INine(),
             new JTen(),
+            new ModusPonens(),
+            // Predicates
             new AxiomEach(),
             new AxiomSome(),
-            new ModusPonens(),
             new EachRule(),
-            new SomeRule()
+            new SomeRule(),
+            // Formal arithmetics
+            new ArithmeticAOne(),
+            new ArithmeticBTwo(),
+            new ArithmeticCThree(),
+            new ArithmeticDFour(),
+            new ArithmeticEFive(),
+            new ArithmeticFSix(),
+            new ArithmeticGSeven(),
+            new ArithmeticHEight(),
+            new ArithmeticINine()
         };
     }
 

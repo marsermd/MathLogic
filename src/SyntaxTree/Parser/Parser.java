@@ -1,7 +1,6 @@
 package SyntaxTree.Parser;
 
 import SyntaxTree.Parser.Builders.ExpressionBuilder;
-import SyntaxTree.Parser.Builders.ExpressionBuilder;
 import SyntaxTree.Parser.Builders.ParenthesisHolder;
 import SyntaxTree.Parser.Matchers.ExpressionMatcher;
 import SyntaxTree.Parser.Matchers.ParenthesisMatcher;
@@ -61,7 +60,7 @@ public class Parser
         }
     }
 
-    private static List<ExpressionMatcher> getAllMatchers()
+    public static List<ExpressionMatcher> getDefaultMatchers()
     {
         List<ExpressionMatcher> matchers = new ArrayList<ExpressionMatcher>();
 
@@ -86,7 +85,12 @@ public class Parser
 
     public static Parser createDefault()
     {
-        return new Parser(getAllMatchers());
+        return new Parser(getDefaultMatchers());
+    }
+
+    public void addMatchers(List<ExpressionMatcher> matcher)
+    {
+        matchers.addAll(matcher);
     }
 
     public void addMatcher(ExpressionMatcher matcher)

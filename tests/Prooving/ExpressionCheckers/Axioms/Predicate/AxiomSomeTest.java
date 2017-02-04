@@ -1,7 +1,8 @@
-package Prooving.ExpressionCheckers.Axioms.Arithmetical;
+package Prooving.ExpressionCheckers.Axioms.Predicate;
 
 import Prooving.ExpressionCheckers.Axioms.AxiomChecker;
 import Prooving.ExpressionCheckers.Axioms.AxiomTest;
+import Prooving.ExpressionCheckers.Axioms.Predicate.AxiomSome;
 import org.junit.Test;
 
 /**

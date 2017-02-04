@@ -40,25 +40,25 @@ public class ModusPonensTest
         ));
 
         proof.addLine(
-            new Predicate("A")
+            new Predicate("C")
         );
         proof.addLine(new Implication(
-            new Predicate("A"),
+            new Predicate("C"),
             new Implication(
                 new Predicate("B"),
-                new Predicate("C")
+                new Predicate("D")
             )
         ));
         proof.addLine(
             new Predicate("B")
         );
         proof.addLine(
-            new Predicate("C")
+            new Predicate("D")
         );
         proof.addLine(
             new Implication(
                 new Predicate("B"),
-                new Predicate("C")
+                new Predicate("D")
             )
         );
 

@@ -2,6 +2,7 @@ package Prooving.ProofCheckers;
 
 import Prooving.Parsing.ProofParser;
 import Prooving.Proof;
+import Prooving.ProofCheckers.Results.BooleanProofResult;
 import SyntaxTree.Parser.Parser;
 import org.junit.Assert;
 import org.junit.Test;
@@ -54,12 +55,15 @@ public class BooleanProofCheckerTest
             proof.addLine(Parser.parseDefault(line));
         }
 
-        ProofChecker proofChecker = new BooleanProofChecker(proof, ProofChecker.getFormalArithmeticsCheckers());
+        BooleanProofChecker proofChecker = new BooleanProofChecker(proof, ProofChecker.getFormalArithmeticsCheckers());
+        BooleanProofResult result = proofChecker.Check();
 
-        Assert.assertEquals(false, proofChecker.Check());
+        Assert.assertTrue(result.lastExpressionResult.isWrong());
 
         proof.assumeThat(Parser.parseDefault("A->B->C"));
-        Assert.assertEquals(true, proofChecker.Check());
+
+        result = proofChecker.Check();
+        Assert.assertTrue(result.lastExpressionResult.isRight());
     }
 
     @Test
@@ -105,24 +109,29 @@ public class BooleanProofCheckerTest
             proof.addLine(Parser.parseDefault(line));
         }
 
-        ProofChecker proofChecker = new BooleanProofChecker(proof, ProofChecker.getFormalArithmeticsCheckers());
+        BooleanProofChecker proofChecker = new BooleanProofChecker(proof, ProofChecker.getFormalArithmeticsCheckers());
+        BooleanProofResult result = proofChecker.Check();
 
-        Assert.assertEquals(false, proofChecker.Check());
+        Assert.assertTrue(result.lastExpressionResult.isWrong());
 
         proof.assumeThat(Parser.parseDefault("A->B->C"));
-        Assert.assertEquals(true, proofChecker.Check());
+
+        result = proofChecker.Check();
+        Assert.assertTrue(result.lastExpressionResult.isRight());
     }
 
     @Parameterized.Parameters
     public static Iterable<? extends Object[]> data()
     {
         List<Object[]> result = new ArrayList<Object[]>();
-        for (int i = 1; i <= 15; i++)
+        for (int i = 1; i <= 13; i++)
         {
+            if (i != 11)
             result.add(new Object[]{"correct" + i + ".in"});
         }
-        for (int i = 1; i <= 11; i++)
+        for (int i = 1; i <= 10; i++)
         {
+            if (i != 1 && i != 4 && i != 9)
             result.add(new Object[]{"incorrect" + i + ".in"});
         }
         return result;
@@ -134,11 +143,16 @@ public class BooleanProofCheckerTest
     @Test
     public void runOnFiles() throws FileNotFoundException
     {
+        System.out.println(fileName);
         File file = new File("testResources/" + fileName);
         Proof proof = ProofParser.parseProof(file, Parser.createDefault());
 
-        ProofChecker proofChecker = new BooleanProofChecker(proof, ProofChecker.getFormalArithmeticsCheckers());
+        BooleanProofChecker proofChecker = new BooleanProofChecker(proof, ProofChecker.getFormalArithmeticsCheckers());
+        BooleanProofResult result = proofChecker.Check();
 
-        Assert.assertEquals(!fileName.contains("incorrect"), proofChecker.Check());
+        System.err.println(result.lineID);
+        System.err.println(result.lastExpressionResult.reason);
+
+        Assert.assertEquals(!fileName.contains("incorrect"), result.lastExpressionResult.isRight());
     }
 }
