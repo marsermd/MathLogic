@@ -20,6 +20,7 @@ public class DisjunctionMatcher extends ExpressionMatcher
         return "|";
     }
 
+
     @Override
     protected boolean useAsString()
     {
@@ -31,6 +32,12 @@ public class DisjunctionMatcher extends ExpressionMatcher
     {
         return new ExpressionBuilder(matched, 9)
         {
+            @Override
+            public boolean isRightAssociative()
+            {
+                return false;
+            }
+
             @Override
             public boolean shouldBuildImediately()
             {

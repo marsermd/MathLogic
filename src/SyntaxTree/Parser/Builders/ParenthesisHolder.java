@@ -36,8 +36,16 @@ public class ParenthesisHolder
             return;
         }
 
-        while (!builders.empty() && builders.peek().getPriority() < currentBuilder.getPriority())
+        while (!builders.empty())
         {
+            if (builders.peek().getPriority() > currentBuilder.getPriority())
+            {
+                break;
+            }
+            if (builders.peek().getPriority() == currentBuilder.getPriority() && currentBuilder.isRightAssociative())
+            {
+                break;
+            }
             compileBuilderToExpressions();
         }
 

@@ -249,11 +249,11 @@ public class ParserTest
             new Implication(
                 new Predicate("A"),
                 new Disjunction(
-                    new Conjunction(
-                        new Predicate("B"),
-                        new Predicate("C")
-                    ),
                     new Disjunction(
+                        new Conjunction(
+                            new Predicate("B"),
+                            new Predicate("C")
+                        ),
                         new Conjunction(
                             new Predicate("D"),
                             new Each(
@@ -265,9 +265,9 @@ public class ParserTest
                                     )
                                 )
                             )
-                        ),
-                        new Predicate("H")
-                    )
+                        )
+                    ),
+                    new Predicate("H")
                 )
             ),
             parser.parse("A->B&C|D&@e!?fG|H")

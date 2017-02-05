@@ -85,18 +85,21 @@ public abstract class ProofChecker<TProofResult>
         {
             if (i % 1000 == 0)
             {
-                System.out.println(i);
+                System.out.println("Checked till line:" + i);
             }
             ExpressionCheckResult lineResult = ExpressionCheckResult.wrong();
+            ExpressionChecker lineChecker = null;
+
             for (ExpressionChecker checker: checkers)
             {
-                //long t1 = System.nanoTime();
                 ExpressionCheckResult tmpResult = checker.checkMatches(proof, i, checkedHashToLine, assumptionsHashes, checkedImplicationsRightParts);
-                lineResult = ExpressionCheckResult.getBest(lineResult, tmpResult);
-                //long t2 = System.nanoTime();
-                //System.out.println("checker " + checker.getClass().getSimpleName() + (t2 - t1));
+                if (!lineResult.isBetterThan(tmpResult))
+                {
+                    lineChecker = checker;
+                    lineResult = tmpResult;
+                }
             }
-            OnCheckResult(i, lineResult);
+            OnCheckResult(i, lineResult, lineChecker);
             if (stopped)
             {
                 return;
@@ -116,6 +119,6 @@ public abstract class ProofChecker<TProofResult>
         }
     }
 
-    protected abstract void OnCheckResult(int currentLine, ExpressionCheckResult result);
+    protected abstract void OnCheckResult(int currentLine, ExpressionCheckResult result, ExpressionChecker lineChecker);
     public abstract TProofResult Check();
 }

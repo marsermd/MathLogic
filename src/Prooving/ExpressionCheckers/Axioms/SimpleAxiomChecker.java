@@ -1,6 +1,5 @@
 package Prooving.ExpressionCheckers.Axioms;
 
-import Prooving.ExpressionCheckers.Axioms.AxiomChecker;
 import Prooving.ExpressionCheckers.ExpressionCheckResult;
 import SyntaxTree.Parser.Matchers.ConcreteFormulaMatcher;
 import SyntaxTree.Parser.Parser;

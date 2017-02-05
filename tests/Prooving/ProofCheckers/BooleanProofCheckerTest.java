@@ -2,7 +2,8 @@ package Prooving.ProofCheckers;
 
 import Prooving.Parsing.ProofParser;
 import Prooving.Proof;
-import Prooving.ProofCheckers.Results.BooleanProofResult;
+import Prooving.ProofCheckers.Boolean.BooleanProofChecker;
+import Prooving.ProofCheckers.Boolean.BooleanProofResult;
 import SyntaxTree.Parser.Parser;
 import org.junit.Assert;
 import org.junit.Test;

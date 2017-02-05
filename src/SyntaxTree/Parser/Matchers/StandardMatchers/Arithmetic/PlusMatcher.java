@@ -32,6 +32,12 @@ public class PlusMatcher extends ExpressionMatcher
         return new ExpressionBuilder(matched, 6)
         {
             @Override
+            public boolean isRightAssociative()
+            {
+                return false;
+            }
+
+            @Override
             public boolean shouldBuildImediately()
             {
                 return false;

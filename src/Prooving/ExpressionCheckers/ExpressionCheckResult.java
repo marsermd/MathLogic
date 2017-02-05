@@ -53,23 +53,23 @@ public class ExpressionCheckResult
         return type == Type.Wrong;
     }
 
-    public static ExpressionCheckResult getBest(ExpressionCheckResult a, ExpressionCheckResult b)
+    public boolean isBetterThan(ExpressionCheckResult other)
     {
-        if (a.isRight())
+        if (isRight())
         {
-            return a;
+            return true;
         }
-        if (b.isRight())
+        if (other.isRight())
         {
-            return b;
+            return false;
         }
-        if (a.reason != null)
+        if (reason != null)
         {
-            return a;
+            return true;
         }
         else
         {
-            return b;
+            return false;
         }
     }
 

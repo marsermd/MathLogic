@@ -25,6 +25,11 @@ public abstract class ExpressionBuilder
         return priority;
     }
 
+    public boolean isRightAssociative()
+    {
+        return true;
+    }
+
     public ExpressionBuilder(String matched, int priority)
     {
         this.matched = matched;

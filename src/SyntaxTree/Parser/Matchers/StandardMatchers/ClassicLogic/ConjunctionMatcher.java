@@ -23,7 +23,7 @@ public class ConjunctionMatcher extends ExpressionMatcher
     @Override
     protected boolean useAsString()
     {
-        return true;
+        return false;
     }
 
     @Override
@@ -31,6 +31,12 @@ public class ConjunctionMatcher extends ExpressionMatcher
     {
         return new ExpressionBuilder(matched, 8)
         {
+            @Override
+            public boolean isRightAssociative()
+            {
+                return false;
+            }
+
             @Override
             public boolean shouldBuildImediately()
             {

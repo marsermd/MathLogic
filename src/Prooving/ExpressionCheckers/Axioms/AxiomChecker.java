@@ -18,7 +18,10 @@ public abstract class AxiomChecker implements ExpressionChecker
     public abstract ExpressionCheckResult checkMatchesAxiom(Expression expression);
 
     @Override
-    public ExpressionCheckResult checkMatches(Proof proof, int currentLine, HashMap<Expression, Integer> checkedHashToLine, HashSet<Expression> assumptionsHashes, HashMap<Expression, List<Implication>> checkedImplicationsRightParts)
+    public ExpressionCheckResult checkMatches(Proof proof, int currentLine,
+                                               HashMap<Expression, Integer> checkedHashToLine,
+                                               HashSet<Expression> assumptionsHashes,
+                                               HashMap<Expression, List<Implication>> checkedImplicationsRightParts)
     {
         return checkMatchesAxiom(proof.getProofLines().get(currentLine));
     }
