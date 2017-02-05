@@ -80,6 +80,25 @@ public class Predicate extends Expression
     }
 
     @Override
+    public void toParsableString(StringBuilder builder)
+    {
+        builder.append(name);
+        if (expressions.length != 0)
+        {
+            builder.append("(");
+            for (int i = 0; i < expressions.length; i++)
+            {
+                if (i != 0)
+                {
+                    builder.append(",");
+                }
+                expressions[i].toParsableString(builder);
+            }
+            builder.append(")");
+        }
+    }
+
+    @Override
     public Expression replaceInternal(Variable toReplace, Expression result, List<Variable> quantified)
     {
         Expression[] newExpressions = new Expression[expressions.length];

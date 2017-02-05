@@ -51,6 +51,16 @@ public abstract class BinaryOperator extends Operator
     }
 
     @Override
+    public void toParsableString(StringBuilder builder)
+    {
+        builder.append("(");
+        left.toParsableString(builder);
+        builder.append(getSymbol());
+        right.toParsableString(builder);
+        builder.append(")");
+    }
+
+    @Override
     public boolean fairEquals(Expression o)
     {
         if (o.getClass() != getClass())

@@ -22,6 +22,13 @@ public class Negation extends UnaryOperator
     }
 
     @Override
+    public void toParsableString(StringBuilder builder)
+    {
+        builder.append("!");
+        getExpression().toParsableString(builder);
+    }
+
+    @Override
     public Expression replaceInternal(Variable toReplace, Expression result, List<Variable> quantified)
     {
         return new Negation(getExpression().replaceInternal(toReplace, result, quantified));

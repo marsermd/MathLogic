@@ -15,6 +15,16 @@ import java.util.Set;
  */
 public abstract class Quantifier extends UnaryOperator
 {
+    @Override
+    public void toParsableString(StringBuilder builder)
+    {
+        builder.append("(");
+        builder.append(getSymbol()); // get symbol also holds quantified
+        builder.append("(");
+        getExpression().toParsableString(builder);
+        builder.append("))");
+    }
+
     private Expression quantified;
 
     public Quantifier(Expression quantified, Expression expression)

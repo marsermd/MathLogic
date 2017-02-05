@@ -103,6 +103,8 @@ public abstract class Expression
         return replaceInternal(toReplace, result, new ArrayList<Variable>());
     }
 
+    public abstract void toParsableString(StringBuilder builder);
+
     public abstract Expression replaceInternal(Variable toReplace, Expression result, List<Variable> quantified);
 
     public abstract void getBindedAndFree(Set<Variable> binded, Set<Variable> free, List<Variable> quantified);

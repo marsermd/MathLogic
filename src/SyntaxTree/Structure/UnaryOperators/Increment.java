@@ -22,6 +22,13 @@ public class Increment extends UnaryOperator
     }
 
     @Override
+    public void toParsableString(StringBuilder builder)
+    {
+        getExpression().toParsableString(builder);
+        builder.append("'");
+    }
+
+    @Override
     public Expression replaceInternal(Variable toReplace, Expression result, List<Variable> quantified)
     {
         return new Increment(getExpression().replaceInternal(toReplace, result, quantified));

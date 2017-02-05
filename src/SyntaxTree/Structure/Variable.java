@@ -43,6 +43,12 @@ public class Variable extends Expression
     }
 
     @Override
+    public void toParsableString(StringBuilder builder)
+    {
+        builder.append(name);
+    }
+
+    @Override
     public Expression replaceInternal(Variable toReplace, Expression result, List<Variable> quantified)
     {
         if (this.fairEquals(toReplace) && !quantified.contains(this))

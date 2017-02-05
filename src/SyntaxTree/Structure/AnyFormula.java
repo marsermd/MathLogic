@@ -61,6 +61,19 @@ public class AnyFormula extends Expression
     }
 
     @Override
+    public void toParsableString(StringBuilder builder)
+    {
+        if (equalExpression != null)
+        {
+            equalExpression.toParsableString(builder);
+        }
+        else
+        {
+            throw new InvalidStateException("equalExpression == null, but truing to get parsable string");
+        }
+    }
+
+    @Override
     public Expression replaceInternal(Variable toReplace, Expression result, List<Variable> quantified)
     {
         if (equalExpression == null)
