@@ -15,11 +15,21 @@ import java.util.Set;
 public abstract class BinaryOperator extends Operator
 {
     private Expression left, right;
+    protected int hash;
 
     public BinaryOperator(Expression left, Expression right)
     {
         this.left = left;
         this.right = right;
+
+        hash = StringHash.calculate(getSymbol(), HASH_PRIME);
+
+        hash *= HASH_PRIME;
+        hash += left.getExpressionHash();
+
+
+        hash *= HASH_PRIME;
+        hash += right.getExpressionHash();
     }
 
     public Expression getLeft()
@@ -55,16 +65,7 @@ public abstract class BinaryOperator extends Operator
     @Override
     public int getExpressionHash()
     {
-        int result = StringHash.calculate(getClass().toString() + getSymbol(), HASH_PRIME);
-
-        result *= HASH_PRIME;
-        result += left.getExpressionHash();
-
-
-        result *= HASH_PRIME;
-        result += right.getExpressionHash();
-
-        return result;
+        return hash;
     }
 
     @Override

@@ -15,9 +15,14 @@ public abstract class UnaryOperator extends Expression
 {
     private Expression expression;
 
+    protected int hash;
     public UnaryOperator(Expression expression)
     {
         this.expression = expression;
+
+        hash = StringHash.calculate(getSymbol(), HASH_PRIME);
+        hash *= HASH_PRIME;
+        hash += expression.getExpressionHash();
     }
 
     public Expression getExpression()
@@ -56,11 +61,6 @@ public abstract class UnaryOperator extends Expression
     @Override
     public int getExpressionHash()
     {
-        int result = StringHash.calculate(getClass().toString() + getSymbol(), HASH_PRIME);
-
-        result *= HASH_PRIME;
-        result += expression.getExpressionHash();
-
-        return result;
+        return hash;
     }
 }

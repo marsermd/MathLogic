@@ -13,10 +13,12 @@ public class Variable extends Expression
     public final static String VARIABLE_REGEX = "([a-z][0-9]*|0)";
 
     private final String name;
+    private final int hash;
 
     public Variable(String name)
     {
         this.name = name;
+        this.hash = StringHash.calculate("var" + name, HASH_PRIME);
     }
 
     public String getName()
@@ -53,7 +55,7 @@ public class Variable extends Expression
     @Override
     public int getExpressionHash()
     {
-        return StringHash.calculate(getClass().toString() + name, HASH_PRIME);
+        return hash;
     }
 
     @Override

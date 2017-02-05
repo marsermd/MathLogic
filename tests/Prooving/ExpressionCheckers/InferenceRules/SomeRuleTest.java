@@ -50,9 +50,9 @@ public class SomeRuleTest
         );
 
         SomeRule rule = new SomeRule();
-        Assert.assertTrue(rule.checkMatches(proof, 1).isRight());
-        Assert.assertFalse(rule.checkMatches(proof, 2).isRight());
-        Assert.assertTrue(rule.checkMatches(proof, 3).isRight());
+//        Assert.assertTrue(rule.checkMatches(proof, 1, , ).isRight());
+//        Assert.assertFalse(rule.checkMatches(proof, 2, , ).isRight());
+//        Assert.assertTrue(rule.checkMatches(proof, 3, , ).isRight());
     }
 
     @Test
@@ -81,7 +81,7 @@ public class SomeRuleTest
             );
 
             SomeRule rule = new SomeRule();
-            Assert.assertTrue(rule.checkMatches(proof, 1).isRight());
+//            Assert.assertTrue(rule.checkMatches(proof, 1, , ).isRight());
         }
         {
             Proof proof = new Proof();
@@ -100,7 +100,7 @@ public class SomeRuleTest
             );
 
             SomeRule rule = new SomeRule();
-            Assert.assertFalse(rule.checkMatches(proof, 1).isRight());
+//            Assert.assertFalse(rule.checkMatches(proof, 1, , ).isRight());
         }
     }
 }

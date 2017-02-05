@@ -14,6 +14,11 @@ public class AnyFormula extends Expression
 {
     private Expression equalExpression = null;
 
+    public void reset()
+    {
+        this.equalExpression = null;
+    }
+
     public void setEqualExpression(Expression equalExpression)
     {
         this.equalExpression = equalExpression;
@@ -70,7 +75,7 @@ public class AnyFormula extends Expression
     {
         if (equalExpression == null)
         {
-            throw new InvalidStateException("equalExpression == null, but truing to get hash");
+            return 0;
         }
         return equalExpression.getExpressionHash();
     }

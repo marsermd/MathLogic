@@ -11,20 +11,8 @@ import SyntaxTree.Structure.Expression;
  */
 public class CThree extends SimpleAxiomChecker
 {
-    @Override
-    protected Expression getScheme()
+    public CThree()
     {
-        AnyFormula a = new AnyFormula();
-        AnyFormula b = new AnyFormula();
-        return new Implication(
-            a,
-            new Implication(
-                b,
-                new Conjunction(
-                    a,
-                    b
-                )
-            )
-        );
+        super("a->b->(a&b)", "a", "b");
     }
 }

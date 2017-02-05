@@ -8,9 +8,8 @@ import SyntaxTree.Structure.Expression;
  */
 public class ArithmeticHEight extends SimpleAxiomChecker
 {
-    @Override
-    protected Expression getScheme()
+    public ArithmeticHEight()
     {
-        return fromString("a*b'=a*b+a", "a", "b");
+        super("a*b'=a*b+a", "a", "b");
     }
 }

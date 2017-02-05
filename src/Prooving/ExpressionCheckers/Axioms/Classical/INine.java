@@ -11,27 +11,8 @@ import SyntaxTree.Structure.UnaryOperators.Negation;
  */
 public class INine extends SimpleAxiomChecker
 {
-    @Override
-    protected Expression getScheme()
+    public INine()
     {
-        AnyFormula a = new AnyFormula();
-        AnyFormula b = new AnyFormula();
-        return new Implication(
-            new Implication(
-                a,
-                b
-            ),
-            new Implication(
-                new Implication(
-                    a,
-                    new Negation(
-                        b
-                    )
-                ),
-                new Negation(
-                    a
-                )
-            )
-        );
+        super("(a->b)->(a->!b)->!a", "a", "b");
     }
 }

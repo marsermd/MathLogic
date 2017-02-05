@@ -8,9 +8,8 @@ import SyntaxTree.Structure.Expression;
  */
 public class ArithmeticFSix extends SimpleAxiomChecker
 {
-    @Override
-    protected Expression getScheme()
+    public ArithmeticFSix()
     {
-        return fromString("a+0=a", "a");
+        super("a+0=a", "a");
     }
 }

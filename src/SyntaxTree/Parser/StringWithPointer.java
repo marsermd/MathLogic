@@ -48,9 +48,21 @@ public class StringWithPointer
         return matcher.lookingAt();
     }
 
-    public String getNextToken(String regexp)
+    public String getNextTokenNonRegexp(String prefix)
     {
-        return getNextToken(Pattern.compile(regexp));
+        if (isFinished())
+        {
+            return null;
+        }
+
+        if (!string.startsWith(prefix, position))
+        {
+            return null;
+        }
+
+        position += prefix.length();
+
+        return prefix;
     }
 
     public String getNextToken(Pattern regexp)

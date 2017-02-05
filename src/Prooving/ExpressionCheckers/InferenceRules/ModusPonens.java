@@ -6,6 +6,9 @@ import Prooving.Proof;
 import SyntaxTree.Structure.BinaryOperators.Implication;
 import SyntaxTree.Structure.Expression;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -14,28 +17,21 @@ import java.util.List;
 public class ModusPonens implements ExpressionChecker
 {
     @Override
-    public ExpressionCheckResult checkMatches(Proof proof, int currentLine)
+    public ExpressionCheckResult checkMatches(Proof proof,
+                                              int currentLine,
+                                              HashMap<Expression, Integer> checkedHashToLine,
+                                              HashSet<Expression> assumptionsHashes, HashMap<Expression, List<Implication>> checkedImplicationsRightParts)
     {
         List<Expression> expressions = proof.getProofLines();
 
         Expression beta = expressions.get(currentLine);
 
-        for (int alphaBetaId = 0; alphaBetaId < currentLine; alphaBetaId++)
+        List<Implication> aphaBetas = checkedImplicationsRightParts.getOrDefault(beta, Collections.<Implication>emptyList());
+        for (Implication alphaBeta: aphaBetas)
         {
-            for (int alphaId = 0; alphaId < currentLine; alphaId++)
+            if (checkedHashToLine.containsKey(alphaBeta.getLeft()))
             {
-                Expression alphaBeta = expressions.get(alphaBetaId);
-                Expression alpha = expressions.get(alphaId);
-                if (
-                    alphaBeta.fairEquals(
-                        new Implication(
-                            alpha,
-                            beta
-                        )
-                    ))
-                {
-                    return ExpressionCheckResult.right();
-                }
+                return ExpressionCheckResult.right();
             }
         }
         return ExpressionCheckResult.wrong();

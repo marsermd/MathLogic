@@ -8,9 +8,8 @@ import SyntaxTree.Structure.Expression;
  */
 public class ArithmeticGSeven extends SimpleAxiomChecker
 {
-    @Override
-    protected Expression getScheme()
+    public ArithmeticGSeven()
     {
-        return fromString("a*0=0", "a");
+        super("a*0=0", "a");
     }
 }

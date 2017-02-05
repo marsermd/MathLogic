@@ -12,6 +12,7 @@ public class Function extends Expression
 {
     public final static String FUNCTION_NAME_REGEX = "[a-z][0-9]*\\(";
 
+    private int hash;
     private final String name;
     private final Expression[] expressions;
 
@@ -24,6 +25,7 @@ public class Function extends Expression
     {
         this.name = name;
         this.expressions = expressions;
+        initHash();
     }
 
     public Function(String name, List<Expression> expressions)
@@ -31,6 +33,17 @@ public class Function extends Expression
         this.name = name;
         this.expressions = new Expression[expressions.size()];
         expressions.toArray(this.expressions);
+        initHash();
+    }
+
+    private void initHash()
+    {
+        hash = StringHash.calculate(getClass().toString() + name, HASH_PRIME);
+        for (Expression expression : expressions)
+        {
+            hash *= HASH_PRIME;
+            hash += expression.getExpressionHash();
+        }
     }
 
     public String getName()
@@ -80,13 +93,7 @@ public class Function extends Expression
     @Override
     public int getExpressionHash()
     {
-        int result = StringHash.calculate(getClass().toString() + name, HASH_PRIME);
-        for (Expression expression : expressions)
-        {
-            result *= HASH_PRIME;
-            result += expression.getExpressionHash();
-        }
-        return result;
+        return hash;
     }
 
     @Override

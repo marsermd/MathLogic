@@ -11,9 +11,10 @@ import Prooving.ExpressionCheckers.InferenceRules.ModusPonens;
 import Prooving.ExpressionCheckers.InferenceRules.SomeRule;
 import Prooving.ExpressionCheckers.InferenceRules.UseAssumptionRule;
 import Prooving.Proof;
+import SyntaxTree.Structure.BinaryOperators.Implication;
+import SyntaxTree.Structure.Expression;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by marsermd on 18.01.2017.
@@ -74,18 +75,43 @@ public abstract class ProofChecker<TProofResult>
 
     protected void RunCheck()
     {
+        HashMap<Expression, Integer> checkedHashToLine = new HashMap<Expression, Integer>();
+        HashMap<Expression, List<Implication>> checkedImplicationsRightParts = new HashMap<Expression, List<Implication>>();
+        HashSet<Expression> assumptionsHashes = new HashSet<Expression>();
+        assumptionsHashes.addAll(proof.getAssumptions());
+
         stopped = false;
         for (int i = 0; i < proof.getProofLines().size(); i++)
         {
+            if (i % 1000 == 0)
+            {
+                System.out.println(i);
+            }
             ExpressionCheckResult lineResult = ExpressionCheckResult.wrong();
             for (ExpressionChecker checker: checkers)
             {
-                lineResult = ExpressionCheckResult.getBest(lineResult, checker.checkMatches(proof, i));
+                //long t1 = System.nanoTime();
+                ExpressionCheckResult tmpResult = checker.checkMatches(proof, i, checkedHashToLine, assumptionsHashes, checkedImplicationsRightParts);
+                lineResult = ExpressionCheckResult.getBest(lineResult, tmpResult);
+                //long t2 = System.nanoTime();
+                //System.out.println("checker " + checker.getClass().getSimpleName() + (t2 - t1));
             }
             OnCheckResult(i, lineResult);
             if (stopped)
             {
                 return;
+            }
+
+            Expression current = proof.getProofLines().get(i);
+            checkedHashToLine.put(current, i);
+            if (current instanceof Implication)
+            {
+                Implication currentImplication = (Implication) current;
+                List<Implication> currentList = checkedImplicationsRightParts.getOrDefault(
+                    currentImplication.getRight(),
+                    new ArrayList<Implication>());
+                currentList.add(currentImplication);
+                checkedImplicationsRightParts.put(currentImplication.getRight(), currentList);
             }
         }
     }

@@ -11,30 +11,8 @@ import SyntaxTree.Structure.Expression;
  */
 public class HEight extends SimpleAxiomChecker
 {
-    @Override
-    protected Expression getScheme()
+    public HEight()
     {
-        AnyFormula a = new AnyFormula();
-        AnyFormula b = new AnyFormula();
-        AnyFormula c = new AnyFormula();
-        return new Implication(
-            new Implication(
-                a,
-                c
-            ),
-            new Implication(
-                new Implication(
-                    b,
-                    c
-                ),
-                new Implication(
-                    new Disjunction(
-                        a,
-                        b
-                    ),
-                    c
-                )
-            )
-        );
+        super("(a->c)->(b->c)->(a|b->c)", "a", "b", "c");
     }
 }

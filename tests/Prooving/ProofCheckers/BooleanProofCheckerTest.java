@@ -124,15 +124,17 @@ public class BooleanProofCheckerTest
     public static Iterable<? extends Object[]> data()
     {
         List<Object[]> result = new ArrayList<Object[]>();
-        for (int i = 1; i <= 13; i++)
+        for (int i = 1; i <= 14; i++)
         {
-            if (i != 11)
-            result.add(new Object[]{"correct" + i + ".in"});
+            // to big files
+            if (i != 11 && i != 14)
+                result.add(new Object[]{"correct" + i + ".in"});
         }
         for (int i = 1; i <= 10; i++)
         {
+            // these files are only valid for proof rewriter
             if (i != 1 && i != 4 && i != 9)
-            result.add(new Object[]{"incorrect" + i + ".in"});
+                result.add(new Object[]{"incorrect" + i + ".in"});
         }
         return result;
     }

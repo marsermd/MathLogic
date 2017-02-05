@@ -7,16 +7,38 @@ import SyntaxTree.Parser.Parser;
 import SyntaxTree.Structure.AnyFormula;
 import SyntaxTree.Structure.Expression;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by marsermd on 01.02.2017.
  */
 public abstract class SimpleAxiomChecker extends AxiomChecker
 {
-    protected abstract Expression getScheme();
+    private Expression scheme;
+    private List<AnyFormula> arguments = new ArrayList<AnyFormula>();
+
+    public SimpleAxiomChecker(String axiom, String... arguments)
+    {
+        Parser parser = new Parser();
+        for (String argument: arguments)
+        {
+            AnyFormula formula = new AnyFormula();
+            this.arguments.add(formula);
+            parser.addMatcher(new ConcreteFormulaMatcher(argument, formula));
+        }
+        parser.addMatchers(Parser.getDefaultMatchers());
+        scheme = parser.parse(axiom);
+    }
 
     public ExpressionCheckResult checkMatchesAxiom(Expression expression)
     {
-        if (getScheme().fairEquals(expression))
+        for (AnyFormula argument: arguments)
+        {
+            argument.reset();
+        }
+
+        if (scheme.fairEquals(expression))
         {
             return ExpressionCheckResult.right();
         }
@@ -24,16 +46,5 @@ public abstract class SimpleAxiomChecker extends AxiomChecker
         {
             return ExpressionCheckResult.wrong();
         }
-    }
-
-    protected Expression fromString(String axiom, String... arguments)
-    {
-        Parser parser = new Parser();
-        for (String argument: arguments)
-        {
-            parser.addMatcher(new ConcreteFormulaMatcher(argument, new AnyFormula()));
-        }
-        parser.addMatchers(Parser.getDefaultMatchers());
-        return parser.parse(axiom);
     }
 }

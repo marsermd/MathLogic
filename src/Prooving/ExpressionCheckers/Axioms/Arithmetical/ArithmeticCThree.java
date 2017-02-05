@@ -8,9 +8,8 @@ import SyntaxTree.Structure.Expression;
  */
 public class ArithmeticCThree extends SimpleAxiomChecker
 {
-    @Override
-    protected Expression getScheme()
+    public ArithmeticCThree()
     {
-        return fromString("a'=b'->a=b", "a", "b");
+        super("a'=b'->a=b", "a", "b");
     }
 }

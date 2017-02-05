@@ -8,9 +8,8 @@ import SyntaxTree.Structure.Expression;
  */
 public class ArithmeticEFive extends SimpleAxiomChecker
 {
-    @Override
-    protected Expression getScheme()
+    public ArithmeticEFive()
     {
-        return fromString("a+b'=(a+b)'", "a", "b");
+        super("a+b'=(a+b)'", "a", "b");
     }
 }

@@ -51,9 +51,9 @@ public class EachRuleTest
         );
 
         EachRule rule = new EachRule();
-        Assert.assertTrue(rule.checkMatches(proof, 1).isRight());
-        Assert.assertFalse(rule.checkMatches(proof, 2).isRight());
-        Assert.assertTrue(rule.checkMatches(proof, 3).isRight());
+//        Assert.assertTrue(rule.checkMatches(proof, 1, , ).isRight());
+//        Assert.assertFalse(rule.checkMatches(proof, 2, , ).isRight());
+//        Assert.assertTrue(rule.checkMatches(proof, 3, , ).isRight());
     }
 
     @Test
@@ -82,7 +82,7 @@ public class EachRuleTest
             );
 
             EachRule rule = new EachRule();
-            Assert.assertTrue(rule.checkMatches(proof, 1).isRight());
+//            Assert.assertTrue(rule.checkMatches(proof, 1, , ).isRight());
         }
         {
             Proof proof = new Proof();
@@ -101,7 +101,7 @@ public class EachRuleTest
             );
 
             EachRule rule = new EachRule();
-            Assert.assertFalse(rule.checkMatches(proof, 1).isRight());
+//            Assert.assertFalse(rule.checkMatches(proof, 1, , ).isRight());
         }
     }
 }

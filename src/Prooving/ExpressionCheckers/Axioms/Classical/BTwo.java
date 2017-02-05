@@ -10,31 +10,8 @@ import SyntaxTree.Structure.Expression;
  */
 public class BTwo extends SimpleAxiomChecker
 {
-    @Override
-    protected Expression getScheme()
+    public BTwo()
     {
-        AnyFormula a = new AnyFormula();
-        AnyFormula b = new AnyFormula();
-        AnyFormula c = new AnyFormula();
-
-        return new Implication(
-            new Implication(
-                a,
-                b
-            ),
-            new Implication(
-                new Implication(
-                    a,
-                    new Implication(
-                        b,
-                        c
-                    )
-                ),
-                new Implication(
-                    a,
-                    c
-                )
-            )
-        );
+        super("(a->b)->(a->b->c)->(a->c)", "a", "b", "c");
     }
 }

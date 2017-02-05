@@ -11,17 +11,8 @@ import SyntaxTree.Structure.Expression;
  */
 public class DFour extends SimpleAxiomChecker
 {
-    @Override
-    protected Expression getScheme()
+    public DFour()
     {
-        AnyFormula a = new AnyFormula();
-        AnyFormula b = new AnyFormula();
-        return new Implication(
-            new Conjunction(
-                a,
-                b
-            ),
-            a
-        );
+        super("a&b->a", "a", "b");
     }
 }

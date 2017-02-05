@@ -11,17 +11,8 @@ import SyntaxTree.Structure.Expression;
  */
 public class GSeven extends SimpleAxiomChecker
 {
-    @Override
-    protected Expression getScheme()
+    public GSeven()
     {
-        AnyFormula a = new AnyFormula();
-        AnyFormula b = new AnyFormula();
-        return new Implication(
-            b,
-            new Disjunction(
-                a,
-                b
-            )
-        );
+        super("b->a|b", "a", "b");
     }
 }

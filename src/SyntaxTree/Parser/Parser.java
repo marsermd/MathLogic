@@ -2,8 +2,17 @@ package SyntaxTree.Parser;
 
 import SyntaxTree.Parser.Builders.ExpressionBuilder;
 import SyntaxTree.Parser.Builders.ParenthesisHolder;
-import SyntaxTree.Parser.Matchers.ExpressionMatcher;
+import SyntaxTree.Parser.Matchers.StandardMatchers.*;
 import SyntaxTree.Parser.Matchers.ParenthesisMatcher;
+import SyntaxTree.Parser.Matchers.StandardMatchers.Arithmetic.EqualsMatcher;
+import SyntaxTree.Parser.Matchers.StandardMatchers.Arithmetic.IncrementMatcher;
+import SyntaxTree.Parser.Matchers.StandardMatchers.Arithmetic.MultiplyMatcher;
+import SyntaxTree.Parser.Matchers.StandardMatchers.Arithmetic.PlusMatcher;
+import SyntaxTree.Parser.Matchers.StandardMatchers.ClassicLogic.ConjunctionMatcher;
+import SyntaxTree.Parser.Matchers.StandardMatchers.ClassicLogic.DisjunctionMatcher;
+import SyntaxTree.Parser.Matchers.StandardMatchers.ClassicLogic.ImplicationMatcher;
+import SyntaxTree.Parser.Matchers.StandardMatchers.ClassicLogic.NegationMatcher;
+import SyntaxTree.Parser.Matchers.StandardMatchers.Predicates.*;
 import SyntaxTree.Structure.Expression;
 
 import java.util.ArrayList;
@@ -64,21 +73,21 @@ public class Parser
     {
         List<ExpressionMatcher> matchers = new ArrayList<ExpressionMatcher>();
 
-        matchers.add(new ExpressionMatcher.ImplicationMatcher());
-        matchers.add(new ExpressionMatcher.DisjunctionMatcher());
-        matchers.add(new ExpressionMatcher.ConjunctionMatcher());
-        matchers.add(new ExpressionMatcher.EqualsMatcher());
-        matchers.add(new ExpressionMatcher.PlusMatcher());
-        matchers.add(new ExpressionMatcher.MultiplyMatcher());
+        matchers.add(new ImplicationMatcher());
+        matchers.add(new DisjunctionMatcher());
+        matchers.add(new ConjunctionMatcher());
+        matchers.add(new EqualsMatcher());
+        matchers.add(new PlusMatcher());
+        matchers.add(new MultiplyMatcher());
 
-        matchers.add(new ExpressionMatcher.EachMatcher());
-        matchers.add(new ExpressionMatcher.SomeMatcher());
-        matchers.add(new ExpressionMatcher.NegationMatcher());
-        matchers.add(new ExpressionMatcher.IncrementMatcher());
+        matchers.add(new EachMatcher());
+        matchers.add(new SomeMatcher());
+        matchers.add(new NegationMatcher());
+        matchers.add(new IncrementMatcher());
 
-        matchers.add(new ExpressionMatcher.VariableMatcher());
-        matchers.add(new ExpressionMatcher.PredicateMatcher());
-        matchers.add(new ExpressionMatcher.FunctionMatcher());
+        matchers.add(new VariableMatcher());
+        matchers.add(new PredicateMatcher());
+        matchers.add(new FunctionMatcher());
 
         return matchers;
     }

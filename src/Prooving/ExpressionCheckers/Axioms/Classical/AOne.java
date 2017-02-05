@@ -10,18 +10,8 @@ import SyntaxTree.Structure.Expression;
  */
 public class AOne extends SimpleAxiomChecker
 {
-    @Override
-    protected Expression getScheme()
+    public AOne()
     {
-        AnyFormula a = new AnyFormula();
-        AnyFormula b = new AnyFormula();
-
-        return new Implication(
-            a,
-            new Implication(
-                b,
-                a
-            )
-        );
+        super("a->b->a", "a", "b");
     }
 }

@@ -9,25 +9,38 @@ import SyntaxTree.Structure.Expression;
 import SyntaxTree.Structure.UnaryOperators.Each;
 import SyntaxTree.Structure.Variable;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+
 /**
  * Created by marsermd on 01.02.2017.
  */
 public class EachRule implements ExpressionChecker
 {
-    @Override
-    public ExpressionCheckResult checkMatches(Proof proof, int currentLine)
+    private AnyFormula phi = new AnyFormula();
+    private AnyFormula psi = new AnyFormula();
+    private AnyFormula x = new AnyFormula();
+    Expression currentMatcher = new Implication(
+        phi,
+        new Each(
+            x,
+            psi
+        )
+    );
+
+    public EachRule()
     {
+    }
+
+    @Override
+    public ExpressionCheckResult checkMatches(Proof proof, int currentLine, HashMap<Expression, Integer> checkedHashToLine, HashSet<Expression> assumptionsHashes, HashMap<Expression, List<Implication>> checkedImplicationsRightParts)
+    {
+        phi.reset();
+        psi.reset();
+        x.reset();
+
         Expression current = proof.getProofLines().get(currentLine);
-        AnyFormula phi = new AnyFormula();
-        AnyFormula psi = new AnyFormula();
-        AnyFormula x = new AnyFormula();
-        Expression currentMatcher = new Implication(
-            phi,
-            new Each(
-                x,
-                psi
-            )
-        );
 
         if (!currentMatcher.fairEquals(current))
         {

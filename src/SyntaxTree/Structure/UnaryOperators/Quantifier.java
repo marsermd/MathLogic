@@ -21,6 +21,9 @@ public abstract class Quantifier extends UnaryOperator
     {
         super(expression);
         this.quantified = quantified;
+
+        hash *= HASH_PRIME;
+        hash += quantified.getExpressionHash();
     }
 
     public Expression getQuantified()
@@ -36,17 +39,6 @@ public abstract class Quantifier extends UnaryOperator
             return false;
         }
         return quantified.fairEquals(((Quantifier) o).quantified) && super.fairEquals(o);
-    }
-
-    @Override
-    public int getExpressionHash()
-    {
-        int result = super.getExpressionHash();
-
-        result *= HASH_PRIME;
-        result += quantified.getExpressionHash();
-
-        return result;
     }
 
     @Override

@@ -6,6 +6,8 @@ import Prooving.Proof;
 import SyntaxTree.Structure.BinaryOperators.Implication;
 import SyntaxTree.Structure.Expression;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -14,14 +16,12 @@ import java.util.List;
 public class UseAssumptionRule implements ExpressionChecker
 {
     @Override
-    public ExpressionCheckResult checkMatches(Proof proof, int currentLine)
+    public ExpressionCheckResult checkMatches(Proof proof, int currentLine, HashMap<Expression, Integer> checkedHashToLine, HashSet<Expression> assumptionsHashes, HashMap<Expression, List<Implication>> checkedImplicationsRightParts)
     {
         Expression current = proof.getProofLines().get(currentLine);
-        for (Expression expression: proof.getAssumptions())
+        if (proof.getAssumptions().contains(current))
         {
-            if (expression.equals(current)){
-                return ExpressionCheckResult.right();
-            }
+            return ExpressionCheckResult.right();
         }
         return ExpressionCheckResult.wrong();
     }

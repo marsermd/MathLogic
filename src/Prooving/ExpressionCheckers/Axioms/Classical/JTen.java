@@ -11,17 +11,8 @@ import SyntaxTree.Structure.UnaryOperators.Negation;
  */
 public class JTen extends SimpleAxiomChecker
 {
-    @Override
-    protected Expression getScheme()
+    public JTen()
     {
-        AnyFormula a = new AnyFormula();
-        return new Implication(
-            new Negation(
-                new Negation(
-                    a
-                )
-            ),
-            a
-        );
+        super("!!a->a", "a");
     }
 }

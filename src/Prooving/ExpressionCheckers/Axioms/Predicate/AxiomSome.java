@@ -13,20 +13,24 @@ import SyntaxTree.Structure.Variable;
  */
 public class AxiomSome extends AxiomChecker
 {
+    AnyFormula alpha = new AnyFormula();
+    AnyFormula phi = new AnyFormula();
+    AnyFormula phiWithTheta = new AnyFormula();
+
+    Expression matcher = new Implication(
+        phiWithTheta,
+        new Some(
+            alpha,
+            phi
+        )
+    );
+
     @Override
     public ExpressionCheckResult checkMatchesAxiom(Expression currentLine)
     {
-        AnyFormula alpha = new AnyFormula();
-        AnyFormula phi = new AnyFormula();
-        AnyFormula phiWithTheta = new AnyFormula();
-
-        Expression matcher = new Implication(
-            phiWithTheta,
-            new Some(
-                alpha,
-                phi
-            )
-        );
+        alpha.reset();
+        phi.reset();
+        phiWithTheta.reset();
 
         if (!matcher.fairEquals(currentLine))
         {

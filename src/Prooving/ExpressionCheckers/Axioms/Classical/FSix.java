@@ -11,17 +11,8 @@ import SyntaxTree.Structure.Expression;
  */
 public class FSix extends SimpleAxiomChecker
 {
-    @Override
-    protected Expression getScheme()
+    public FSix()
     {
-        AnyFormula a = new AnyFormula();
-        AnyFormula b = new AnyFormula();
-        return new Implication(
-            a,
-            new Disjunction(
-                a,
-                b
-            )
-        );
+        super("a->a|b", "a", "b");
     }
 }

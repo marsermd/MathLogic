@@ -11,17 +11,8 @@ import SyntaxTree.Structure.Expression;
  */
 public class EFive extends SimpleAxiomChecker
 {
-    @Override
-    protected Expression getScheme()
+    public EFive()
     {
-        AnyFormula a = new AnyFormula();
-        AnyFormula b = new AnyFormula();
-        return new Implication(
-            new Conjunction(
-                a,
-                b
-            ),
-            b
-        );
+        super("a&b->b", "a", "b");
     }
 }
