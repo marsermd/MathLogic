@@ -1,4 +1,4 @@
-package Prooving.ExpressionCheckers.InferenceRules;
+package Prooving.ExpressionCheckers.InferenceRules.Predicate;
 
 import Prooving.ExpressionCheckers.ExpressionCheckResult;
 import Prooving.ExpressionCheckers.ExpressionChecker;
@@ -6,7 +6,7 @@ import Prooving.Proof;
 import SyntaxTree.Structure.AnyFormula;
 import SyntaxTree.Structure.BinaryOperators.Implication;
 import SyntaxTree.Structure.Expression;
-import SyntaxTree.Structure.UnaryOperators.Some;
+import SyntaxTree.Structure.UnaryOperators.Each;
 import SyntaxTree.Structure.Variable;
 
 import java.util.HashMap;
@@ -16,27 +16,31 @@ import java.util.List;
 /**
  * Created by marsermd on 01.02.2017.
  */
-public class SomeRule implements ExpressionChecker
+public class EachRule implements ExpressionChecker
 {
-    AnyFormula phi = new AnyFormula();
-    AnyFormula psi = new AnyFormula();
-    AnyFormula x = new AnyFormula();
-
+    private AnyFormula phi = new AnyFormula();
+    private AnyFormula psi = new AnyFormula();
+    private AnyFormula x = new AnyFormula();
     Expression currentMatcher = new Implication(
-        new Some(
+        phi,
+        new Each(
             x,
             psi
-        ),
-        phi
+        )
     );
+
+    public EachRule()
+    {
+    }
 
     @Override
     public ExpressionCheckResult checkMatches(Proof proof, int currentLine, HashMap<Expression, Integer> checkedHashToLine, HashSet<Expression> assumptionsHashes, HashMap<Expression, List<Implication>> checkedImplicationsRightParts)
     {
-        Expression current = proof.getProofLines().get(currentLine);
         phi.reset();
         psi.reset();
         x.reset();
+
+        Expression current = proof.getProofLines().get(currentLine);
 
         if (!currentMatcher.fairEquals(current))
         {
@@ -44,24 +48,21 @@ public class SomeRule implements ExpressionChecker
         }
 
         Expression previousMatch = new Implication(
-            psi.getEqualExpression(),
-            phi.getEqualExpression()
+            phi.getEqualExpression(),
+            psi.getEqualExpression()
         );
 
-        for (int i = 0; i < currentLine; i++)
+        if (checkedHashToLine.containsKey(previousMatch))
         {
-            Expression previous = proof.getProofLines().get(i);
-            if (previous.equals(previousMatch))
+            if (phi.getFree().contains(x.getEqualExpression()))
             {
-                if (phi.getFree().contains(x.getEqualExpression()))
-                {
-                    return ExpressionCheckResult.variableIsFreeInFormula((Variable) x.getEqualExpression(), phi);
-                }
-                else
-                {
-                    return ExpressionCheckResult.right();
-                }
+                return PredicateRuleResult.variableIsFreeInFormula((Variable) x.getEqualExpression(), phi, psi);
             }
+            else
+            {
+                return PredicateRuleResult.right((Variable) x.getEqualExpression(), phi, psi);
+            }
+
         }
 
         return ExpressionCheckResult.wrong();

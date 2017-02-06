@@ -29,7 +29,7 @@ public class Some extends Quantifier
 
         quantified.addAll(toBind);
         Some newSome = new Some(
-            getQuantified(),
+            getQuantified().replaceInternal(toReplace, result, quantified),
             getExpression().replaceInternal(toReplace, result, quantified)
         );
         for (int i = 0; i < toBind.size(); i++)

@@ -1,6 +1,7 @@
 package Prooving.ExpressionCheckers.Axioms.Arithmetical;
 
 import Prooving.ExpressionCheckers.Axioms.AxiomChecker;
+import Prooving.ExpressionCheckers.Axioms.SimpleAxiomResult;
 import Prooving.ExpressionCheckers.ExpressionCheckResult;
 import SyntaxTree.Structure.AnyFormula;
 import SyntaxTree.Structure.BinaryOperators.Conjunction;
@@ -56,6 +57,6 @@ public class ArithmeticINine extends AxiomChecker
             return ExpressionCheckResult.wrong();
         }
 
-        return ExpressionCheckResult.right();
+        return SimpleAxiomResult.right(expression);
     }
 }

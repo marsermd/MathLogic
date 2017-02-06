@@ -35,7 +35,8 @@ public class EachMatcher extends ExpressionMatcher
             @Override
             public Expression createExpression(Stack<Expression> expressions, Parser parser)
             {
-                return new Each(new Variable(matched.substring(1)), expressions.pop());
+                Expression quantified = parser.parse(matched.substring(1));
+                return new Each(quantified, expressions.pop());
             }
         };
     }

@@ -1,6 +1,7 @@
 package Prooving.ExpressionCheckers.Axioms.Predicate;
 
 import Prooving.ExpressionCheckers.Axioms.AxiomChecker;
+import Prooving.ExpressionCheckers.Axioms.SimpleAxiomResult;
 import Prooving.ExpressionCheckers.ExpressionCheckResult;
 import SyntaxTree.Structure.AnyFormula;
 import SyntaxTree.Structure.BinaryOperators.Implication;
@@ -54,7 +55,7 @@ public class AxiomEach extends AxiomChecker
         if (theta.getEqualExpression() == null)
         {
             // it defenitely can't be binded
-            return ExpressionCheckResult.right();
+            return SimpleAxiomResult.right(currentLine);
         }
 
         for (Variable thetaFree: theta.getFree())
@@ -66,10 +67,10 @@ public class AxiomEach extends AxiomChecker
             if (phiWithTheta.getBindedAndCache().contains(thetaFree))
             {
                 // theta is not free for replacing
-                return ExpressionCheckResult.termIsNotFreeToReplace(phi, (Variable) alpha.getEqualExpression(), theta);
+                return PredicateAxiomResult.termIsNotFreeToReplace(phi, (Variable) alpha.getEqualExpression(), theta);
             }
         }
 
-        return ExpressionCheckResult.right();
+        return SimpleAxiomResult.right(currentLine);
     }
 }

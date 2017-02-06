@@ -30,7 +30,7 @@ public class Each extends Quantifier
 
         quantified.addAll(toBind);
         Each newEach = new Each(
-            getQuantified(),
+            getQuantified().replaceInternal(toReplace, result, quantified),
             getExpression().replaceInternal(toReplace, result, quantified)
         );
         for (int i = 0; i < toBind.size(); i++)

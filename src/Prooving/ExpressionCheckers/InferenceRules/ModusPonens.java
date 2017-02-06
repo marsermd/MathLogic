@@ -31,7 +31,7 @@ public class ModusPonens implements ExpressionChecker
         {
             if (checkedHashToLine.containsKey(alphaBeta.getLeft()))
             {
-                return ExpressionCheckResult.right();
+                return ModusPonensResult.right(alphaBeta.getLeft(), alphaBeta.getRight());
             }
         }
         return ExpressionCheckResult.wrong();

@@ -21,7 +21,7 @@ public class UseAssumptionRule implements ExpressionChecker
         Expression current = proof.getProofLines().get(currentLine);
         if (proof.getAssumptions().contains(current))
         {
-            return ExpressionCheckResult.right();
+            return AssumptionRuleResult.right(current);
         }
         return ExpressionCheckResult.wrong();
     }

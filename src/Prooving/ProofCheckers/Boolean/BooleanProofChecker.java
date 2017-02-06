@@ -5,6 +5,8 @@ import Prooving.ExpressionCheckers.ExpressionChecker;
 import Prooving.Proof;
 import Prooving.ProofCheckers.ProofChecker;
 
+import javax.swing.*;
+
 /**
  * Created by marsermd on 03.02.2017.
  */
@@ -15,6 +17,11 @@ public class BooleanProofChecker extends ProofChecker<BooleanProofResult>
     public BooleanProofChecker(Proof proof, ExpressionChecker... checkers)
     {
         super(proof, checkers);
+    }
+
+    public static BooleanProofChecker getDefaultChecker(Proof proof)
+    {
+        return new BooleanProofChecker(proof, ProofChecker.getFormalArithmeticsCheckers());
     }
 
     @Override

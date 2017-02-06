@@ -39,7 +39,7 @@ public abstract class SimpleAxiomChecker extends AxiomChecker
 
         if (scheme.fairEquals(expression))
         {
-            return ExpressionCheckResult.right();
+            return SimpleAxiomResult.right(expression);
         }
         else
         {

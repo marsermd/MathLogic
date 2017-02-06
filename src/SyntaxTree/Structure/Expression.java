@@ -1,5 +1,7 @@
 package SyntaxTree.Structure;
 
+import SyntaxTree.Parser.StringWithPointer;
+
 import java.util.*;
 
 /**
@@ -10,6 +12,18 @@ public abstract class Expression
     protected static int HASH_PRIME = 1000003;
     private Collection<Variable> cachedBinded = null;
     private Collection<Variable> cachedFree = null;
+    private String comment = "";
+
+    public String getComment()
+    {
+        return comment;
+    }
+
+    public Expression setComment(String comment)
+    {
+        this.comment = comment;
+        return this;
+    }
 
     @Override
     public boolean equals(Object obj)
@@ -96,6 +110,11 @@ public abstract class Expression
     public void getBindedAndFree(Set<Variable> binded, Set<Variable> free)
     {
         getBindedAndFree(binded, free, new ArrayList<Variable>());
+    }
+
+    public Expression clone()
+    {
+        return replace(null, null);
     }
 
     public Expression replace(Variable toReplace, Expression result)

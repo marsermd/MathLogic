@@ -1,11 +1,11 @@
 package Prooving.ExpressionCheckers.InferenceRules;
 
+import Prooving.ExpressionCheckers.InferenceRules.Predicate.EachRule;
 import Prooving.Proof;
 import SyntaxTree.Structure.BinaryOperators.Implication;
 import SyntaxTree.Structure.UnaryOperators.Each;
 import SyntaxTree.Structure.UnaryOperators.Some;
 import SyntaxTree.Structure.Variable;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**

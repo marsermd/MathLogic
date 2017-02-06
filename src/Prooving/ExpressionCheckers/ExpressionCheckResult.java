@@ -17,30 +17,9 @@ public class ExpressionCheckResult
         this.reason = reason;
     }
 
-    public static ExpressionCheckResult right()
-    {
-        return new ExpressionCheckResult(Type.Right, null);
-    }
-
     public static ExpressionCheckResult wrong()
     {
         return new ExpressionCheckResult(Type.Wrong, null);
-    }
-
-    public static ExpressionCheckResult termIsNotFreeToReplace(Expression phi, Variable alpha, Expression theta)
-    {
-        return new ExpressionCheckResult(
-            Type.Wrong,
-            String.format("терм %s не свободен для подстановки в формулу %s вместо переменной %s.", theta, phi, alpha)
-        );
-    }
-
-    public static ExpressionCheckResult variableIsFreeInFormula(Variable x, Expression phi)
-    {
-        return new ExpressionCheckResult(
-            Type.Wrong,
-            String.format("переменная %s входит свободно в формулу %s.", x, phi)
-        );
     }
 
     public boolean isRight()

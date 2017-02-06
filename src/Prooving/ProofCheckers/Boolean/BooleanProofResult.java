@@ -7,6 +7,6 @@ import Prooving.ExpressionCheckers.ExpressionCheckResult;
  */
 public class BooleanProofResult
 {
-    public ExpressionCheckResult lastExpressionResult = ExpressionCheckResult.right();
+    public ExpressionCheckResult lastExpressionResult = null;
     public int lineID;
 }
