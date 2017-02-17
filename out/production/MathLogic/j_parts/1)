@@ -1,0 +1,11 @@
+#match (x+y)+0=x+(y+0)
+|-(x+y)+0=x+(y+0)
+(x+y)+0=x+y
+
+y+0=y
+#use ..\i)t=r→s+t=s+r; y+0=y->x+(y+0)=x+y
+x+(y+0)=x+y
+
+#use ..\d)r=t→s=t→r=s; (x+y)+0=x+y->x+(y+0)=x+y->(x+y)+0=x+(y+0)
+x+(y+0)=x+y->(x+y)+0=x+(y+0)
+(x+y)+0=x+(y+0)

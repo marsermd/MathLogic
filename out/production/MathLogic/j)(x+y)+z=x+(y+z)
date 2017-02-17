@@ -1,0 +1,15 @@
+#each
+#match (x+y)+z=x+(y+z)
+|-(x+y)+z=x+(y+z)
+
+#use j_parts\1);(x+y)+0=x+(y+0)
+
+#use j_parts\2);(x+y)+z=x+(y+z) -> (x+y)+z'=x+(y+z')
+#use A_TO_EACH_x_A;@z((x+y)+z=x+(y+z) -> (x+y)+z'=x+(y+z'))
+
+(x+y)+0=x+(y+0) -> @z((x+y)+z=x+(y+z)->(x+y)+z'=x+(y+z')) -> (x+y)+0=x+(y+0) & @z((x+y)+z=x+(y+z)->(x+y)+z'=x+(y+z'))
+@z((x+y)+z=x+(y+z)->(x+y)+z'=x+(y+z')) -> (x+y)+0=x+(y+0) & @z((x+y)+z=x+(y+z)->(x+y)+z'=x+(y+z'))
+(x+y)+0=x+(y+0) & @z((x+y)+z=x+(y+z)->(x+y)+z'=x+(y+z'))
+
+(x+y)+0=x+(y+0) & @z((x+y)+z=x+(y+z)->(x+y)+z'=x+(y+z')) -> (x+y)+z=x+(y+z)
+(x+y)+z=x+(y+z)

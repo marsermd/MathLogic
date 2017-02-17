@@ -1,0 +1,27 @@
+#deduct 1
+#match (x+y)+z=x+(y+z) -> (x+y)+z'=x+(y+z')
+(x+y)+z=x+(y+z)|- (x+y)+z'=x+(y+z')
+(x+y)+z=x+(y+z)
+
+(x+y)+z=x+(y+z)->((x+y)+z)'=(x+(y+z))'
+((x+y)+z)'=(x+(y+z))'
+
+(x+y)+z'=((x+y)+z)'
+#use ..\c)t=r→r=s→t=s; (x+y)+z'=((x+y)+z)' -> ((x+y)+z)'=(x+(y+z))' -> (x+y)+z'=(x+(y+z))'
+((x+y)+z)'=(x+(y+z))' -> (x+y)+z'=(x+(y+z))'
+(x+y)+z'=(x+(y+z))'
+
+y+z'=(y+z)'
+
+#use ..\i)t=r→s+t=s+r; (y+z')=(y+z)' -> x+(y+z')=x+(y+z)'
+x+(y+z')=x+(y+z)'
+
+x+(y+z)'=(x+(y+z))'
+
+#use ..\c)t=r→r=s→t=s; x+(y+z')=x+(y+z)'->x+(y+z)'=(x+(y+z))'->x+(y+z')=(x+(y+z))'
+x+(y+z)'=(x+(y+z))'->x+(y+z')=(x+(y+z))'
+x+(y+z')=(x+(y+z))'
+
+#use ..\d)r=t→s=t→r=s; (x+y)+z'=(x+(y+z))'->x+(y+z')=(x+(y+z))'->(x+y)+z'=x+(y+z')
+x+(y+z')=(x+(y+z))'->(x+y)+z'=x+(y+z')
+(x+y)+z'=x+(y+z')
