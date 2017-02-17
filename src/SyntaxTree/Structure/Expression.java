@@ -122,6 +122,13 @@ public abstract class Expression
         return replaceInternal(toReplace, result, new ArrayList<Variable>());
     }
 
+    public String toParsableString()
+    {
+        StringBuilder builder = new StringBuilder();
+        toParsableString(builder);
+        return builder.toString();
+    }
+
     public abstract void toParsableString(StringBuilder builder);
 
     public abstract Expression replaceInternal(Variable toReplace, Expression result, List<Variable> quantified);

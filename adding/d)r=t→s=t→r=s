@@ -1,0 +1,8 @@
+#match r=t->s=t->r=s
+#each
+|-r=t->s=t->r=s
+#use c)t=r→r=s→t=s; r=t->t=s->r=s
+#use A→B→C_TO_B→A→C; t=s->r=t->r=s
+#use b)t=r→r=t; s=t->t=s
+#use A→B_AND_B→C_TO_A→C; s=t->r=t->r=s; B to t=s
+#use A→B→C_TO_B→A→C; r=t->s=t->r=s

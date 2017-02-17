@@ -22,7 +22,10 @@ public class PredicateAxiomResult extends ExpressionCheckResult
 
     public static PredicateAxiomResult termIsNotFreeToReplace(Expression phi, Variable alpha, Expression theta)
     {
-        String reason = String.format("терм %s не свободен для подстановки в формулу %s вместо переменной %s.", theta, phi, alpha);
+        String reason = String.format("терм %s не свободен для подстановки в формулу %s вместо переменной %s.",
+            theta.toParsableString(),
+            phi.toParsableString(),
+            alpha.getName());
         return new PredicateAxiomResult(Type.Wrong, reason, phi, alpha, theta);
     }
 }

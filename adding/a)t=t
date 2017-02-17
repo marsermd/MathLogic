@@ -1,0 +1,7 @@
+#match t=t
+#each
+|-t=t
+t+0=t
+(t+0=t)->(t+0=t)->(t=t)
+(t+0=t)->(t=t)
+t=t

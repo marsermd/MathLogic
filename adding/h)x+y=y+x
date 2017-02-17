@@ -1,0 +1,15 @@
+#match x+y=y+x
+#each
+|-x+y=y+x
+
+#use h_parts\1);x+0=0+x
+
+#use h_parts\2);x+y=y+x->x+y'=y'+x
+#use A_TO_EACH_x_A;@y(x+y=y+x->x+y'=y'+x)
+
+(x+0=0+x) -> @y(x+y=y+x->x+y'=y'+x) -> (x+0=0+x) & @y(x+y=y+x->x+y'=y'+x)
+@y(x+y=y+x->x+y'=y'+x) -> (x+0=0+x) & @y(x+y=y+x->x+y'=y'+x)
+(x+0=0+x) & @y(x+y=y+x->x+y'=y'+x)
+
+(x+0=0+x) & @y(x+y=y+x->x+y'=y'+x) -> x+y=y+x
+x+y=y+x

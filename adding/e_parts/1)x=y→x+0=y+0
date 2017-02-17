@@ -1,0 +1,12 @@
+#deduct 1
+#match x=y->x+0=y+0
+x=y|-x+0=y+0
+x+0=x
+y+0=y
+x=y
+#use ..\c)t=r→r=s→t=s; x+0=x->x=y->x+0=y
+x=y->x+0=y
+x+0=y
+#use ..\d)r=t→s=t→r=s; x+0=y->y+0=y->x+0=y+0
+y+0=y->x+0=y+0
+x+0=y+0

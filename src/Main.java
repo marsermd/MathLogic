@@ -1,13 +1,11 @@
-import Prooving.Parsing.ProofParser;
+import Prooving.Parsing.Enchanced.EnchancedProofParser;
 import Prooving.Proof;
 import Prooving.ProofCheckers.Boolean.BooleanProofChecker;
-import Prooving.ProofCheckers.ProofChecker;
-import Prooving.ProofCheckers.Boolean.BooleanProofResult;
-import Prooving.ProofCheckers.Rewriter.RewriterProofChecker;
-import Prooving.ProofCheckers.Rewriter.RewriterProofResult;
 import SyntaxTree.Parser.Parser;
-import SyntaxTree.Structure.BinaryOperators.BinaryOperator;
+import SyntaxTree.Structure.Expression;
+import SyntaxTree.Utils.StringHash;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -17,25 +15,39 @@ import java.io.FileNotFoundException;
 public class Main {
     public static void main(String[] args) throws FileNotFoundException
     {
-        File file = new File("testResources/" + "correct14.in");
+        File file = new File("adding/" + "i)t=r→s+t=s+r");
 
         System.out.println("parsing");
-        Proof proof = ProofParser.parseProof(file, Parser.createDefault());
+        Proof proof = EnchancedProofParser.parseProof(file, Parser.createDefault());
 
         System.out.println("checking");
-        RewriterProofChecker proofChecker = RewriterProofChecker.getDefaultChecker(proof);
-        RewriterProofResult result = proofChecker.Check();
+        BooleanProofChecker checker = BooleanProofChecker.getDefaultChecker(proof);
+        System.out.println(checker.Check().lastExpressionResult.isRight());
+        System.out.println(proof.getProofLines().size());
+        if (checker.Check().lastExpressionResult.isWrong())
+        {
+            for (int i = 0; i < proof.getProofLines().size(); i++)
+            {
+                System.err.println(i + ")" + proof.getProofLines().get(i).toParsableString());
+            }
+            return;
+        }
 
-        System.err.println(!result.failed);
-        System.err.println(result.generatedProof.getProofLines().size());
+        for (Expression line: proof.getProofLines())
+        {
+            System.out.println(line.toParsableString());
+        }
+        System.out.println(proof.getProofLines().size());
 
-        System.out.println(result.failed == false);
-
-        BooleanProofChecker generatedChecker = BooleanProofChecker.getDefaultChecker(result.generatedProof);
-        BooleanProofResult generatedResult = generatedChecker.Check();
-
-        System.out.println(generatedResult.lastExpressionResult.isRight());
-
-
+//        RewriterProofChecker proofChecker = RewriterProofChecker.getDefaultChecker(proof);
+//        RewriterProofResult result = proofChecker.Check();
+//
+//        System.err.println(!result.failed);
+//        System.err.println(result.generatedProof.getProofLines().size());
+//
+//        BooleanProofChecker generatedChecker = BooleanProofChecker.getDefaultChecker(proof);
+//        BooleanProofResult generatedResult = generatedChecker.Check();
+//
+//        System.out.println(generatedResult.lastExpressionResult.isRight());
     }
 }

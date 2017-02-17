@@ -132,8 +132,8 @@ public class PredicateRuleRewriter extends ExpressionRewriter<PredicateRuleResul
             result.failed = true;
             result.failureReason = String.format(
                 "используется правило с квантором по переменной {1}, входящей свободно в допущение {2}.",
-                lineResult.x,
-                result.alphaAssumption
+                lineResult.x.getName(),
+                result.alphaAssumption.toParsableString()
             );
             return;
         }

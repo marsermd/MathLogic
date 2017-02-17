@@ -1,0 +1,7 @@
+#match t=r->r=t
+#each
+|-t=r->r=t
+t=r->t=t->r=t
+#use A→B→C_TO_B→A→C; t=t->t=r->r=t
+#use a)t=t; t=t
+t=r->r=t

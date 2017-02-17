@@ -1,0 +1,10 @@
+#match x+0=0+x
+|- x+0=0+x
+x+0=x
+
+#use ..\f)x=0+x; x=0+x
+x=0+x
+
+#use ..\c)t=r→r=s→t=s; x+0=x->x=0+x->x+0=0+x
+x=0+x->x+0=0+x
+x+0=0+x

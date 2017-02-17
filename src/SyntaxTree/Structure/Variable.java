@@ -67,7 +67,7 @@ public class Variable extends Expression
     @Override
     public void getBindedAndFree(Set<Variable> binded, Set<Variable> free, List<Variable> quantified)
     {
-        if (!quantified.contains(this))
+        if (!quantified.contains(this) && !"0".equals(name))
         {
             free.add(this);
         }

@@ -31,7 +31,7 @@ public class PredicateRuleResult extends ExpressionCheckResult
     {
         return new PredicateRuleResult(
             Type.Wrong,
-            String.format("переменная %s входит свободно в формулу %s.", x, phi),
+            String.format("переменная %s входит свободно в формулу %s.", x.getName(), phi.toParsableString()),
             x, phi, psi);
     }
 }

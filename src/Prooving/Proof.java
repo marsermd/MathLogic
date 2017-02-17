@@ -28,6 +28,10 @@ public class Proof
         this.lines.addAll(lines);
     }
 
+    public void addFirstAssumption(Expression expression)
+    {
+        assumptions.add(0, expression);
+    }
     public void assumeThat(List<Expression> assumptions)
     {
         this.assumptions.addAll(assumptions);

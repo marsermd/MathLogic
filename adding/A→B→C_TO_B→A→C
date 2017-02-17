@@ -1,0 +1,8 @@
+#deduct 2
+#match B->A->C
+A->B->C, B, A|-C
+A->B->C
+A
+B->C
+B
+C

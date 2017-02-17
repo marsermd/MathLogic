@@ -83,7 +83,7 @@ public abstract class ProofChecker<TProofResult>
         stopped = false;
         for (int i = 0; i < proof.getProofLines().size(); i++)
         {
-            if (i % 1000 == 0)
+            if (i % 1 == 0)
             {
                 System.out.println("Checked till line:" + i);
             }

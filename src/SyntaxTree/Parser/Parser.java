@@ -107,6 +107,11 @@ public class Parser
         matchers.add(matcher);
     }
 
+    public List<ExpressionMatcher> getMatchers()
+    {
+        return matchers;
+    }
+
     private String fixInputString(String input)
     {
         return input.replaceAll("\\s", "");

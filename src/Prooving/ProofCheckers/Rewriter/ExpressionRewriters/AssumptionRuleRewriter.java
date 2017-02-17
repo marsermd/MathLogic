@@ -7,6 +7,7 @@ import Prooving.ProofCheckers.Rewriter.RewriterProofResult;
 import SyntaxTree.Parser.Matchers.ConcreteFormulaMatcher;
 import SyntaxTree.Parser.Parser;
 import SyntaxTree.Structure.AnyFormula;
+import SyntaxTree.Structure.BinaryOperators.Implication;
 import SyntaxTree.Structure.Expression;
 
 import java.util.ArrayList;
@@ -51,9 +52,24 @@ public class AssumptionRuleRewriter extends ExpressionRewriter<AssumptionRuleRes
     @Override
     protected void rewriteExpression(ExpressionChecker lineChecker, AssumptionRuleResult lineResult, RewriterProofResult result)
     {
-        if (!result.equals(lineResult.assumption))
+        if (!result.alphaAssumption.equals(lineResult.assumption))
         {
-            result.generatedProof.addLine(lineResult.assumption.setComment("assumption"));
+            result.generatedProof.addLine(lineResult.assumption.setComment("assumption1"));
+            result.generatedProof.addLine(
+                new Implication(
+                    lineResult.assumption,
+                    new Implication(
+                        result.alphaAssumption,
+                        lineResult.assumption
+                    )
+                ).setComment("assumption2")
+            );
+            result.generatedProof.addLine(
+                new Implication(
+                    result.alphaAssumption,
+                    lineResult.assumption
+                ).setComment("assumption3")
+            );
         }
         else
         {

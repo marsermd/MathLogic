@@ -1,0 +1,25 @@
+#deduct 2
+#match (x=y->(x+z=y+z)) -> (x=y->(x+z'=y+z'))
+(x=y->(x+z=y+z)), x=y|-x+z'=y+z'
+
+(x=y->(x+z=y+z))
+
+x=y
+
+x+z'=(x+z)'
+
+y+z'=(y+z)'
+
+x+z=y+z
+x+z=y+z->(x+z)'=(y+z)'
+(x+z)'=(y+z)'
+
+#use ..\c)t=r→r=s→t=s; x+z'=(x+z)'->(x+z)'=(y+z)'->x+z'=(y+z)'
+(x+z)'=(y+z)'->x+z'=(y+z)'
+x+z'=(y+z)'
+
+#use ..\d)r=t→s=t→r=s; x+z'=(y+z)'->y+z'=(y+z)'->x+z'=y+z'
+y+z'=(y+z)'->x+z'=y+z'
+x+z'=y+z'
+
+

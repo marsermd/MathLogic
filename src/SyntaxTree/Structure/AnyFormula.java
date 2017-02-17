@@ -78,7 +78,7 @@ public class AnyFormula extends Expression
     {
         if (equalExpression == null)
         {
-            throw new InvalidStateException("equalExpression == null, but truing to replace");
+            return this;
         }
         return equalExpression.replaceInternal(toReplace, result, quantified);
     }

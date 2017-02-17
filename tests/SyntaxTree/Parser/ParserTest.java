@@ -257,7 +257,7 @@ public class ParserTest
                         new Conjunction(
                             new Predicate("D"),
                             new Each(
-                                new Variable("e"),
+                                new Variable("e_parts"),
                                 new Negation(
                                     new Some(
                                         new Variable("f"),
