@@ -1,0 +1,63 @@
+#deduct 1
+#match t'*r=t*r+r->(t'*r'=t*r'+r')
+t'*r=t*r+r|- t'*r'=t*r'+r'
+t*r'=t*r+t
+
+#use ..\h)x+y=y+x; t+r = r+t
+#use ..\i)t=r→s+t=s+r; t+r = r+t -> t*r + (t + r) = t*r + (r + t)
+(t*r + (t + r)) = (t*r + (r + t))
+
+(t*r + (t + r)) = (t*r + (r + t)) -> (t*r + (t + r))' = (t*r + (r + t))'
+(t*r + (t + r))' = (t*r + (r + t))'
+
+t'*r=t*r+r
+#use ..\e)t=r→t+s=r+s; (t'*r=t*r+r) -> (t'*r + t' = (t*r) + r + t')
+t'*r + t' = t*r + r + t'
+
+t'*r' = t'*r+t'
+#use ..\c)t=r→r=s→t=s; (t'*r' = t'*r+t') -> (t'*r+t' = t*r+r+t') -> (t'*r' = t*r+r+t')
+(t'*r+t' = t*r+r+t') -> (t'*r' = t*r+r+t')
+t'*r' = t*r+r+t'
+
+t*r+r+t' = (t*r+r+t)'
+
+#use ..\c)t=r→r=s→t=s; (t'*r' = t*r+r+t') -> (t*r+r+t' = (t*r+r+t)') -> (t'*r' = (t*r+r+t)')
+(t*r+r+t' = (t*r+r+t)') -> (t'*r' = (t*r+r+t)')
+(t'*r' = (t*r+r+t)')
+
+
+
+t*r' = t*r+t
+#use ..\e)t=r→t+s=r+s; (t*r') = (t*r+t) -> (t*r' + r') = (t*r + t + r')
+(t*r' + r') = (t*r + t + r')
+
+(t*r + t + r') = (t*r + t + r)'
+#use ..\c)t=r→r=s→t=s; (t*r' + r') = (t*r + t + r') -> (t*r + t + r') = (t*r + t + r)' -> (t*r' + r') = (t*r + t + r)'
+(t*r + t + r') = (t*r + t + r)' -> (t*r' + r') = (t*r + t + r)'
+t*r' + r' = (t*r + t + r)'
+
+#use ..\h)x+y=y+x; (t+r) = (r+t)
+#use ..\i)t=r→s+t=s+r; ((t+r) = (r+t)) -> (((t*r) + (t+r)) = ((t*r) + (r+t)))
+((t*r + (t+r)) = (t*r + (r+t)))
+
+#use ..\jj)x+(y+z)=(x+y)+z; (t*r + (t+r))=((t*r + t)+r)
+#use ..\jj)x+(y+z)=(x+y)+z; (t*r + (r+t))=((t*r + r)+t)
+#use ..\c)t=r→r=s→t=s; ((t*r + (t+r)) = (t*r + (r+t))) -> (t*r + (r+t))=((t*r + r)+t) -> ((t*r + (t+r)) = (t*r + r)+t)
+(t*r + (r+t))=((t*r + r)+t) -> ((t*r + (t+r)) = (t*r + r)+t)
+((t*r + (t+r)) = (t*r + r)+t)
+
+(t*r + (t+r))=((t*r + t)+r) -> ((t*r + (t+r)) = (t*r + r)+t) -> ((t*r + t)+r = (t*r + r)+t)
+((t*r + (t+r)) = (t*r + r)+t) -> ((t*r + t)+r = (t*r + r)+t)
+((t*r + t)+r = (t*r + r)+t)
+
+(t*r + t+r) = (t*r + r+t) -> (t*r + t+r)' = (t*r + r+t)'
+(t*r + t+r)' = (t*r + r+t)'
+
+#use ..\c)t=r→r=s→t=s; t*r' + r' = (t*r + t + r)' -> (t*r + t+r)' = (t*r + r+t)' -> t*r' + r' = (t*r + r+t)'
+(t*r + t+r)' = (t*r + r+t)' -> t*r' + r' = (t*r + r+t)'
+t*r' + r' = (t*r + r+t)'
+
+
+#use ..\d)r=t→s=t→r=s; (t'*r' = (t*r+r+t)') -> (t*r' + r' = (t*r + r+t)') -> (t'*r' = t*r' + r')
+(t*r' + r' = (t*r + r+t)') -> (t'*r' = t*r' + r')
+(t'*r' = t*r' + r')

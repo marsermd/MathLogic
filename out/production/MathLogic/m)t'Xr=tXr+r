@@ -1,0 +1,8 @@
+#each
+#match t'*r=t*r+r
+|-t'*r=t*r+r
+
+#use m_parts\1); t'*0=t*0+0
+#use m_parts\2); t'*r=t*r+r->(t'*r'=t*r'+r')
+
+#use INDUCTION_A0_AND_Ax→Ax'_TO→Ax; (t'*0=t*0+0) &  @r(t'*r=t*r+r->(t'*r'=t*r'+r')) -> t'*r=t*r+r

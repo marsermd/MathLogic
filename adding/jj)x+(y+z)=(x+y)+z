@@ -1,0 +1,6 @@
+#each
+#match x+(y+z)=(x+y)+z
+|-x+(y+z)=(x+y)+z
+#use j)(x+y)+z=x+(y+z);(x+y)+z=x+(y+z)
+#use b)t=r→r=t;(x+y)+z=x+(y+z)->x+(y+z)=(x+y)+z
+x+(y+z)=(x+y)+z
