@@ -28,7 +28,7 @@ public class ParenthesisHolder
     {
         if (currentBuilder == null)
         {
-            throw new Parser.BadInputException();
+            throw new Parser.BadInputException("no builder");
         }
         if (currentBuilder.shouldBuildImediately())
         {
@@ -61,7 +61,7 @@ public class ParenthesisHolder
 
         if (expressions.size() != 1)
         {
-            throw new Parser.BadInputException();
+            throw new Parser.BadInputException("parenthesis closed but expression count != 1");
         }
 
         return expressions.pop();

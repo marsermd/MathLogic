@@ -1,0 +1,9 @@
+#each
+#match t=r->t*s=r*s
+|- t=r->t*s=r*s
+
+#use k_parts\1); t=r->t*0=r*0
+
+#use k_parts\2); (t=r -> t*s = r*s)->(t=r -> t*s' = r*s')
+
+#use INDUCTION_A0_AND_Ax→Ax'_TO→Ax; (t=r->t*0=r*0)&@s((t=r -> t*s = r*s)->(t=r -> t*s' = r*s'))->(t=r->t*s=r*s)

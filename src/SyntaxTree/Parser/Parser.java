@@ -53,7 +53,13 @@ public class Parser
     }
 
     public static class BadInputException extends RuntimeException
-    {}
+    {
+        public BadInputException(String s)
+        {
+            super(s);
+        }
+
+    }
 
     private List<ExpressionMatcher> matchers = new ArrayList<ExpressionMatcher>();
 
@@ -223,7 +229,7 @@ public class Parser
 
         if (parenthesis.size() != 1)
         {
-            throw new BadInputException();
+            throw new BadInputException(unparsed.toString());
         }
 
         result.setExpression(parenthesis.pop().closeParenthesis());

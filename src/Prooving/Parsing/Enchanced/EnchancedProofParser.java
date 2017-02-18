@@ -73,6 +73,11 @@ public class EnchancedProofParser
                 {
                     continue;
                 }
+                else if (header.startsWith("##"))
+                {
+                    //comment
+                    continue;
+                }
                 else
                 {
                     throw new ParserException("bad pre-header line " + header);

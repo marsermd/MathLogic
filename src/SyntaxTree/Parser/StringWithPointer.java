@@ -83,4 +83,13 @@ public class StringWithPointer
         position += matcher.group().length();
         return matcher.group();
     }
+
+    @Override
+    public String toString()
+    {
+        return "StringWithPointer{" +
+            "string='" + string + '\'' +
+            ", position=" + position +
+            '}';
+    }
 }

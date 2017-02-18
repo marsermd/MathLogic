@@ -1,4 +1,4 @@
-#match t=r→t+s=r+s
+#match t=r->t+s=r+s
 #each
 |-t=r->t+s=r+s
 #use e_parts\3);t=r->t+s=r+s

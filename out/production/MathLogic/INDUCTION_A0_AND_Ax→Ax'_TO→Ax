@@ -1,0 +1,14 @@
+#match A0&@x(A1->A2)->A1
+##This doesn't really check for replacements, so it shouldn't work as standalone proof,
+##But may be used as part of other proofs
+A0, A1->A2|-A1
+A0
+A1->A2
+
+#use A_TO_EACH_x_A; @x(A1->A2)
+A0 -> @x(A1->A2) -> A0&@x(A1->A2)
+@x(A1->A2) -> A0 & @x(A1->A2)
+A0 & @x(A1->A2)
+
+A0 & @x(A1->A2) -> A1
+A1

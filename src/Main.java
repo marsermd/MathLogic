@@ -15,7 +15,7 @@ import java.io.FileNotFoundException;
 public class Main {
     public static void main(String[] args) throws FileNotFoundException
     {
-        File file = new File("adding/" + "j)(x+y)+z=x+(y+z)");
+        File file = new File("adding/" + "k)t=r→tXs=rXs");
 
         System.out.println("parsing");
         Proof proof = EnchancedProofParser.parseProof(file, Parser.createDefault());

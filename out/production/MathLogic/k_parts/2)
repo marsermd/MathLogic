@@ -1,0 +1,31 @@
+#match (t=r -> t*s = r*s)->(t=r -> t*s' = r*s')
+#deduct 2
+(t=r -> t*s = r*s), (t=r) |- (t*s' = r*s')
+(t=r -> t*s = r*s)
+(t=r)
+t*s = r*s
+
+#use ..\e)t=r→t+s=r+s; t*s = r*s -> t*s + t = r*s + t
+(t*s) + t = (r*s) + t
+
+(t*s') = (t*s) + t
+
+#use ..\c)t=r→r=s→t=s; ((t*s') = (t*s) + t) -> ((t*s) + t = (r*s) + t) -> (t*s' = r*s + t)
+((t*s) + t = (r*s) + t) -> (t*s' = r*s + t)
+t*s' = r*s + t
+
+#use ..\b)t=r→r=t; t=r->r=t
+r = t
+#use ..\i)t=r→s+t=s+r; r = t -> r*s + r = r*s + t
+(r*s + r) = (r*s + t)
+r*s' = r*s + r
+
+#use ..\c)t=r→r=s→t=s; (r*s' = r*s + r) -> ((r*s + r) = (r*s + t)) -> (r*s' = r*s + t)
+((r*s + r) = (r*s + t)) -> (r*s' = r*s + t)
+(r*s' = r*s + t)
+
+r*s' = r*s + t
+
+#use ..\d)r=t→s=t→r=s; (t*s' = r*s + t) -> (r*s' = r*s + t) -> (t*s' = r*s')
+(r*s' = r*s + t) -> (t*s' = r*s')
+(t*s' = r*s')
