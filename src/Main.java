@@ -15,7 +15,7 @@ import java.io.FileNotFoundException;
 public class Main {
     public static void main(String[] args) throws FileNotFoundException
     {
-        File file = new File("adding/" + "k)t=r→tXs=rXs");
+        File file = new File("adding/" + "L)0xt=0");
 
         System.out.println("parsing");
         Proof proof = EnchancedProofParser.parseProof(file, Parser.createDefault());

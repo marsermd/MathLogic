@@ -1,0 +1,7 @@
+#each
+#match 0*t=0
+|-0*t=0
+
+#use L_parts\1);0*0=0
+#use L_parts\2);0*t=0->0*t'=0
+#use INDUCTION_A0_AND_Ax→Ax'_TO→Ax; (0*0=0)&@t(0*t=0->0*t'=0)->0*t=0
