@@ -1,0 +1,19 @@
+#deduct 1
+#match t*r=r*t->t*r'=r'*t
+t*r=r*t|- t*r'=r'*t
+
+t*r' = t*r + t
+#use ..\m)t'Xr=tXr+r; r'*t=r*t + t
+r'*t = r*t + t
+
+t*r=r*t
+#use ..\e)t=r→t+s=r+s; t*r=r*t-> t*r + t = r*t + t
+t*r + t = r*t + t
+
+#use ..\c)t=r→r=s→t=s; (t*r' = t*r + t) -> (t*r + t = r*t + t) -> (t*r' = r*t + t)
+(t*r + t = r*t + t) -> (t*r' = r*t + t)
+t*r' = r*t + t
+
+#use ..\d)r=t→s=t→r=s; (t*r' = r*t + t) -> (r'*t = r*t + t) -> (t*r'=r'*t)
+(r'*t = r*t + t) -> (t*r'=r'*t)
+(t*r'=r'*t)
