@@ -15,6 +15,8 @@ import jdk.nashorn.internal.runtime.ParserException;
 import org.omg.CORBA.Any;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,10 +27,11 @@ import java.util.regex.Pattern;
 public class EnchancedProofParser
 {
     private Parser initialExpressionParser;
-    List<File> eachFiles;
-    private Map<File, UseEachProof> eachProofs;
+    private final List<File> eachFiles = new ArrayList<File>();
+    private final List<UseEachProof> axiomEachFiles = new ArrayList<UseEachProof>();
+    private final Map<File, UseEachProof> eachProofs = new HashMap<File, UseEachProof>();
 
-    private EnchancedProofParser(Parser parser)
+    private EnchancedProofParser(Parser parser) throws FileNotFoundException
     {
         initialExpressionParser = parser;
     }
@@ -73,6 +76,10 @@ public class EnchancedProofParser
                 {
                     continue;
                 }
+                else if (header.startsWith("#noHash"))
+                {
+                    continue;
+                }
                 else if (header.startsWith("##"))
                 {
                     //comment
@@ -109,15 +116,17 @@ public class EnchancedProofParser
 
     private void collectEaches(File currentFile) throws FileNotFoundException
     {
-        eachFiles = new UseEachCollector().collect(currentFile);
-        eachProofs = new HashMap<File, UseEachProof>();
+        for (int i = 1; i <= 8; i++)
+        {
+            UseEachProof proof = new UseEachProof(new File("arithmeticalAxioms/" + i), this, initialExpressionParser);
+            axiomEachFiles.add(proof);
+            eachProofs.put(proof.getFile(), proof);
+            eachFiles.add(proof.getFile());
+        }
+        eachFiles.addAll(new UseEachCollector().collect(currentFile));
         for (File eachFile: eachFiles)
         {
-            if (eachFile.equals(currentFile))
-            {
-                continue;
-            }
-            eachProofs.put(eachFile, new UseEachProof(eachFile, this, initialExpressionParser));
+            eachProofs.put(eachFile.getAbsoluteFile(), new UseEachProof(eachFile, this, initialExpressionParser));
         }
     }
 
@@ -125,6 +134,8 @@ public class EnchancedProofParser
     {
         Proof newProof = new Proof();
         newProof.assumeThat(proof.getAssumptions());
+
+        // eachFiles are already in right order!
         for (File eachFile: eachFiles)
         {
             UseEachProof eachProof = eachProofs.get(eachFile);
@@ -241,7 +252,7 @@ public class EnchancedProofParser
             String nextFileName = arguments[0];
             Expression goalExpression = parser.parse(arguments[1].trim());
             String replacements = arguments.length == 3 ? arguments[2] : "";
-            File nextFile = new File(file.getParentFile(), nextFileName);
+            File nextFile = new File(file.getParentFile().toPath().resolve(nextFileName).toString()).getAbsoluteFile();
             if (!eachProofs.keySet().contains(nextFile))
             {
                 includeFile(proof, parser, nextFile, goalExpression, replacements);
@@ -253,7 +264,17 @@ public class EnchancedProofParser
         }
         else
         {
-            proof.addLine(parser.parse(line));
+            Expression expression = parser.parse(line);
+            for (UseEachProof axiom: axiomEachFiles)
+            {
+                if (axiom.getMatcher().fairEquals(expression) && !axiom.getFile().getAbsoluteFile().equals(file.getAbsoluteFile()))
+                {
+                    String localPath = axiom.getFile().getAbsolutePath();
+                    line = "#use " + localPath + ";" + line;
+                    parseLine(proof, line, parser, file);
+                }
+            }
+            proof.addLine(expression);
         }
     }
 

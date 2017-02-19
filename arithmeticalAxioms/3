@@ -1,0 +1,5 @@
+#match a'=b'->a=b
+#each
+#noHash
+|-a'=b'->a=b
+a'=b'->a=b

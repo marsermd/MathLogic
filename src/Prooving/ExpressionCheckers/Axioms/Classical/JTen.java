@@ -1,15 +1,11 @@
 package Prooving.ExpressionCheckers.Axioms.Classical;
 
-import Prooving.ExpressionCheckers.Axioms.SimpleAxiomChecker;
-import SyntaxTree.Structure.AnyFormula;
-import SyntaxTree.Structure.BinaryOperators.Implication;
-import SyntaxTree.Structure.Expression;
-import SyntaxTree.Structure.UnaryOperators.Negation;
+import Prooving.ExpressionCheckers.Axioms.SimpleAxiomSchemeChecker;
 
 /**
  * Created by marsermd on 18.01.2017.
  */
-public class JTen extends SimpleAxiomChecker
+public class JTen extends SimpleAxiomSchemeChecker
 {
     public JTen()
     {

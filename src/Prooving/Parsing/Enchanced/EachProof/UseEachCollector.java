@@ -17,7 +17,7 @@ public class UseEachCollector
     {
         UseEachCollector collector = new UseEachCollector();
         collector.collectInternal(current);
-        collector.dependencies.remove(current);
+        collector.dependencies.remove(current.getAbsoluteFile());
         return collector.dependencies;
     }
 
@@ -60,7 +60,7 @@ public class UseEachCollector
         }
         if (isDependency)
         {
-            dependencies.add(current);
+            dependencies.add(current.getAbsoluteFile());
         }
     }
 }

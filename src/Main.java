@@ -33,6 +33,7 @@ public class Main {
             return;
         }
 
+        System.out.println("|-" + proof.getProofLines().get(proof.getProofLines().size() - 1));
         for (Expression line: proof.getProofLines())
         {
             System.out.println(line.toParsableString());

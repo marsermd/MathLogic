@@ -32,9 +32,7 @@ public abstract class Expression
         {
             return false;
         }
-        // This is not really reliable as comparisons ammount gets close to 10^6
-        // You might want to add && fairEquals
-        return getExpressionHash() == ((Expression) obj).getExpressionHash();
+        return getExpressionHash() == ((Expression) obj).getExpressionHash() && fairEquals((Expression) obj);
     }
 
     @Override

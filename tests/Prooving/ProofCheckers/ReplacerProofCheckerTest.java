@@ -4,9 +4,12 @@ import Prooving.Parsing.ProofParser;
 import Prooving.Proof;
 import Prooving.ProofCheckers.Boolean.BooleanProofChecker;
 import Prooving.ProofCheckers.Boolean.BooleanProofResult;
+import Prooving.ProofCheckers.Rewriter.RewriterProofChecker;
+import Prooving.ProofCheckers.Rewriter.RewriterProofResult;
 import SyntaxTree.Parser.Parser;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.io.File;
@@ -17,6 +20,7 @@ import java.util.List;
 /**
  * Created by marsermd on 06.02.2017.
  */
+@RunWith(Parameterized.class)
 public class ReplacerProofCheckerTest
 {
     @Parameterized.Parameters
@@ -42,16 +46,16 @@ public class ReplacerProofCheckerTest
     @Test
     public void runOnFiles() throws FileNotFoundException
     {
-        System.out.println(fileName);
+        System.err.println(fileName);
         File file = new File("testResources/" + fileName);
         Proof proof = ProofParser.parseProof(file, Parser.createDefault());
 
-        BooleanProofChecker proofChecker = new BooleanProofChecker(proof, ProofChecker.getFormalArithmeticsCheckers());
-        BooleanProofResult result = proofChecker.Check();
+        RewriterProofChecker proofChecker = RewriterProofChecker.getDefaultChecker(proof);
+        RewriterProofResult result = proofChecker.Check();
 
-        System.err.println(result.lineID);
-        System.err.println(result.lastExpressionResult.reason);
+        System.err.println(result.failed);
+        System.err.println(result.failureReason);
 
-        Assert.assertEquals(!fileName.contains("incorrect"), result.lastExpressionResult.isRight());
+        Assert.assertEquals(fileName.contains("incorrect"), result.failed);
     }
 }

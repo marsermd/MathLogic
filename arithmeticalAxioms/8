@@ -1,0 +1,5 @@
+#match a*b'=a*b+a
+#each
+#noHash
+|-a*b'=a*b+a
+a*b'=a*b+a
