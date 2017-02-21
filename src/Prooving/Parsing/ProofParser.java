@@ -58,8 +58,16 @@ public class ProofParser
             throw new ParseException("Too much provable signs \"|-\"");
         }
 
-        proof.assumeThat(parser.parseToList(headerParts[0]));
-        proof.setGoal(parser.parse(headerParts[1]));
+        try
+        {
+            proof.assumeThat(parser.parseToList(headerParts[0]));
+            proof.setGoal(parser.parse(headerParts[1]));
+        }
+        catch (Parser.BadInputException e)
+        {
+            System.err.println("bad input at proof header");
+            throw e;
+        }
     }
 
     private static void parseLines(Proof proof, BufferedReader in, Parser parser)
@@ -74,8 +82,15 @@ public class ProofParser
                     return;
                 }
 
-                proof.addLine(parser.parse(line));
-
+                try
+                {
+                    proof.addLine(parser.parse(line));
+                }
+                catch (Parser.BadInputException e)
+                {
+                    System.err.println("bad input at proof line" + proof.getProofLines().size());
+                    throw e;
+                }
             }
         }
         catch (IOException e)

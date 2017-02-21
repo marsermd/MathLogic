@@ -16,8 +16,9 @@ public class Proof
     }
 
     private List<Expression> assumptions = new ArrayList<Expression>();
-    private List<Expression> lines = new ArrayList<Expression>();
+    protected List<Expression> lines = new ArrayList<Expression>();
     private Expression goal;
+    int temporaryCnt = 0;
 
     public Proof()
     {
@@ -28,10 +29,18 @@ public class Proof
         this.lines.addAll(lines);
     }
 
-    public void addFirstAssumption(Expression expression)
+    public void addTemporaryAssumption(Expression expression)
     {
         assumptions.add(0, expression);
+        temporaryCnt++;
     }
+
+    public void removeTemporaryAssumptions()
+    {
+        assumptions = assumptions.subList(temporaryCnt, assumptions.size());
+        temporaryCnt = 0;
+    }
+
     public void assumeThat(List<Expression> assumptions)
     {
         this.assumptions.addAll(assumptions);

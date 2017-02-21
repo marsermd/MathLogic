@@ -1,5 +1,6 @@
 package Prooving.Parsing.Enchanced;
 
+import Prooving.DisjunctiveProof;
 import Prooving.Parsing.Enchanced.EachProof.UseEachCollector;
 import Prooving.Parsing.Enchanced.EachProof.UseEachProof;
 import Prooving.Proof;
@@ -51,7 +52,7 @@ public class EnchancedProofParser
     {
         BufferedReader in = new BufferedReader(new FileReader(file));
 
-        Proof proof = new Proof();
+        Proof proof = new DisjunctiveProof();
 
         int deduct = 0;
         String header;
@@ -132,7 +133,8 @@ public class EnchancedProofParser
 
     private Proof copyEachProofs(Proof proof)
     {
-        Proof newProof = new Proof();
+        proof.removeTemporaryAssumptions();
+        Proof newProof = new DisjunctiveProof();
         newProof.assumeThat(proof.getAssumptions());
 
         // eachFiles are already in right order!
@@ -317,7 +319,7 @@ public class EnchancedProofParser
 
     private void useEachProof(Proof proof, UseEachProof eachProof, Expression goalExpression)
     {
-        proof.addFirstAssumption(eachProof.getEachGoal());
+        proof.addTemporaryAssumption(eachProof.getEachGoal());
 
         List<Expression> expressions = eachProof.prove(goalExpression);
         proof.addLines(expressions);
