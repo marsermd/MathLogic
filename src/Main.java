@@ -120,8 +120,10 @@ public class Main {
         {
             if (result.lastExpressionResult.isWrong())
             {
-                System.out.println("Вывод некорректен начиная с формулы нмоер " + (result.lineId + 1));
-                System.out.println("reason:" + result.lastExpressionResult.reason);
+                out.write("Вывод некорректен начиная с формулы нмоер " + (result.lineId + 1));
+                out.newLine();
+                out.write("reason:" + result.lastExpressionResult.reason);
+                out.newLine();
                 return;
             }
             else
