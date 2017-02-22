@@ -7,7 +7,8 @@ options:
 - --compile  
   Compiles input file as specified in Fromat section
 - --deduct  
-  Makes one step of deduction on input file, prints result to output
+  Makes one step of deduction on input file, prints result to output  
+  If there are no assumptions, a simple proof check will be run 
 - --sqr  
   Given that input file contains a number a, it prints ptoof for
   (a + 1) \* (a + 1) = a \* a + 2 \* a + 1 
