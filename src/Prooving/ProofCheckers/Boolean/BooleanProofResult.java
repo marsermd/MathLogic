@@ -8,5 +8,5 @@ import Prooving.ExpressionCheckers.ExpressionCheckResult;
 public class BooleanProofResult
 {
     public ExpressionCheckResult lastExpressionResult = null;
-    public int lineID;
+    public int lineId;
 }

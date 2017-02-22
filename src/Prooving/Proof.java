@@ -2,6 +2,10 @@ package Prooving;
 
 import SyntaxTree.Structure.Expression;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,4 +78,23 @@ public class Proof
         return lines;
     }
 
+    public void printProof(BufferedWriter out) throws IOException
+    {
+        for (int i = 0; i < getAssumptions().size(); i++)
+        {
+            if (i != 0)
+            {
+                out.write(",");
+            }
+            out.write(getAssumptions().get(i).toParsableString());
+        }
+        out.write("|-");
+        out.write(getGoal().toParsableString());
+        out.newLine();
+        for (Expression line : getProofLines())
+        {
+            out.write(line.toParsableString());
+            out.newLine();
+        }
+    }
 }

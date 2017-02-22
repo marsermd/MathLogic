@@ -72,4 +72,25 @@ public class Variable extends Expression
             free.add(this);
         }
     }
+
+    @Override
+    public boolean isFreeToReplace(List<Variable> binded, Variable from, Set<Variable> toReplace)
+    {
+        if (!equals(from))
+        {
+            return true;
+        }
+        if (binded.contains(this))
+        {
+            return true;
+        }
+        for (Variable variable: binded)
+        {
+            if (toReplace.contains(variable))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }

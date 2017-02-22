@@ -83,10 +83,6 @@ public abstract class ProofChecker<TProofResult>
         stopped = false;
         for (int i = 0; i < proof.getProofLines().size(); i++)
         {
-            if (i % 1 == 0)
-            {
-                System.out.println("Checked till line:" + i);
-            }
             ExpressionCheckResult lineResult = ExpressionCheckResult.wrong();
             ExpressionChecker lineChecker = null;
 
@@ -115,6 +111,11 @@ public abstract class ProofChecker<TProofResult>
                     new ArrayList<Implication>());
                 currentList.add(currentImplication);
                 checkedImplicationsRightParts.put(currentImplication.getRight(), currentList);
+            }
+
+            if (i % 1000 == 0)
+            {
+                System.out.println("Checked line:" + i + 1);
             }
         }
     }

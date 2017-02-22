@@ -5,8 +5,6 @@ import Prooving.ExpressionCheckers.ExpressionChecker;
 import Prooving.Proof;
 import Prooving.ProofCheckers.ProofChecker;
 
-import javax.swing.*;
-
 /**
  * Created by marsermd on 03.02.2017.
  */
@@ -28,7 +26,7 @@ public class BooleanProofChecker extends ProofChecker<BooleanProofResult>
     protected void OnCheckResult(int currentLine, ExpressionCheckResult result, ExpressionChecker lineChecker)
     {
         proofResult.lastExpressionResult = result;
-        proofResult.lineID = currentLine;
+        proofResult.lineId = currentLine;
         if (result.isWrong())
         {
             stopChecking();

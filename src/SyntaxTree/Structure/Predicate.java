@@ -123,4 +123,17 @@ public class Predicate extends Expression
             expression.getBindedAndFree(binded, free, quantified);
         }
     }
+
+    @Override
+    public boolean isFreeToReplace(List<Variable> binded, Variable from, Set<Variable> toReplace)
+    {
+        for (Expression expression: expressions)
+        {
+            if (!expression.isFreeToReplace(binded, from, toReplace))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }

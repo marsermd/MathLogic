@@ -1,0 +1,21 @@
+#each
+#match t=r->s*t=s*r
+#deduct 1
+t=r|- s*t=s*r
+t=r
+#use k)t=r→tXs=rXs; t=r->t*s=r*s
+t*s=r*s
+
+#use n)tXr=rXt; r*s=s*r
+#use c)t=r→r=s→t=s; t*s=r*s -> r*s=s*r -> t*s = s*r
+r*s=s*r -> t*s = s*r
+t*s = s*r
+
+#use n)tXr=rXt; t*s=s*t
+
+t*s=s*r -> t*s=s*t -> s*r = s*t
+t*s=s*t -> s*r = s*t
+s*r = s*t
+
+#use b)t=r→r=t; s*r=s*t -> s*t=s*r
+s*t=s*r

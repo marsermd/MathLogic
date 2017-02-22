@@ -88,8 +88,13 @@ public class ProofParser
                 }
                 catch (Parser.BadInputException e)
                 {
-                    System.err.println("bad input at proof line" + proof.getProofLines().size());
+                    System.err.println("bad input at proof line " + proof.getProofLines().size());
+                    System.err.println(line);
                     throw e;
+                }
+                if (proof.getProofLines().size() % 1000 == 0)
+                {
+                    System.out.println("completed parsing line" + proof.getProofLines().size());
                 }
             }
         }

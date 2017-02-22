@@ -5,7 +5,6 @@ import SyntaxTree.Structure.Operator;
 import SyntaxTree.Structure.Variable;
 import SyntaxTree.Utils.StringHash;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -83,5 +82,13 @@ public abstract class BinaryOperator extends Operator
     {
         left.getBindedAndFree(binded, free, quantified);
         right.getBindedAndFree(binded, free, quantified);
+    }
+
+    @Override
+    public boolean isFreeToReplace(List<Variable> binded, Variable from, Set<Variable> toReplace)
+    {
+        return
+            left.isFreeToReplace(binded, from, toReplace) &&
+            right.isFreeToReplace(binded, from, toReplace);
     }
 }

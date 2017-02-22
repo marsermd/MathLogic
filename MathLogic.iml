@@ -8,6 +8,8 @@
       <sourceFolder url="file://$MODULE_DIR$/testResources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/adding" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/arithmeticalAxioms" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/compiledProofs" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/input" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -110,6 +110,11 @@ public abstract class Expression
         getBindedAndFree(binded, free, new ArrayList<Variable>());
     }
 
+    public boolean isFreeToReplace(Variable from, Set<Variable> to)
+    {
+        return isFreeToReplace(new ArrayList<Variable>(), from ,to);
+    }
+
     public Expression clone()
     {
         return replace(null, null);
@@ -132,6 +137,8 @@ public abstract class Expression
     public abstract Expression replaceInternal(Variable toReplace, Expression result, List<Variable> quantified);
 
     public abstract void getBindedAndFree(Set<Variable> binded, Set<Variable> free, List<Variable> quantified);
+
+    public abstract boolean isFreeToReplace(List<Variable> binded, Variable from, Set<Variable> toReplace);
 
     public abstract int getExpressionHash();
 }

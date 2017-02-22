@@ -13,4 +13,5 @@ public class RewriterProofResult
 
     public Expression alphaAssumption;
     public Proof generatedProof;
+    public int lineId;
 }

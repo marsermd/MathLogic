@@ -1,7 +1,5 @@
 #match A->C
 B->C, A->B|- A->C
-B->C
-A->B
 (B->C)->A->(B->C)
 (A->B->C)
 (A->B)->(A->B->C)->(A->C)

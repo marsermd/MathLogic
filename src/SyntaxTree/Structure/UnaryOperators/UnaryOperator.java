@@ -4,7 +4,6 @@ import SyntaxTree.Structure.Expression;
 import SyntaxTree.Structure.Variable;
 import SyntaxTree.Utils.StringHash;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -56,6 +55,12 @@ public abstract class UnaryOperator extends Expression
     public void getBindedAndFree(Set<Variable> binded, Set<Variable> free, List<Variable> quantified)
     {
         expression.getBindedAndFree(binded, free, quantified);
+    }
+
+    @Override
+    public boolean isFreeToReplace(List<Variable> binded, Variable from, Set<Variable> toReplace)
+    {
+        return expression.isFreeToReplace(binded, from, toReplace);
     }
 
     @Override

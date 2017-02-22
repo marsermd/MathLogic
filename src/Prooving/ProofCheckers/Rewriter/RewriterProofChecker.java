@@ -2,7 +2,6 @@ package Prooving.ProofCheckers.Rewriter;
 
 import Prooving.ExpressionCheckers.ExpressionCheckResult;
 import Prooving.ExpressionCheckers.ExpressionChecker;
-import Prooving.ExpressionCheckers.InferenceRules.ModusPonens;
 import Prooving.Proof;
 import Prooving.ProofCheckers.ProofChecker;
 import Prooving.ProofCheckers.Rewriter.ExpressionRewriters.*;
@@ -31,7 +30,7 @@ public class RewriterProofChecker extends ProofChecker<RewriterProofResult>
         this.rewriters.addAll(rewriters);
     }
 
-    public static List<ExpressionRewriter> getDefaultRewriters()
+    public static List<ExpressionRewriter> getDeductRewriters()
     {
         List<ExpressionRewriter> rewriters = new ArrayList<ExpressionRewriter>();
 
@@ -43,10 +42,10 @@ public class RewriterProofChecker extends ProofChecker<RewriterProofResult>
         return rewriters;
     }
 
-    public static RewriterProofChecker getDefaultChecker(Proof proof)
+    public static RewriterProofChecker getDeductChecker(Proof proof)
     {
         RewriterProofChecker checker = new RewriterProofChecker(proof, ProofChecker.getFormalArithmeticsCheckers());
-        checker.setExpressionRewriters(getDefaultRewriters());
+        checker.setExpressionRewriters(getDeductRewriters());
 
         return checker;
     }
@@ -79,6 +78,7 @@ public class RewriterProofChecker extends ProofChecker<RewriterProofResult>
 
             if (result.failed)
             {
+                result.lineId = currentLine;
                 stopChecking();
             }
         }

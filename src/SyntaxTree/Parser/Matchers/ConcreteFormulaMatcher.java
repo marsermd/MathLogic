@@ -34,6 +34,11 @@ public class ConcreteFormulaMatcher extends ExpressionMatcher
         return token;
     }
 
+    @Override
+    protected boolean useAsString()
+    {
+        return false;
+    }
 
     @Override
     protected ExpressionBuilder getBuilder(String matched, StringWithPointer unparsed, Parser parser)

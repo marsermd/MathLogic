@@ -17,7 +17,7 @@ public class ToParsableStringTest
     @Test
     public void EqualsToParsed() throws IOException
     {
-        BufferedReader in = new BufferedReader(new FileReader("testResources/correct14.in"));
+        BufferedReader in = new BufferedReader(new FileReader("testResources/correct13.in"));
 
         in.readLine();
 

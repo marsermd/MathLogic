@@ -1,0 +1,33 @@
+#match t+t=0''*t
+#each
+|-t+t=0''*t
+
+#use L)0xt=0; 0*t = 0
+
+#use e)t=r→t+s=r+s; 0*t = 0 -> 0*t + t = 0 + t
+0*t + t = 0 + t
+
+#use f)x=0+x; t = 0 + t
+#use b)t=r→r=t; t = 0 + t -> 0 + t = t
+0 + t = t
+
+#use c)t=r→r=s→t=s; 0*t + t = 0 + t -> 0 + t = t -> 0*t + t = t
+0 + t = t -> 0*t + t = t
+0*t + t = t
+
+#use m)t'Xr=tXr+r; 0' * t = 0*t + t
+
+#use c)t=r→r=s→t=s; 0' * t = 0*t + t -> 0*t + t = t -> 0' * t = t
+0*t + t = t -> 0' * t = t
+0' * t = t
+
+#use e)t=r→t+s=r+s; 0' * t = t -> 0'*t + t = t + t
+0'*t + t = t + t
+
+#use m)t'Xr=tXr+r; 0'' * t = 0'*t + t
+#use c)t=r→r=s→t=s; 0'' * t = 0'*t + t -> 0'*t + t = t + t -> 0'' * t = t + t
+0'*t + t = t + t -> 0'' * t = t + t
+0'' * t = t + t
+
+#use b)t=r→r=t; 0'' * t = t + t -> t + t = 0'' * t
+t + t = 0'' * t

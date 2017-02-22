@@ -1,11 +1,8 @@
 package SyntaxTree.Structure.UnaryOperators;
 
-import SyntaxTree.Structure.AnyFormula;
 import SyntaxTree.Structure.Expression;
 import SyntaxTree.Structure.Variable;
-import SyntaxTree.Utils.StringHash;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -63,5 +60,20 @@ public abstract class Quantifier extends UnaryOperator
         {
             quantified.remove(quantified.size() - 1);
         }
+    }
+
+    @Override
+    public boolean isFreeToReplace(List<Variable> binded, Variable from, Set<Variable> toReplace)
+    {
+        Collection<Variable> toBind = this.quantified.getFree();
+        binded.addAll(toBind);
+
+        boolean result = getExpression().isFreeToReplace(binded, from, toReplace);
+
+        for (int i = 0; i < toBind.size(); i++)
+        {
+            binded.remove(binded.size() - 1);
+        }
+        return result;
     }
 }

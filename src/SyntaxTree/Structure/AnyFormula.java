@@ -1,9 +1,7 @@
 package SyntaxTree.Structure;
 
-import SyntaxTree.Structure.Expression;
 import sun.plugin.dom.exception.InvalidStateException;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -101,5 +99,15 @@ public class AnyFormula extends Expression
             throw new InvalidStateException("equalExpression == null, but truing to get binded & free");
         }
         equalExpression.getBindedAndFree(binded, free, quantified);
+    }
+
+    @Override
+    public boolean isFreeToReplace(List<Variable> binded, Variable from, Set<Variable> toReplace)
+    {
+        if (equalExpression == null)
+        {
+            throw new InvalidStateException("equalExpression == null, but truing to get isFreeToReplace");
+        }
+        return equalExpression.isFreeToReplace(binded, from, toReplace);
     }
 }

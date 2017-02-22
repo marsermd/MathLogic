@@ -9,6 +9,8 @@ import SyntaxTree.Structure.Expression;
 import SyntaxTree.Structure.UnaryOperators.Some;
 import SyntaxTree.Structure.Variable;
 
+import java.util.HashSet;
+
 /**
  * Created by marsermd on 01.02.2017.
  */
@@ -58,17 +60,11 @@ public class AxiomSome extends AxiomChecker
             return SimpleAxiomResult.right(currentLine);
         }
 
-        for (Variable thetaFree: theta.getFree())
+        HashSet<Variable> free = new HashSet<Variable>(theta.getFree());
+        free.remove(alpha);
+        if (!phi.isFreeToReplace((Variable)alpha.getEqualExpression(), free))
         {
-            if (thetaFree.equals(alpha))
-            {
-                continue;
-            }
-            if (phiWithTheta.getBindedAndCache().contains(thetaFree))
-            {
-                // theta is not free for replacing
-                return PredicateAxiomResult.termIsNotFreeToReplace(phi, (Variable) alpha.getEqualExpression(), theta);
-            }
+            return PredicateAxiomResult.termIsNotFreeToReplace(phi, (Variable) alpha.getEqualExpression(), theta);
         }
 
         return SimpleAxiomResult.right(currentLine);

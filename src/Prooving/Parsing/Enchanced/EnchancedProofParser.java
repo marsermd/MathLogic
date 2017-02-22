@@ -8,16 +8,11 @@ import Prooving.ProofCheckers.Rewriter.RewriterProofChecker;
 import Prooving.ProofCheckers.Rewriter.RewriterProofResult;
 import SyntaxTree.Parser.Matchers.ConcreteFormulaMatcher;
 import SyntaxTree.Parser.Parser;
-import SyntaxTree.Parser.StringWithPointer;
 import SyntaxTree.Structure.AnyFormula;
 import SyntaxTree.Structure.Expression;
-import SyntaxTree.Structure.Variable;
 import jdk.nashorn.internal.runtime.ParserException;
-import org.omg.CORBA.Any;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -191,7 +186,7 @@ public class EnchancedProofParser
     {
         for (int i = 0; i < deduct; i++)
         {
-            RewriterProofChecker rewriter = RewriterProofChecker.getDefaultChecker(proof);
+            RewriterProofChecker rewriter = RewriterProofChecker.getDeductChecker(proof);
             RewriterProofResult result = rewriter.Check();
             if (result.failed)
             {
